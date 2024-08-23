@@ -1,14 +1,14 @@
-<!-- src/components/ProductList.vue -->
 <template>
   <div class="product-list">
-    <h2>Productos Disponibles</h2>
-    <div v-if="loading">Cargando productos...</div>
+    <div v-if="loading">
+      <h2>Cargando productos...</h2>
+    </div>
     <div v-else-if="error">{{ error }}</div>
     <div v-else class="product-cards">
-      <div class="product-card" v-for="product in products" :key="product.id">
+      <div class="product-card" v-for="product in products" :key="product.id" @click="goToDetail(product.id)">
         <img :src="product.image" alt="Imagen del producto" class="product-image" />
         <div class="product-info">
-          <h3>{{ product.name }}</h3>
+          <h3>{{ product.title }}</h3>
           <p class="product-price">${{ product.price }}</p>
         </div>
       </div>
@@ -16,34 +16,46 @@
   </div>
 </template>
 
+
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+import type { Product } from '@/types/product';
 
-// Estado de los productos, carga y error
-const products = ref([]);
+
+const router = useRouter();
+
+const goToDetail = (id: number) => {
+  router.push({ name: 'ProductDetail', params: { id } });
+};
+
+
+// Estados para los productos
+const products = ref<Product[]>([]);
 const loading = ref(true);
 const error = ref<string | null>(null);
 
-// Función para obtener los productos de la API
+// Obtener los productos de la API
 const fetchProducts = async () => {
   try {
-    const response = await axios.get('https://api.example.com/products');
-    products.value = response.data;
+    const { data } = await axios.get<Product[]>('https://fakestoreapi.com/products');
+    products.value = data;
   } catch (err) {
-    error.value = 'Error al cargar los productos';
+    if (axios.isAxiosError(err)) {
+      error.value = err.message || 'Error al cargar los productos';
+    } else {
+      error.value = 'Error desconocido al cargar los productos';
+    }
   } finally {
     loading.value = false;
   }
 };
 
-// Llamar a la función cuando el componente se monta
-onMounted(() => {
-  fetchProducts();
-});
-
+onMounted(fetchProducts);
 
 </script>
+
 
 <style scoped>
 /* Mantén los mismos estilos que anteriormente hemos creado */
@@ -75,8 +87,10 @@ onMounted(() => {
 }
 
 .product-card:hover {
-  transform: translateY(-8px); /* Mayor elevación al pasar el ratón */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+  transform: translateY(-8px);
+  /* Mayor elevación al pasar el ratón */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  /* Sombra más pronunciada */
 }
 
 .product-image {
