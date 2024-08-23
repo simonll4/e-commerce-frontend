@@ -1,0 +1,107 @@
+<!-- src/components/ProductList.vue -->
+<template>
+  <div class="product-list">
+    <h2>Productos Disponibles</h2>
+    <div v-if="loading">Cargando productos...</div>
+    <div v-else-if="error">{{ error }}</div>
+    <div v-else class="product-cards">
+      <div class="product-card" v-for="product in products" :key="product.id">
+        <img :src="product.image" alt="Imagen del producto" class="product-image" />
+        <div class="product-info">
+          <h3>{{ product.name }}</h3>
+          <p class="product-price">${{ product.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+// Estado de los productos, carga y error
+const products = ref([]);
+const loading = ref(true);
+const error = ref<string | null>(null);
+
+// Función para obtener los productos de la API
+const fetchProducts = async () => {
+  try {
+    const response = await axios.get('https://api.example.com/products');
+    products.value = response.data;
+  } catch (err) {
+    error.value = 'Error al cargar los productos';
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Llamar a la función cuando el componente se monta
+onMounted(() => {
+  fetchProducts();
+});
+
+
+</script>
+
+<style scoped>
+/* Mantén los mismos estilos que anteriormente hemos creado */
+.product-list {
+  margin-top: 2rem;
+  padding: 0 1rem;
+}
+
+.product-list h2 {
+  margin-bottom: 2rem;
+  color: #2c3e50;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.product-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-8px); /* Mayor elevación al pasar el ratón */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 1.5rem;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+
+.product-info h3 {
+  margin: 0.5rem 0;
+  color: #2c3e50;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.product-price {
+  margin-top: 0.75rem;
+  color: #27ae60;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+</style>
