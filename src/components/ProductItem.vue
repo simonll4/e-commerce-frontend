@@ -35,7 +35,8 @@ const goToEditProduct = () => {
 
 const deleteProduct = async () => {
   try {
-    const response = await productStore.deleteProduct(props.product.id);
+    console.log('ID del producto a eliminar:', props.product.id); 
+    const response = await productStore.deleteProduct(String(props.product.id));
     console.log('Respuesta del servidor:', response);
     router.push({ name: 'home' });
   } catch (e) {

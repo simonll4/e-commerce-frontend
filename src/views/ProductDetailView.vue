@@ -1,5 +1,10 @@
 <template>
 
+  <header>
+    <div>
+      <NavBar />
+    </div>
+  </header>
   <div>
     <div v-if="product" class="product-detail">
       <ProductItem :product="product" />
@@ -13,38 +18,43 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import NavBar from '@/components/NavBar.vue';
+import { onMounted, ref, watch } from 'vue'; // Import the 'watch' function
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/stores/product.store';
 import ProductItem from '@/components/ProductItem.vue';
 import { toRefs } from 'vue';
 
 const route = useRoute();
-const productId = Number(route.params.id);
+const productId = String(route.params.id);
 const productStore = useProductStore();
 const { getProductById, isLoading, error } = toRefs(productStore);
+const product = ref(getProductById.value(productId.toString()) || undefined);
 
-const product = ref(getProductById.value(productId) || null);
+const fetchProduct = async () => {
+  if (!product.value) {
+    try {
+      await productStore.fetchUserProducts();
+      product.value = getProductById.value(productId);
+    } catch (err) {
+      console.error('Error al cargar el producto:', err);
+    }
+  }
+};
 
-// Fetch de producto si no está en la store
-// const fetchProduct = async () => {
-//   if (!product.value) {
-//     try {
-//       await productStore.fetchProducts(); // Intentar cargar productos si no se han cargado
-//       product.value = getProductById.value(productId);
-//     } catch (err) {
-//       console.error('Error al cargar el producto:', err);
-//     }
-//   }
-// };
-//onMounted(fetchProduct);
-
+onMounted(fetchProduct);
+watch(
+  () => productStore.products,
+  () => {
+    product.value = getProductById.value(productId);
+  },
+  { deep: true }
+);
 
 </script>
 
 
-
-
+<!-- CON FAKESTOREAPI -->
 <!-- <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';

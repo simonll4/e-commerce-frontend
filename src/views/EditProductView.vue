@@ -1,4 +1,11 @@
 <template>
+
+  <header>
+    <div>
+      <NavBar />
+    </div>
+  </header>
+
   <div class="edit-product">
     <h1>Editar Producto</h1>
     <div v-if="product">
@@ -8,24 +15,26 @@
       <p>Cargando producto...</p>
     </div>
   </div>
+
 </template>
+
 <script setup lang="ts">
+import NavBar from '@/components/NavBar.vue';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useProductStore } from '@/stores/product.store';
-import ProductForm from '@/components/ProductForm.vue';
+import ProductForm from '@/components/forms/ProductForm.vue';
 import { type Product } from '@/types/product';
 
 const route = useRoute();
-const router = useRouter(); 
+const router = useRouter();
 const productStore = useProductStore();
-const productId = Number(route.params.id);
+const productId = route.params.id;
 
-const product = computed(() => productStore.getProductById(productId));
+const product = computed(() => productStore.getProductById(productId.toString()));
 
 const updateProduct = (updatedProduct: Partial<Product>) => {
   if (product.value) {
-    console.log('Updating product', updatedProduct);
     const response = productStore.updateProduct({ ...product.value, ...updatedProduct });
     console.log('Response:', response);
 

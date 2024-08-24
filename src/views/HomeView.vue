@@ -1,4 +1,10 @@
 <template>
+  <header>
+    <div>
+      <NavBar />
+    </div>
+  </header>
+
   <div>
     <h2>Productos Disponibles</h2>
     <ProductList />
@@ -7,6 +13,7 @@
 
 <script setup lang="ts">
 import ProductList from '@/components/ProductList.vue';
+import NavBar from '@/components/NavBar.vue';
 </script>
 
 <style scoped>
