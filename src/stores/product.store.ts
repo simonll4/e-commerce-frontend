@@ -37,6 +37,7 @@ export const useProductStore = defineStore('productStore', {
         if (index !== -1) {
           this.products[index] = response.data;
         }
+        return response.data;
       } catch (error) {
         this.error = 'Error al actualizar el producto';
       }

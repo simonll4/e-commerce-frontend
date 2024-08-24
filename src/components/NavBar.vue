@@ -1,25 +1,23 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
 
   <header>
     <nav class="navbar">
       <div class="container">
         <router-link class="navbar-brand" to="/"> MiTienda</router-link>
-
         <ul class="navbar-nav">
           <li class="nav-item">
             <router-link class="nav-link" to="/add-product">Agregar Producto</router-link>
           </li>
         </ul>
-
       </div>
     </nav>
   </header>
 
 </template>
+
+<script setup lang="ts">
+
+</script>
 
 <style scoped>
 /* General */
