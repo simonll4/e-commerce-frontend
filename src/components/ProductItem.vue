@@ -1,103 +1,130 @@
 <template>
   <div class="product-item">
     <img :src="product.image" :alt="product.title" class="product-image" />
-    <h2>{{ product.title }}</h2>
-    <p>{{ product.price }}</p>
-    <p>{{ product.category }}</p>
-    <p>{{ product.description }}</p>
-    <div class="actions">
-      <button @click="goToEditProduct">Edit</button>
-      <button @click="deleteProduct">Delete</button>
+    <div class="product-details">
+      <h2 class="product-title">{{ product.title }}</h2>
+      <p class="product-price">{{ product.price }}</p>
+      <p class="product-category">{{ product.category }}</p>
+      <p class="product-description">{{ product.description }}</p>
+      <div class="actions">
+        <button class="edit-button" @click="goToEditProduct">Edit</button>
+        <button class="delete-button" @click="deleteProduct">Delete</button>
+      </div>
     </div>
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { Product } from '@/types/product';
+import { toRefs } from 'vue';
+import { useProductStore } from '@/stores/product.store';
+import { type Product } from '@/types/product';
 
-
+// Definir las props
 const props = defineProps<{
   product: Product;
 }>();
 
 const router = useRouter();
+const productStore = useProductStore();
+const { products, isLoading, error } = toRefs(productStore);
 
 const goToEditProduct = () => {
   router.push({ name: 'EditProduct', params: { id: props.product.id } });
 };
 
-const deleteProduct = () => {
-  //ToDo: Implementar la lógica para eliminar un producto
-  console.log(`Deleting product with ID: ${props.product.id}`);
+const deleteProduct = async () => {
+  try {
+    const response = await productStore.deleteProduct(props.product.id);
+    console.log('Respuesta del servidor:', response);
+    router.push({ name: 'home' });
+  } catch (e) {
+    console.error('Error al eliminar el producto', e);
+  }
 };
-
 </script>
-
 
 
 <style scoped>
 .product-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
-  cursor: pointer;
 }
 
 .product-item:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .product-image {
   width: 100%;
-  height: 100%;
+  max-width: 300px;
   border-radius: 8px;
+  margin-bottom: 16px;
 }
 
-h2 {
-  font-size: 1.5rem;
-  margin: 0.5rem 0;
+.product-details {
+  text-align: center;
+}
+
+.product-title {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+
+.product-price {
+  font-size: 1.2em;
+  color: #4caf50;
+  margin-bottom: 8px;
+}
+
+.product-category {
+  font-size: 1em;
+  color: #757575;
+  margin-bottom: 8px;
+}
+
+.product-description {
+  font-size: 0.9em;
+  color: #616161;
+  margin-bottom: 16px;
 }
 
 .actions {
   display: flex;
-  justify-content: space-around;
-  margin-top: 16px;
+  justify-content: center;
+  gap: 16px;
 }
 
-button {
-  padding: 0.5rem 1rem;
+.edit-button,
+.delete-button {
+  padding: 8px 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button:first-child {
-  background-color: #007bff;
+.edit-button {
+  background-color: #2196f3;
   color: white;
 }
 
-button:first-child:hover {
-  background-color: #0056b3;
+.edit-button:hover {
+  background-color: #1976d2;
 }
 
-button:nth-child(2) {
-  background-color: #ffc107;
-  color: black;
-}
-
-button:nth-child(2):hover {
-  background-color: #e0a800;
-}
-
-button:last-child {
-  background-color: #dc3545;
+.delete-button {
+  background-color: #f44336;
   color: white;
 }
 
-button:last-child:hover {
-  background-color: #c82333;
+.delete-button:hover {
+  background-color: #d32f2f;
 }
 </style>

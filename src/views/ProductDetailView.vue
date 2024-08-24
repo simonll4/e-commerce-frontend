@@ -1,17 +1,54 @@
 <template>
-  <div v-if="product" class="product-detail">
-    <ProductItem :product="product" />
-    <p>{{ product.description }}</p> 
+
+  <div>
+    <div v-if="product" class="product-detail">
+      <ProductItem :product="product" />
+    </div>
+    <div v-else>
+      <p>Loading...</p>
+    </div>
   </div>
-  <div v-else>
-    <p>Loading...</p>
-  </div>
+
 </template>
 
-<script lang="ts">
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useProductStore } from '@/stores/product.store';
+import ProductItem from '@/components/ProductItem.vue';
+import { toRefs } from 'vue';
+
+const route = useRoute();
+const productId = Number(route.params.id);
+const productStore = useProductStore();
+const { getProductById, isLoading, error } = toRefs(productStore);
+
+const product = ref(getProductById.value(productId) || null);
+
+// Fetch de producto si no está en la store
+// const fetchProduct = async () => {
+//   if (!product.value) {
+//     try {
+//       await productStore.fetchProducts(); // Intentar cargar productos si no se han cargado
+//       product.value = getProductById.value(productId);
+//     } catch (err) {
+//       console.error('Error al cargar el producto:', err);
+//     }
+//   }
+// };
+//onMounted(fetchProduct);
+
+
+</script>
+
+
+
+
+<!-- <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { Product } from '@/types/product';
+import { type Product } from '@/types/product';
 import axios from 'axios';
 import ProductItem from '@/components/ProductItem.vue';
 
@@ -37,7 +74,7 @@ export default defineComponent({
     return { product };
   },
 });
-</script>
+</script> -->
 
 <style scoped>
 .product-detail {

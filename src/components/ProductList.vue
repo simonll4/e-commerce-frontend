@@ -1,6 +1,6 @@
 <template>
   <div class="product-list">
-    <div v-if="loading">
+    <div v-if="isLoading">
       <h2>Cargando productos...</h2>
     </div>
     <div v-else-if="error">{{ error }}</div>
@@ -16,46 +16,24 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { onMounted, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
-import type { Product } from '@/types/product';
-
+import { useProductStore } from '@/stores/product.store';
 
 const router = useRouter();
+const productStore = useProductStore();
+const { products, isLoading, error } = toRefs(productStore);
 
 const goToDetail = (id: number) => {
   router.push({ name: 'ProductDetail', params: { id } });
 };
 
-
-// Estados para los productos
-const products = ref<Product[]>([]);
-const loading = ref(true);
-const error = ref<string | null>(null);
-
-// Obtener los productos de la API
-const fetchProducts = async () => {
-  try {
-    const { data } = await axios.get<Product[]>('https://fakestoreapi.com/products');
-    products.value = data;
-  } catch (err) {
-    if (axios.isAxiosError(err)) {
-      error.value = err.message || 'Error al cargar los productos';
-    } else {
-      error.value = 'Error desconocido al cargar los productos';
-    }
-  } finally {
-    loading.value = false;
-  }
-};
-
-onMounted(fetchProducts);
+onMounted(() => {
+  productStore.fetchProducts()
+});
 
 </script>
-
 
 <style scoped>
 /* Mantén los mismos estilos que anteriormente hemos creado */

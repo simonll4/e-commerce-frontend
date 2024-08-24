@@ -1,15 +1,12 @@
 <template>
   <div>
     <h2>Productos Disponibles</h2>
-
     <ProductList />
-
   </div>
 </template>
 
 <script setup lang="ts">
 import ProductList from '@/components/ProductList.vue';
-
 </script>
 
 <style scoped>
