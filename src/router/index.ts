@@ -1,3 +1,4 @@
+// src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.store';
 import Home from '@/views/HomeView.vue';
@@ -6,6 +7,7 @@ import RegisterView from '@/views/auth/RegisterView.vue';
 import ProductDetailView from '@/views/ProductDetailView.vue';
 import AddProductView from '@/views/AddProductView.vue';
 import EditProductView from '@/views/EditProductView.vue';
+import Cookies from 'js-cookie';
 
 const routes = [
   {
@@ -51,14 +53,22 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  const isAuthenticated = authStore.isAuthenticated;
 
-  if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
-    next({ name: 'login' });
+  // Verifica si el usuario no está autenticado pero tiene un token almacenado
+  if (!authStore.isAuthenticated && Cookies.get('token')) {
+    const isAuthenticated = await authStore.checkAuth();
+    if (!isAuthenticated) {
+      return next({ name: 'login' }); // Si la autenticación falla, redirige al login
+    }
+  }
+
+  // Si la ruta requiere autenticación y el usuario no está autenticado, redirige al login
+  if (to.matched.some(record => record.meta.requiresAuth) && !authStore.isAuthenticated) {
+    return next({ name: 'login' });
   } else {
-    next();
+    next(); // Permite la navegación
   }
 });
 

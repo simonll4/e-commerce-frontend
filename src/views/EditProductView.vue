@@ -1,5 +1,4 @@
 <template>
-
   <header>
     <div>
       <NavBar />
@@ -15,7 +14,6 @@
       <p>Cargando producto...</p>
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -33,41 +31,18 @@ const productId = route.params.id;
 
 const product = computed(() => productStore.getProductById(productId.toString()));
 
-const updateProduct = (updatedProduct: Partial<Product>) => {
+const updateProduct = async (updatedProduct: Partial<Product>, image: File | null = null) => {
   if (product.value) {
-    const response = productStore.updateProduct({ ...product.value, ...updatedProduct });
-    console.log('Response:', response);
-
-    // Usa router.push en lugar de route.push
-    router.push({ name: 'ProductDetail', params: { id: productId } });
+    try {
+      const response = await productStore.updateProduct(productId.toString(), updatedProduct, image);
+      console.log('Producto actualizado:', response);
+      router.push({ name: 'ProductDetail', params: { id: productId } });
+    } catch (error) {
+      console.error('Error al actualizar el producto:', error);
+    }
   }
 };
 </script>
-
-<!-- <script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { useProductStore } from '@/stores/product.store';
-import ProductForm from '@/components/ProductForm.vue';
-import { type Product } from '@/types/product';
-
-const route = useRoute();
-const productStore = useProductStore();
-const productId = Number(route.params.id);
-
-const product = computed(() => productStore.getProductById(productId));
-
-const updateProduct = (updatedProduct: Partial<Product>) => {
-  if (product.value) {
-    console.log('Updating product', updatedProduct);
-    const responde = productStore.updateProduct({ ...product.value, ...updatedProduct });
-    console.log('Response:', responde);
-    route.push({ name: 'ProductDetail', params: { id: productId } });
-  }
-};
-
-
-</script> -->
 
 <style scoped>
 .edit-product {

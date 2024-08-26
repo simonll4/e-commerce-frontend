@@ -1,34 +1,28 @@
 <template>
-  <header>
-    <div>
-      <NavBar />
-    </div>
-  </header>
-
   <div class="add-product-view">
     <h1 class="title">Agregar Producto</h1>
-    <ProductForm :product="{}" @submit="handleSubmit" />
+    <ProductForm @submit="handleSubmit" />
   </div>
 </template>
 
 <script setup lang="ts">
-import NavBar from '@/components/NavBar.vue';
 import { useRouter } from 'vue-router';
 import ProductForm from '@/components/forms/ProductForm.vue';
-import { type Product } from '@/types/product';
 import { useProductStore } from '@/stores/product.store';
-
-const productStore = useProductStore();
+import { type Product } from '@/types/product';
 
 const router = useRouter();
+const productStore = useProductStore();
 
-const handleSubmit = async (product: Product) => {
+const handleSubmit = async (product: Partial<Product>, image: File | null) => {
   try {
-    //await addDoc(collection(db, 'products'), product);
-    const response = await productStore.addProduct(product);
+    console.log('Producto:', product);
+    console.log('Imagen:', image);
+
+    await productStore.addProduct(product as Product, image);
     router.push({ name: 'home' });
   } catch (error) {
-    console.error('Error adding product: ', error);
+    console.error('Error al agregar el producto: ', error);
   }
 };
 </script>

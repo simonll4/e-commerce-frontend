@@ -1,13 +1,13 @@
 <template>
   <form @submit.prevent="submitForm">
     <div class="form-group">
-      <label for="title">Título</label>
-      <input id="title" v-model="form.title" type="text" placeholder="Título del producto" />
+      <label for="name">Nombre</label>
+      <input id="name" v-model="form.name" type="text" placeholder="Nombre del producto" />
     </div>
 
     <div class="form-group">
-      <label for="price">Precio</label>
-      <input id="price" v-model="form.price" type="number" step="0.01" placeholder="Precio del producto" />
+      <label for="brand">Marca</label>
+      <input id="brand" v-model="form.brand" type="text" placeholder="Marca del producto" />
     </div>
 
     <div class="form-group">
@@ -16,30 +16,87 @@
     </div>
 
     <div class="form-group">
-      <label for="category">Categoría</label>
-      <input id="category" v-model="form.category" type="text" placeholder="Categoría del producto" />
+      <label for="price">Precio</label>
+      <input id="price" v-model="form.price" type="number" step="0.01" placeholder="Precio del producto" />
     </div>
 
     <div class="form-group">
-      <label for="image">URL de la imagen</label>
-      <input id="image" v-model="form.image" type="text" placeholder="URL de la imagen del producto" />
+      <label for="category">Categoría</label>
+      <select id="category" v-model="form.category">
+        <option value="">Seleccionar categoría</option>
+        <option value="Laptop">Laptop</option>
+        <option value="Headphone">Headphone</option>
+        <option value="Mobile">Mobile</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Toys">Toys</option>
+        <option value="Fashion">Fashion</option>
+      </select>
     </div>
 
-    <button type="submit" class="btn-submit">Guardar cambios</button>
+    <div class="form-group">
+      <label for="stockQuantity">Cantidad en stock</label>
+      <input id="stockQuantity" v-model="form.stockQuantity" type="number" placeholder="Cantidad en stock" />
+    </div>
+
+    <div class="form-group">
+      <label for="releaseDate">Fecha de lanzamiento</label>
+      <input id="releaseDate" v-model="form.releaseDate" type="date" />
+    </div>
+
+    <div class="form-group">
+      <label for="image">Imagen</label>
+      <input id="image" type="file" @change="handleImageChange" />
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" v-model="form.productAvailable" />
+        Producto disponible
+      </label>
+    </div>
+
+    <button type="submit" class="btn-submit">Guardar producto</button>
   </form>
 </template>
 
 <script setup lang="ts">
-import { reactive, toRefs, defineProps, defineEmits } from 'vue';
+import { reactive, ref, defineEmits, watchEffect } from 'vue';
 import { type Product } from '@/types/product';
 
-const props = defineProps<{ product: Partial<Product> }>();
 const emit = defineEmits(['submit']);
+const props = defineProps<{
+  product?: Product;
+}>();
 
-const form = reactive({ ...props.product });
+const form = reactive<Partial<Product>>({
+  name: '',
+  brand: '',
+  description: '',
+  price: '',
+  category: '',
+  stockQuantity: '',
+  releaseDate: '',
+  productAvailable: false,
+});
+
+const image = ref<File | null>(null);
+
+// Inicializar el formulario con los datos del producto si se pasa como prop
+watchEffect(() => {
+  if (props.product) {
+    Object.assign(form, props.product);
+  }
+});
+
+const handleImageChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files?.length) {
+    image.value = target.files[0];
+  }
+};
 
 const submitForm = () => {
-  emit('submit', form);
+  emit('submit', form, image.value);
 };
 </script>
 

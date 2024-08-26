@@ -1,9 +1,9 @@
-// src/store/productStore.ts
+
+// src/stores/product.store.ts
 import { defineStore } from 'pinia';
-import { db } from '@/firebase';
-import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
-import { type Product } from '@/types/product';
+import axios from 'axios';
 import { useAuthStore } from '@/stores/auth.store';
+import { type Product } from '@/types/product';
 
 export const useProductStore = defineStore('productStore', {
   state: () => ({
@@ -13,118 +13,172 @@ export const useProductStore = defineStore('productStore', {
   }),
 
   actions: {
-    async fetchUserProducts() {
+    async fetchProducts() {
       this.isLoading = true;
       this.error = null;
 
       const authStore = useAuthStore();
-      const user = authStore.user;
+      const token = authStore.token;
 
-      if (!user) {
-        this.error = 'Usuario no autenticado';
+      if (!token) {
+        this.error = 'Token de autenticación no encontrado';
         this.isLoading = false;
         return;
       }
 
       try {
-        const q = query(collection(db, 'products'), where('userId', '==', user.uid));
-        const querySnapshot = await getDocs(q);
-        this.products = querySnapshot.docs.map(doc => ({ ...(doc.data() as Product), id: doc.id }));
-      } catch (error) {
-        console.error(error);
-        this.error = 'Error al obtener los productos';
-      } finally {
-        this.isLoading = false;
-      }
-    }
-    ,async addProduct(product: Product) {
-      this.isLoading = true;
-      this.error = null;
+        const response = await axios.get('http://localhost:8080/api/products', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
 
-      const authStore = useAuthStore();
-      const user = authStore.user;
 
-      if (!user) {
-        this.error = 'Usuario no autenticado';
-        this.isLoading = false;
-        return;
-      }
-
-      try {
-        const productWithUserId = {
+        this.products = response.data.map((product: Product) => ({
           ...product,
-          userId: user.uid,
-        };
-        await addDoc(collection(db, 'products'), productWithUserId);
-        this.fetchUserProducts(); // Refrescar la lista de productos después de agregar uno nuevo
+          imageData: `data:${product.imageType};base64,${product.imageData}`, // Formateo de la imagen base64
+        }));
       } catch (error) {
-        console.error(error);
-        this.error = 'Error al agregar el producto';
+        this.error = 'Error al cargar los productos';
+        console.error('Error al cargar los productos:', error);
       } finally {
         this.isLoading = false;
       }
     },
 
-    async updateProduct(product: Product) {
-      if (!product.id) return;
-
-      this.isLoading = true;
-      this.error = null;
-
+    async addProduct(product: Product, image: File | null) {
       const authStore = useAuthStore();
-      const userId = authStore.user?.uid; // Obtén el userId del usuario autenticado
+      const token = authStore.token;
 
-      if (!userId) {
-        this.error = 'Usuario no autenticado';
-        this.isLoading = false;
-        return;
+
+
+      if (!token) {
+        throw new Error('Token de autenticación no encontrado');
+      }
+
+      const formData = new FormData();
+      formData.append('product', new Blob([JSON.stringify(product)], { type: 'application/json' }));
+      if (image) {
+        formData.append('imageFile', image);
       }
 
       try {
-        // Verifica que el producto tenga el mismo userId que el usuario autenticado
-        const productRef = doc(db, 'products', product.id);
-        await updateDoc(productRef, { ...product } as { [x: string]: any });
-        const index = this.products.findIndex(p => p.id === product.id);
-        if (index !== -1) {
-          this.products[index] = product;
-        }
-      } catch (error) {
-        this.error = 'Error al actualizar el producto';
-      } finally {
-        this.isLoading = false;
-      }
-    },
+        console.log(' en add product Token:', token);
+        console.log(' en add product:', product);
+        const response = await axios.post('http://localhost:8080/api/product', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
 
+        const addedProduct = {
+          ...response.data,
+          imageData: `data:${response.data.imageType};base64,${response.data.imageData}`,
+        };
+        this.products.push(addedProduct);
+      } catch (error) {
+        this.error = 'Error al agregar el producto';
+        console.error('Error al agregar el producto:', error);
+        throw error;
+      }
+
+    },
     async deleteProduct(productId: string) {
       this.isLoading = true;
       this.error = null;
+      const authStore = useAuthStore();
+      const token = authStore.token;
+
+      if (!token) {
+        this.error = 'Token de autenticación no encontrado';
+        this.isLoading = false;
+        return;
+      }
 
       try {
-        console.log('ID del producto a eliminar:', productId);
-        const productDoc = doc(db, 'products', productId);
-        await deleteDoc(productDoc);
-        this.fetchUserProducts(); // Refrescar la lista de productos después de eliminar uno
+        await axios.delete(`http://localhost:8080/api/products/${productId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        this.products = this.products.filter(p => p.id !== Number(productId));
       } catch (error) {
-        console.error(error);
         this.error = 'Error al eliminar el producto';
+        console.error('Error al eliminar el producto:', error);
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    }, 
+    async updateProduct(productId: string, updatedProduct: Partial<Product>, image: File | null) {
+      const authStore = useAuthStore();
+      const token = authStore.token;
+
+      if (!token) {
+        throw new Error('Token de autenticación no encontrado');
+      }
+
+      const formData = new FormData();
+      formData.append('product', new Blob([JSON.stringify(updatedProduct)], { type: 'application/json' }));
+      if (image) {
+        formData.append('imageFile', image);
+      }
+
+      console.log('Tokensssssssssssssss:', token);
+      console.log('Productssssssssssssssss:', updatedProduct);
+
+      try {
+        const response = await axios.post(`http://localhost:8080/api/product/${productId}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        const index = this.products.findIndex(p => p.id === Number(productId));
+        if (index !== -1) {
+          this.products[index] = {
+            ...response.data,
+            imageData: `data:${response.data.imageType};base64,${response.data.imageData}`,
+          };
+        }
+      } catch (error) {
+        this.error = 'Error al actualizar el producto';
+        console.error('Error al actualizar el producto:', error);
+        throw error;
+      }
+    },
+    async fetchProductById(productId: string) {
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const response = await axios.get<Product>(`http://localhost:8080/api/product/${productId}`);
+        this.products.push(response.data);
+      } catch (error) {
+        this.error = 'Error al cargar el producto';
+        console.error(error);
       } finally {
         this.isLoading = false;
       }
     },
-  },
 
+  },
   getters: {
     getProductById: (state) => (id: string) => {
-      return state.products.find(p => p.id && p.id.toString() === id);
+      return state.products.find(p => p.id === Number(id));
     },
   },
-
 });
 
 
-//CON FAKESTOREAPI
+
+
+
+// // src/stores/product.store.ts
 // import { defineStore } from 'pinia';
 // import axios from 'axios';
+// import { useAuthStore } from '@/stores/auth.store';
 // import { type Product } from '@/types/product';
 
 // export const useProductStore = defineStore('productStore', {
@@ -135,52 +189,113 @@ export const useProductStore = defineStore('productStore', {
 //   }),
 
 //   actions: {
-//     async fetchUserProducts() {
+//     async fetchProducts() {
 //       this.isLoading = true;
 //       this.error = null;
+
+//       const authStore = useAuthStore();
+//       const token = authStore.token; 
+
+//       if (!token) {
+//         this.error = 'Token de autenticación no encontrado';
+//         this.isLoading = false;
+//         return;
+//       }
+
 //       try {
-//         const response = await axios.get<Product[]>('https://fakestoreapi.com/products');
+//         const response = await axios.get('http://localhost:8080/api/products', {
+//           headers: {
+//             'Authorization': `Bearer ${token}`,
+//           },
+//         });
 //         this.products = response.data;
 //       } catch (error) {
 //         this.error = 'Error al cargar los productos';
+//         console.error('Error al cargar los productos:', error);
 //       } finally {
 //         this.isLoading = false;
 //       }
 //     },
-//     async addProduct(product: Product) {
+
+//     async addProduct(product: Product, image: File | null) {
+//       const authStore = useAuthStore();
+//       const token = authStore.token; 
+
+//       if (!token) {
+//         throw new Error('Token de autenticación no encontrado');
+//       }
+
+//       const formData = new FormData();
+//       formData.append('product', new Blob([JSON.stringify(product)], { type: 'application/json' }));
+//       if (image) {
+//         formData.append('imageFile', image);
+//       }
+
 //       try {
-//         const response = await axios.post<Product>(`https://fakestoreapi.com/products`, product);
+//         const response = await axios.post('http://localhost:8080/api/product', formData, {
+//           headers: {
+//             'Content-Type': 'multipart/form-data',
+//             'Authorization': `Bearer ${token}`,
+//           },
+//         });
 //         this.products.push(response.data);
 //       } catch (error) {
 //         this.error = 'Error al agregar el producto';
-//       }
-//     },
-//     async updateProduct(product: Product) {
-//       try {
-//         const response = await axios.put<Product>(`https://fakestoreapi.com/products/${product.id}`, product);
-//         const index = this.products.findIndex(p => p.id === product.id);
-//         if (index !== -1) {
-//           this.products[index] = response.data;
-//         }
-//         return response.data;
-//       } catch (error) {
-//         this.error = 'Error al actualizar el producto';
-//       }
-//     },
-//     async deleteProduct(productId: number) {
-//       try {
-//         const response = await axios.delete(`https://fakestoreapi.com/products/${productId}`);
-//         this.products = this.products.filter(p => p.id !== productId);
-//         return response.data;
-//       } catch (error) {
-//         this.error = 'Error al eliminar el producto';
+//         console.error('Error al agregar el producto:', error);
+//         throw error;
 //       }
 //     },
 //   },
+// });
 
-//   getters: {
-//     getProductById: (state) => (id: number) => {
-//       return state.products.find(p => p.id === id);
+
+
+
+
+
+
+// // src/stores/product.store.ts
+// import { defineStore } from 'pinia';
+// import axios from 'axios';
+// import { useAuthStore } from '@/stores/auth.store';
+// import { type Product } from '@/types/product';
+
+// export const useProductStore = defineStore('productStore', {
+//   state: () => ({
+//     products: [] as Product[],
+//     error: null as string | null,
+//   }),
+
+//   actions: {
+//     async addProduct(product: Product, image: File | null) {
+//       const authStore = useAuthStore();
+//       const token = authStore.token; 
+
+//       console.log('Token:', token);
+
+//       if (!token) {
+//         throw new Error('Token de autenticación no encontrado');
+//       }
+
+//       const formData = new FormData();
+//       formData.append('product', new Blob([JSON.stringify(product)], { type: 'application/json' }));
+//       if (image) {
+//         formData.append('imageFile', image);
+//       }
+
+//       try {
+//         const response = await axios.post('http://localhost:8080/api/product', formData, {
+//           headers: {
+//             'Content-Type': 'multipart/form-data',
+//             'Authorization': `Bearer ${token}`,
+//           },
+//         });
+//         this.products.push(response.data);
+//       } catch (error) {
+//         this.error = 'Error al agregar el producto';
+//         console.error('Error al agregar el producto:', error);
+//         throw error;
+//       }
 //     },
 //   },
 // });

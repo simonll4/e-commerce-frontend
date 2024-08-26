@@ -1,6 +1,65 @@
 <template>
   <form @submit.prevent="login">
     <div class="form-group">
+      <label for="userName">Nombre de Usuario</label>
+      <input type="text" id="userName" v-model="userName" required />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" v-model="password" required />
+    </div>
+
+    <button type="submit" :disabled="isLoading">
+      {{ isLoading ? 'Iniciando...' : 'Iniciar Sesión' }}
+    </button>
+
+    <p v-if="error" class="error">{{ error }}</p>
+  </form>
+</template>
+
+
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useAuthStore } from '@/stores/auth.store';
+import { AuthRequest } from '@/types/auth';
+
+// Emitir un evento cuando el login sea exitoso
+const emit = defineEmits(['loginSuccess']);
+
+// form fields
+const userName = ref('');
+const password = ref('');
+
+const authStore = useAuthStore();
+const isLoading = computed(() => authStore.isLoading);
+const error = computed(() => authStore.error);
+
+
+const login = async () => {
+  const authRequest: AuthRequest = {
+    userName: userName.value,
+    password: password.value,
+  };
+
+  await authStore.login(authRequest);
+  if (authStore.isAuthenticated) {
+    emit('loginSuccess');
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+<!-- <template>
+  <form @submit.prevent="login">
+    <div class="form-group">
       <label for="email">Correo Electrónico</label>
       <input type="email" id="email" v-model="email" required />
     </div>
@@ -34,10 +93,11 @@ const error = computed(() => authStore.error);
 const login = async () => {
   await authStore.login(email.value, password.value);
   if (authStore.isAuthenticated) {
-    emit('loginSuccess'); // Emitir el evento 'loginSuccess'
+    emit('loginSuccess');
   }
 };
-</script>
+
+</script> -->
 
 <style scoped>
 .form-group {
@@ -83,4 +143,3 @@ button:hover:not(:disabled) {
   text-align: center;
 }
 </style>
-
