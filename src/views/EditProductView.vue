@@ -18,24 +18,37 @@
 
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useProductStore } from '@/stores/product.store';
-import ProductForm from '@/components/forms/ProductForm.vue';
+import ProductForm from '@/components/forms/ProductForm.vue'; // Asegúrate de que la importación sea correcta
 import { type Product } from '@/types/product';
 
 const route = useRoute();
 const router = useRouter();
 const productStore = useProductStore();
-const productId = route.params.id;
+const productId = route.params.id as string;
 
-const product = computed(() => productStore.getProductById(productId.toString()));
+const product = computed(() => productStore.getProductById(productId));
 
-const updateProduct = async (updatedProduct: Partial<Product>, image: File | null = null) => {
+onMounted(() => {
+  if (!product.value) {
+    productStore.fetchProductById(productId)
+      .then(() => {
+        if (!product.value) {
+          console.error("Producto no encontrado.");
+        }
+      })
+      .catch(error => {
+        console.error('Error al cargar el producto:', error);
+      });
+  }
+});
+
+const updateProduct = async (updatedProduct: Partial<Product>) => {
   if (product.value) {
     try {
-      const response = await productStore.updateProduct(productId.toString(), updatedProduct, image);
-      console.log('Producto actualizado:', response);
+      await productStore.updateProduct(productId, updatedProduct);
       router.push({ name: 'ProductDetail', params: { id: productId } });
     } catch (error) {
       console.error('Error al actualizar el producto:', error);

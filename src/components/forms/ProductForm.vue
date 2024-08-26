@@ -44,8 +44,8 @@
     </div>
 
     <div class="form-group">
-      <label for="image">Imagen</label>
-      <input id="image" type="file" @change="handleImageChange" />
+      <label for="imageURL">URL de la imagen</label>
+      <input id="imageURL" v-model="form.imageURL" type="url" placeholder="URL de la imagen del producto" />
     </div>
 
     <div class="form-group">
@@ -77,9 +77,8 @@ const form = reactive<Partial<Product>>({
   stockQuantity: '',
   releaseDate: '',
   productAvailable: false,
+  imageURL: '',
 });
-
-const image = ref<File | null>(null);
 
 // Inicializar el formulario con los datos del producto si se pasa como prop
 watchEffect(() => {
@@ -88,15 +87,8 @@ watchEffect(() => {
   }
 });
 
-const handleImageChange = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  if (target.files?.length) {
-    image.value = target.files[0];
-  }
-};
-
 const submitForm = () => {
-  emit('submit', form, image.value);
+  emit('submit', form);
 };
 </script>
 

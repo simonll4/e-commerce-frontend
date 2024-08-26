@@ -83,12 +83,12 @@ export const useAuthStore = defineStore('authStore', {
       Cookies.remove('token');
       router.push('/login');
     },
-
+   
     async checkAuth() {
       const token = Cookies.get('token'); // Asegúrate de que obtienes el token correctamente
       if (token) {
         try {
-          const response = await axios.get('http://localhost:8080/api/auth/me', {
+          const response = await axios.get('http://localhost:8080/api/auth/me' , { // ToDo 
             headers: { Authorization: `Bearer ${token}` },
           });
           this.user = {

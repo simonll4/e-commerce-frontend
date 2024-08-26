@@ -6,7 +6,7 @@
   </header>
 
   <div>
-    <h2>Productos Disponibles</h2>
+    <h2>Mis Productos</h2>
     <ProductList />
   </div>
 </template>
