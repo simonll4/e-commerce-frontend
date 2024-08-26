@@ -55,7 +55,6 @@ export const useProductStore = defineStore('productStore', {
           ...product,
           userId: user.uid,
         };
-        console.log('Producto agregado:', productWithUserId); // Agrega un log para verificar el producto
         await addDoc(collection(db, 'products'), productWithUserId);
         this.fetchUserProducts(); // Refrescar la lista de productos después de agregar uno nuevo
       } catch (error) {
@@ -136,7 +135,7 @@ export const useProductStore = defineStore('productStore', {
 //   }),
 
 //   actions: {
-//     async fetchProducts() {
+//     async fetchUserProducts() {
 //       this.isLoading = true;
 //       this.error = null;
 //       try {

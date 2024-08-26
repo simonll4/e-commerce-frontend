@@ -22,7 +22,6 @@
 import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth.store';
 
-// Definir `emit`
 const emit = defineEmits(['loginSuccess']);
 
 const email = ref('');
