@@ -1,4 +1,3 @@
-// src/stores/auth.store.ts
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -34,9 +33,9 @@ export const useAuthStore = defineStore('authStore', {
         });
 
         const token = response.data.token;
-        console.log('Token:', token);
+
         Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'Strict' });
-        console.log('Cookies aca con el get:', Cookies.get('token'));
+
 
         this.user = {
           id: response.data.id,
@@ -62,7 +61,6 @@ export const useAuthStore = defineStore('authStore', {
       try {
         const response = await axios.post('http://localhost:8080/api/auth/register', authRequest);
         const token = response.data.token;
-
         Cookies.set('token', token, { expires: 7 });
 
         this.user = {
@@ -83,23 +81,24 @@ export const useAuthStore = defineStore('authStore', {
       Cookies.remove('token');
       router.push('/login');
     },
-   
+
     async checkAuth() {
       const token = Cookies.get('token'); // Asegúrate de que obtienes el token correctamente
       if (token) {
-        try {
-          const response = await axios.get('http://localhost:8080/api/auth/me' , { // ToDo 
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          this.user = {
-            id: response.data.id,
-            userName: response.data.userName,
-          };
-          return true; // Indica que el usuario ha sido autenticado
-        } catch (error) {
-          this.logout();
-          return false; // Indica que la autenticación ha fallado
-        }
+        // try {
+        //   const response = await axios.get('http://localhost:8080/api/auth/me' , { // ToDo 
+        //     headers: { Authorization: `Bearer ${token}` },
+        //   });
+        //   this.user = {
+        //     id: response.data.id,
+        //     userName: response.data.userName,
+        //   };
+        //   return true; // Indica que el usuario ha sido autenticado
+        // } catch (error) {
+        //   this.logout();
+        //   return false; // Indica que la autenticación ha fallado
+        // }
+        return true;
       } else {
         this.logout();
         return false; // Indica que no hay token y la autenticación ha fallado

@@ -1,62 +1,63 @@
-// src/stores/product.store.ts
 import { defineStore } from 'pinia';
 import axios from 'axios';
+
 import { useAuthStore } from '@/stores/auth.store';
 import { type Product } from '@/types/product';
 
+// Función auxiliar para obtener los headers de autenticación
+function getAuthHeaders() {
+  const authStore = useAuthStore();
+  const token = authStore.token;
+
+  if (!token) {
+    throw new Error('Token de autenticación no encontrado');
+  }
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+}
+
+// Definición del store para gestionar productos
 export const useProductStore = defineStore('productStore', {
+
+  // Estado inicial del store
   state: () => ({
     products: [] as Product[],
     isLoading: false,
     error: null as string | null,
   }),
 
+  // Acciones: métodos para modificar el estado o realizar operaciones asíncronas
   actions: {
+
+    //Obtener todos los productos del servidor
     async fetchProducts() {
       this.isLoading = true;
       this.error = null;
 
-      const authStore = useAuthStore();
-      const token = authStore.token;
-
-      if (!token) {
-        this.error = 'Token de autenticación no encontrado';
-        this.isLoading = false;
-        return;
-      }
-
       try {
         const response = await axios.get('http://localhost:8080/api/products', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: getAuthHeaders(),
         });
 
-        this.products = response.data; // No es necesario formatear imageURL
+        this.products = response.data;
       } catch (error) {
         this.error = 'Error al cargar los productos';
         console.error('Error al cargar los productos:', error);
       } finally {
-        this.isLoading = false;
+        this.isLoading = false; // Finaliza la carga
       }
     },
 
+    // Acción para agregar un nuevo producto
     async addProduct(product: Product) {
-      const authStore = useAuthStore();
-      const token = authStore.token;
-
-      if (!token) {
-        throw new Error('Token de autenticación no encontrado');
-      }
-
       try {
         const response = await axios.post('http://localhost:8080/api/product', product, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeaders(),
           },
         });
-
         this.products.push(response.data);
       } catch (error) {
         this.error = 'Error al agregar el producto';
@@ -65,22 +66,16 @@ export const useProductStore = defineStore('productStore', {
       }
     },
 
+    // Acción para eliminar un producto por ID
     async deleteProduct(productId: string) {
       this.isLoading = true;
       this.error = null;
-      const authStore = useAuthStore();
-      const token = authStore.token;
-
-      if (!token) {
-        this.error = 'Token de autenticación no encontrado';
-        this.isLoading = false;
-        return;
-      }
-
       try {
         await axios.delete(`http://localhost:8080/api/products/${productId}`, {
+          //headers: getAuthHeaders(),
           headers: {
-            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Authorization: `${getAuthHeaders().Authorization}`,
           },
         });
         this.products = this.products.filter(p => p.id !== Number(productId));
@@ -93,23 +88,15 @@ export const useProductStore = defineStore('productStore', {
       }
     },
 
+    // Acción para actualizar un producto por ID
     async updateProduct(productId: string, updatedProduct: Partial<Product>) {
-      const authStore = useAuthStore();
-      const token = authStore.token;
-
-      if (!token) {
-        throw new Error('Token de autenticación no encontrado');
-      }
-
       try {
         const response = await axios.put(`http://localhost:8080/api/product/${productId}`, updatedProduct, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `${getAuthHeaders().Authorization}`,
           },
         });
-
-        // Actualiza el producto en el store
         const index = this.products.findIndex(p => p.id === Number(productId));
         if (index !== -1) {
           this.products[index] = response.data;
@@ -121,11 +108,25 @@ export const useProductStore = defineStore('productStore', {
       }
     },
 
+    // Acción para obtener un producto por su ID
     async fetchProductById(productId: string) {
       this.isLoading = true;
       this.error = null;
+
+      // Comprueba si el producto ya existe en la lista local
+      const existingProduct = this.products.find(p => p.id === Number(productId));
+      if (existingProduct) {
+        this.isLoading = false;
+        return existingProduct;
+      }
+
       try {
-        const response = await axios.get<Product>(`http://localhost:8080/api/product/${productId}`);
+        const response = await axios.get<Product>(`http://localhost:8080/api/product/${productId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${getAuthHeaders().Authorization}`,
+          },
+        });
         this.products.push(response.data);
       } catch (error) {
         this.error = 'Error al cargar el producto';
@@ -136,33 +137,25 @@ export const useProductStore = defineStore('productStore', {
     },
   },
 
+  // Getters: métodos para acceder al estado de manera reactiva
   getters: {
+
+    // Obtiene un producto por su ID
     getProductById: (state) => (id: string) => {
       return state.products.find(p => p.id === Number(id));
     },
+
   },
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // src/stores/product.store.ts
 // import { defineStore } from 'pinia';
 // import axios from 'axios';
+
 // import { useAuthStore } from '@/stores/auth.store';
 // import { type Product } from '@/types/product';
 
 // export const useProductStore = defineStore('productStore', {
+
 //   state: () => ({
 //     products: [] as Product[],
 //     isLoading: false,
@@ -170,7 +163,6 @@ export const useProductStore = defineStore('productStore', {
 //   }),
 
 //   actions: {
-
 //     async fetchProducts() {
 //       this.isLoading = true;
 //       this.error = null;
@@ -187,15 +179,11 @@ export const useProductStore = defineStore('productStore', {
 //       try {
 //         const response = await axios.get('http://localhost:8080/api/products', {
 //           headers: {
-//             'Authorization': `Bearer ${token}`,
+//             Authorization: `Bearer ${token}`,
 //           },
 //         });
 
-
-//         this.products = response.data.map((product: Product) => ({
-//           ...product,
-//           imageData: `data:${product.imageType};base64,${product.imageData}`, // Formateo de la imagen base64
-//         }));
+//         this.products = response.data; // No es necesario formatear imageURL
 //       } catch (error) {
 //         this.error = 'Error al cargar los productos';
 //         console.error('Error al cargar los productos:', error);
@@ -204,7 +192,7 @@ export const useProductStore = defineStore('productStore', {
 //       }
 //     },
 
-//     async addProduct(product: Product, image: File | null) {
+//     async addProduct(product: Product) {
 //       const authStore = useAuthStore();
 //       const token = authStore.token;
 
@@ -212,32 +200,20 @@ export const useProductStore = defineStore('productStore', {
 //         throw new Error('Token de autenticación no encontrado');
 //       }
 
-//       const formData = new FormData();
-//       formData.append('product', new Blob([JSON.stringify(product)], { type: 'application/json' }));
-//       if (image) {
-//         formData.append('imageFile', image);
-//       }
-
 //       try {
-
-//         const response = await axios.post('http://localhost:8080/api/product', formData, {
+//         const response = await axios.post('http://localhost:8080/api/product', product, {
 //           headers: {
-//             'Content-Type': 'multipart/form-data',
-//             'Authorization': `Bearer ${token}`,
+//             'Content-Type': 'application/json',
+//             Authorization: `Bearer ${token}`,
 //           },
 //         });
 
-//         const addedProduct = {
-//           ...response.data,
-//           imageData: `data:${response.data.imageType};base64,${response.data.imageData}`,
-//         };
-//         this.products.push(addedProduct);
+//         this.products.push(response.data);
 //       } catch (error) {
 //         this.error = 'Error al agregar el producto';
 //         console.error('Error al agregar el producto:', error);
 //         throw error;
 //       }
-
 //     },
 
 //     async deleteProduct(productId: string) {
@@ -255,7 +231,7 @@ export const useProductStore = defineStore('productStore', {
 //       try {
 //         await axios.delete(`http://localhost:8080/api/products/${productId}`, {
 //           headers: {
-//             'Authorization': `Bearer ${token}`,
+//             Authorization: `Bearer ${token}`,
 //           },
 //         });
 //         this.products = this.products.filter(p => p.id !== Number(productId));
@@ -268,7 +244,7 @@ export const useProductStore = defineStore('productStore', {
 //       }
 //     },
 
-//     async updateProduct(productId: string, updatedProduct: Partial<Product>, image: File | null) {
+//     async updateProduct(productId: string, updatedProduct: Partial<Product>) {
 //       const authStore = useAuthStore();
 //       const token = authStore.token;
 
@@ -276,36 +252,26 @@ export const useProductStore = defineStore('productStore', {
 //         throw new Error('Token de autenticación no encontrado');
 //       }
 
-//       const formData = new FormData();
-//       formData.append('product', new Blob([JSON.stringify(updatedProduct)], { type: 'application/json' }));
-//       if (image) {
-//         formData.append('imageFile', image);
-//       }
-
 //       try {
-//         const response = await axios.put(`http://localhost:8080/api/product/${productId}`, formData, {
+//         const response = await axios.put(`http://localhost:8080/api/product/${productId}`, updatedProduct, {
 //           headers: {
-//             'Content-Type': 'multipart/form-data',
-//             'Authorization': `Bearer ${token}`,
+//             'Content-Type': 'application/json',
+//             Authorization: `Bearer ${token}`,
 //           },
 //         });
 
 //         // Actualiza el producto en el store
 //         const index = this.products.findIndex(p => p.id === Number(productId));
 //         if (index !== -1) {
-//           this.products[index] = {
-//             ...response.data,
-//             imageData: `data:${response.data.imageType};base64,${response.data.imageData}`, // Asumiendo que el backend devuelve imagen en base64
-//           };
+//           this.products[index] = response.data;
 //         }
 //       } catch (error) {
 //         this.error = 'Error al actualizar el producto';
 //         console.error('Error al actualizar el producto:', error);
 //         throw error;
 //       }
-//     }
+//     },
 
-//     ,
 //     async fetchProductById(productId: string) {
 //       this.isLoading = true;
 //       this.error = null;
@@ -319,7 +285,6 @@ export const useProductStore = defineStore('productStore', {
 //         this.isLoading = false;
 //       }
 //     },
-
 //   },
 
 //   getters: {
@@ -328,4 +293,3 @@ export const useProductStore = defineStore('productStore', {
 //     },
 //   },
 // });
-

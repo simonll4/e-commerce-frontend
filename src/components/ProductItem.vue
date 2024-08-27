@@ -1,20 +1,3 @@
-
-<template>
-  <div class="product-item">
-    <img :src="product.imageURL" :alt="product.name" class="product-image" />
-    <div class="product-details">
-      <h2 class="product-title">{{ product.name }}</h2>
-      <p class="product-price">\${{ product.price }}</p>
-      <p class="product-category">{{ product.category }}</p>
-      <p class="product-description">{{ product.description }}</p>
-      <div class="actions">
-        <button class="edit-button" @click="goToEditProduct">Editar</button>
-        <button class="delete-button" @click="deleteProduct">Eliminar</button>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { useProductStore } from '@/stores/product.store';
@@ -43,68 +26,124 @@ const deleteProduct = async () => {
 };
 </script>
 
+<template>
+  <div class="product-item">
+    <div class="image-wrapper">
+      <img :src="product.imageURL" :alt="product.name" class="product-image" />
+    </div>
+    <div class="product-details">
+      <h2 class="product-title">{{ product.name }}</h2>
+      <p class="product-price">${{ product.price }}</p>
+      <p class="product-category"><strong>Categoría:</strong> {{ product.category }}</p>
+      <p class="product-brand"><strong>Marca:</strong> {{ product.brand }}</p>
+      <p class="product-availability" :class="{ available: product.productAvailable }">
+        <strong>Disponibilidad:</strong> {{ product.productAvailable ? 'In stock' : 'Out of Stock' }}
+      </p>
+      <p class="product-stock"><strong>Cantidad en stock:</strong> {{ product.stockQuantity }}</p>
+      <p class="product-release-date"><strong>Fecha de lanzamiento:</strong> {{ product.releaseDate }}</p>
+      <p class="product-description">{{ product.description }}</p>
+      <div class="actions">
+        <button class="edit-button" @click="goToEditProduct">Editar</button>
+        <button class="delete-button" @click="deleteProduct">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .product-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
 }
 
 .product-item:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.image-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  padding: 1rem;
 }
 
 .product-image {
-  width: 100%;
-  max-width: 300px;
-  border-radius: 8px;
-  margin-bottom: 16px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
 }
 
 .product-details {
-  text-align: center;
+  text-align: left;
+  width: 100%;
 }
 
 .product-title {
-  font-size: 1.5em;
-  margin-bottom: 8px;
+  font-size: 2em;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
 }
 
 .product-price {
-  font-size: 1.2em;
+  font-size: 1.5em;
   color: #4caf50;
-  margin-bottom: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
-.product-category {
+.product-category,
+.product-brand,
+.product-availability,
+.product-stock,
+.product-release-date,
+.product-description {
   font-size: 1em;
-  color: #757575;
-  margin-bottom: 8px;
+  margin-bottom: 0.75rem;
+  color: #555;
+}
+
+.product-availability.available {
+  color: #4caf50;
+}
+
+.product-availability {
+  color: #f44336;
 }
 
 .product-description {
-  font-size: 0.9em;
+  font-size: 1em;
   color: #616161;
-  margin-bottom: 16px;
+  margin-bottom: 1.5rem;
 }
 
 .actions {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 1.5rem;
 }
 
 .edit-button,
 .delete-button {
-  padding: 8px 16px;
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 1em;
   transition: background-color 0.3s ease;
 }
 

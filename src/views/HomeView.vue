@@ -6,7 +6,6 @@
   </header>
 
   <div>
-    <h2>Mis Productos</h2>
     <ProductList />
   </div>
 </template>

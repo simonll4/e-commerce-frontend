@@ -1,28 +1,3 @@
-<template>
-  <form @submit.prevent="register">
-    <div class="form-group">
-      <label for="email">Correo Electrónico</label>
-      <input type="email" id="email" v-model="email" required />
-    </div>
-
-    <div class="form-group">
-      <label for="password">Contraseña</label>
-      <input type="password" id="password" v-model="password" required />
-    </div>
-
-    <div class="form-group">
-      <label for="confirmPassword">Confirmar Contraseña</label>
-      <input type="password" id="confirmPassword" v-model="confirmPassword" required />
-    </div>
-
-    <button type="submit" :disabled="isLoading || passwordsDoNotMatch">
-      {{ isLoading ? 'Registrando...' : 'Registrarse' }}
-    </button>
-
-    <p v-if="error" class="error">{{ error }}</p>
-  </form>
-</template>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth.store';
@@ -48,6 +23,31 @@ const register = async () => {
   }
 };
 </script>
+
+<template>
+  <form @submit.prevent="register">
+    <div class="form-group">
+      <label for="email">Correo Electrónico</label>
+      <input type="email" id="email" v-model="email" required />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" v-model="password" required />
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirmar Contraseña</label>
+      <input type="password" id="confirmPassword" v-model="confirmPassword" required />
+    </div>
+
+    <button type="submit" :disabled="isLoading || passwordsDoNotMatch">
+      {{ isLoading ? 'Registrando...' : 'Registrarse' }}
+    </button>
+
+    <p v-if="error" class="error">{{ error }}</p>
+  </form>
+</template>
 
 <style scoped>
 .form-group {

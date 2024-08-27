@@ -1,3 +1,37 @@
+<script setup lang="ts">
+
+import { toRefs, ref, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+import { useProductStore } from '@/stores/product.store';
+import NavBar from '@/components/NavBar.vue';
+import ProductItem from '@/components/ProductItem.vue';
+
+
+const route = useRoute();
+const productId = String(route.params.id);
+const productStore = useProductStore();
+const { isLoading } = toRefs(productStore);
+const product = ref(productStore.getProductById(productId));
+
+
+//Función asíncrona que verifica si el producto no está cargado
+const fetchProduct = async () => {
+  if (!product.value) {
+    await productStore.fetchProductById(productId);
+  }
+};
+
+onMounted(fetchProduct);
+
+watch(
+  () => productStore.products,
+  () => {
+    product.value = productStore.getProductById(productId);
+  }
+);
+</script>
+
 <template>
   <header>
     <div>
@@ -16,37 +50,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import NavBar from '@/components/NavBar.vue';
-import { ref, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { useProductStore } from '@/stores/product.store';
-import ProductItem from '@/components/ProductItem.vue';
-import { toRefs } from 'vue';
-
-const route = useRoute();
-const productId = String(route.params.id);
-const productStore = useProductStore();
-const { isLoading, error } = toRefs(productStore);
-const product = ref(productStore.getProductById(productId));
-
-const fetchProduct = async () => {
-  if (!product.value) {
-    //await productStore.fetchProductById(productId);
-    product.value = productStore.getProductById(productId);
-  }
-};
-
-onMounted(fetchProduct);
-
-watch(
-  () => productStore.products,
-  () => {
-    product.value = productStore.getProductById(productId);
-  }
-);
-</script>
 
 <style scoped>
 .product-detail {

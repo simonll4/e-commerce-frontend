@@ -1,39 +1,3 @@
-<!-- <template>
-  <div class="add-product-view">
-    <h1 class="title">Agregar Producto</h1>
-    <ProductForm @submit="handleSubmit" />
-  </div>
-</template>
-
-<script setup lang="ts">
-import { useRouter } from 'vue-router';
-import ProductForm from '@/components/forms/ProductForm.vue';
-import { useProductStore } from '@/stores/product.store';
-import { type Product } from '@/types/product';
-
-const router = useRouter();
-const productStore = useProductStore();
-
-const handleSubmit = async (product: Partial<Product>, image: File | null) => {
-  try {
-    console.log('Producto:', product);
-    console.log('Imagen:', image);
-
-    await productStore.addProduct(product as Product, image);
-    router.push({ name: 'home' });
-  } catch (error) {
-    console.error('Error al agregar el producto: ', error);
-  }
-};
-</script> -->
-
-<template>
-  <div class="add-product-view">
-    <h1 class="title">Agregar Producto</h1>
-    <ProductForm @submit="handleSubmit" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import ProductForm from '@/components/forms/ProductForm.vue';
@@ -45,7 +9,6 @@ const productStore = useProductStore();
 
 const handleSubmit = async (product: Partial<Product>) => {
   try {
-    console.log('Producto:', product);
     await productStore.addProduct(product as Product);
     router.push({ name: 'home' });
   } catch (error) {
@@ -53,6 +16,13 @@ const handleSubmit = async (product: Partial<Product>) => {
   }
 };
 </script>
+
+<template>
+  <div class="add-product-view">
+    <h1 class="title">Agregar Producto</h1>
+    <ProductForm @submit="handleSubmit" />
+  </div>
+</template>
 
 <style scoped>
 .add-product-view {

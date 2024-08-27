@@ -1,3 +1,36 @@
+<script setup lang="ts">
+import { reactive, ref, defineEmits, watchEffect } from 'vue';
+import { type Product } from '@/types/product';
+
+const emit = defineEmits(['submit']);
+const props = defineProps<{
+  product?: Product;
+}>();
+
+const form = reactive<Partial<Product>>({
+  name: '',
+  brand: '',
+  description: '',
+  price: '',
+  category: '',
+  stockQuantity: '',
+  releaseDate: '',
+  productAvailable: false,
+  imageURL: '',
+});
+
+// Inicializar el formulario con los datos del producto si se pasa como prop
+watchEffect(() => {
+  if (props.product) {
+    Object.assign(form, props.product);
+  }
+});
+
+const submitForm = () => {
+  emit('submit', form);
+};
+</script>
+
 <template>
   <form @submit.prevent="submitForm">
     <div class="form-group">
@@ -58,39 +91,6 @@
     <button type="submit" class="btn-submit">Guardar producto</button>
   </form>
 </template>
-
-<script setup lang="ts">
-import { reactive, ref, defineEmits, watchEffect } from 'vue';
-import { type Product } from '@/types/product';
-
-const emit = defineEmits(['submit']);
-const props = defineProps<{
-  product?: Product;
-}>();
-
-const form = reactive<Partial<Product>>({
-  name: '',
-  brand: '',
-  description: '',
-  price: '',
-  category: '',
-  stockQuantity: '',
-  releaseDate: '',
-  productAvailable: false,
-  imageURL: '',
-});
-
-// Inicializar el formulario con los datos del producto si se pasa como prop
-watchEffect(() => {
-  if (props.product) {
-    Object.assign(form, props.product);
-  }
-});
-
-const submitForm = () => {
-  emit('submit', form);
-};
-</script>
 
 <style scoped>
 form {

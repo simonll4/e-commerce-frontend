@@ -1,24 +1,3 @@
-<template>
-  <form @submit.prevent="login">
-    <div class="form-group">
-      <label for="userName">Nombre de Usuario</label>
-      <input type="text" id="userName" v-model="userName" required />
-    </div>
-
-    <div class="form-group">
-      <label for="password">Contraseña</label>
-      <input type="password" id="password" v-model="password" required />
-    </div>
-
-    <button type="submit" :disabled="isLoading">
-      {{ isLoading ? 'Iniciando...' : 'Iniciar Sesión' }}
-    </button>
-
-    <p v-if="error" class="error">{{ error }}</p>
-  </form>
-</template>
-
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth.store';
@@ -49,19 +28,11 @@ const login = async () => {
 };
 </script>
 
-
-
-
-
-
-
-
-
-<!-- <template>
+<template>
   <form @submit.prevent="login">
     <div class="form-group">
-      <label for="email">Correo Electrónico</label>
-      <input type="email" id="email" v-model="email" required />
+      <label for="userName">Nombre de Usuario</label>
+      <input type="text" id="userName" v-model="userName" required />
     </div>
 
     <div class="form-group">
@@ -76,28 +47,6 @@ const login = async () => {
     <p v-if="error" class="error">{{ error }}</p>
   </form>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useAuthStore } from '@/stores/auth.store';
-
-const emit = defineEmits(['loginSuccess']);
-
-const email = ref('');
-const password = ref('');
-const authStore = useAuthStore();
-
-const isLoading = computed(() => authStore.isLoading);
-const error = computed(() => authStore.error);
-
-const login = async () => {
-  await authStore.login(email.value, password.value);
-  if (authStore.isAuthenticated) {
-    emit('loginSuccess');
-  }
-};
-
-</script> -->
 
 <style scoped>
 .form-group {
