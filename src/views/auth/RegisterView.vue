@@ -12,7 +12,7 @@ import RegisterForm from '@/components/forms/RegisterForm.vue';
 const router = useRouter();
 
 const onRegisterSuccess = () => {
-  router.push({ name: 'home' });
+  router.push({ name: 'Home' });
 };
 </script>
 

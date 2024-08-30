@@ -1,0 +1,131 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "userName": "simonll4",
+      "password": "123"
+    }
+  ],
+  "products": [
+    {
+      "id": "2",
+      "user": {
+        "id": 1,
+        "userName": "simonll4"
+      },
+      "name": "Microsoft Xbox X/S Wireless Controller Robot White",
+      "description": "Experience the modernized design of the Xbox wireless controller in robot white, featuring sculpted surfaces and refined Geometry for enhanced comfort and effortless control during gameplay.\nStay on target with textured grip on the triggers, bumpers, and back case and with a new hybrid D-pad for accurate, yet familiar input.\nMake the controller your own by customizing button Mapping with the Xbox accessories app.",
+      "brand": "microsoft",
+      "category": "gaming",
+      "price": "57",
+      "releaseDate": "2024-08-01",
+      "productAvailable": true,
+      "stockQuantity": "30",
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692255251854-xbox.jpg"
+    },
+    {
+      "id": "30",
+      "user": {
+        "id": 1,
+        "userName": "simonll4"
+      },
+      "name": "Sony Srs-Xb13 Wireless Extra Bass Portable Compact Bluetooth Speaker",
+      "description": "Waterproof and dustproof with an IP67 rating, this speaker is just as good outside as it is inside.\nGet up to 16 hours of battery life to keep the party going.\nNeed to make a call? No problem. Whether you’re at home or out and about, the built-in mic lets you enjoy hands-free calling straight through your speaker.\nIn one tap, the Sony SRS-XB13 enables quick effortless Bluetooth pairing with you Android devices.\nA passive radiator works together with a full-range speaker to enhance low-end tones, giving bass a boost.",
+      "brand": "sony",
+      "category": "audio",
+      "price": "42",
+      "productAvailable": true,
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692940742197-speaker1.jpg"
+    },
+    {
+      "id": "31",
+      "user": {
+        "id": 1,
+        "userName": "simonll4"
+      },
+      "name": "Panasonic RB-M300B Deep Bass Wireless Bluetooth Immersive Headphones",
+      "description": "ULTRA-LOW BASS RESPONSE Enjoy powerful deep bass, without compromising the depth and balance of the track\nWIRELESS PERFORMANCE Reliable Bluetooth connectivity with built-in microphone\n50 HOURS PLAYBACK On a full four-hour charge, plus quick 15min charge for 3 hours playback\nDUO POWER DRIVERS Two 40 mm Neodymium driver units provide deep, yet delicate bass sound\nHIGH-COMFORT FIT Soft cushioned headband and earpads fit gently over the ears for hours of anytime anywhere comfort",
+      "brand": "panasonic",
+      "category": "audio",
+      "price": "289",
+      "productAvailable": true,
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1691056086962-headphone.jpg"
+    },
+    {
+      "id": "32",
+      "user": {
+        "id": 1,
+        "userName": "simonll4"
+      },
+      "name": "Sony WH-CH520 Wireless On-Ear Bluetooth Headphones",
+      "description": "With up to 50-hour battery life and quick charging, you’ll have enough power for multi-day road trips and long festival weekends.\nGreat sound quality customizable to your music preference with EQ Custom on the Sony | Headphones Connect App.\nBoost the quality of compressed music files and enjoy streaming music with high quality sound through DSEE.\nDesigned to be lightweight and comfortable for all-day use.",
+      "brand": "sony",
+      "category": "audio",
+      "price": "54",
+      "productAvailable": true,
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692941955003-headphone2.jpg"
+    },
+    {
+      "id": "33",
+      "user": {
+        "id": 1,
+        "userName": "simonll4"
+      },
+      "name": "boAt Stone 180 5W Bluetooth Speaker",
+      "description": "Stone 180 comes equipped with 1.75\" Dynamic Drivers for powerful immersive sound\nIts power packed 800mAh battery ensures extended indulgence in musical bliss with up to 10 hours of play time, Charging Time : 1.5 Hours\nThe speaker offers 5W of premium High Definition sound, Frequency Response - 70Hz-70kHz\nStone 180 supports instant wireless connectivity with latest Bluetooth v5.0\nConnect two Stone 180’s and turn the scene right around with double the volume at the same clarity level, get the party started anywhere, anytime with the boAt Stone 180\nIt is IPX7 rated which offers protection against sweat and water.",
+      "brand": "boat",
+      "category": "audio",
+      "price": "13",
+      "productAvailable": true,
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692943845065-71vI6nfLtYL._SL1500_.jpg"
+    },
+    {
+      "id": "34",
+      "user": {
+        "id": 1,
+        "userName": "simonll4"
+      },
+      "name": "Mivi Play Bluetooth Speaker",
+      "description": "Studio Grade Sound: The Mivi Play Bluetooth speaker delivers a deep and powerful sound with a solid bass to amplify your beats and make you fall in love with every note.\nPlay it non-stop: The Mivi Play wireless speaker packs a battery life of up to 12 long hours on a single charge to keep your party going on and on till the break of dawn.\nPremium Brag Worthy Design: The Mivi Play portable wireless speaker comes with a sleek design, that makes it numero uno choice for those who love their music in private or with a couple friends!\nConnections made stronger: Nobody likes it when their music gets interrupted. Mivi Play’s latest and advanced Bluetooth 5.0 lets you enjoy seamless wireless connectivity, keeping your connections strong and uninterrupted. Now that’s the next generation of wireless bluetooth speakers!",
+      "brand": "mivi",
+      "category": "audio",
+      "price": "10",
+      "productAvailable": true,
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692944238682-61UJnlIHF9S._SL1500_.jpg"
+    },
+    {
+      "user": {
+        "id": 1,
+        "userName": "simonll4"
+      },
+      "name": "JBL Go 2 Wireless Portable Bluetooth Speaker",
+      "brand": "JBL",
+      "description": "JBL Signature Sound\n5 Hours of Playtime under optimum audio settings\nWireless Bluetooth Streaming\nIPX7 Waterproof design, Battery Type Lithium-ion polymer (3.7V, 730mAh), Charging time (hrs) 2.5\nBuilt-in Noise-cancelling Speakerphone\nAudio cable input\nWhat’s in the box: 1 x JBL GO 2, 1 x Micro USB cable for charging, 1 x Safety Sheet, 1 x Quick Start Guide, 1 x Warranty Card",
+      "price": 24.01,
+      "category": "audio",
+      "stockQuantity": "",
+      "releaseDate": "",
+      "productAvailable": true,
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692944486283-8193DNNjZFS._SL1500_.jpg",
+      "id": "35",
+      "userId": 1
+    },
+    {
+      "user": {
+        "id": 1,
+        "userName": "simonll4"
+      },
+      "name": "Mivi Duopods A25 Bluetooth Truly Wireless Earbuds",
+      "brand": "Mivi",
+      "description": "Made in India : From design to manufacturing, Mivi DuoPods A25 is proudly made in India. It is built locally to compete globally.\nConcert In Your Ears: Need to get away from the ever noisy city life? Simply tune in to the Mivi DuoPods A25 and immerse yourself in the high-quality sound of these wireless earbuds.\nStudio Quality Sound: The Mivi DuoPods A25 has a studio quality sound output which makes it one of the best wireless earbuds in the market or anything youve ever tried.",
+      "price": 11.99,
+      "category": "audio",
+      "stockQuantity": "",
+      "releaseDate": "",
+      "productAvailable": true,
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692945068061-61yTSVeLebS._SL1500_.jpg",
+      "id": "36",
+      "userId": 1
+    }
+  ]
+}

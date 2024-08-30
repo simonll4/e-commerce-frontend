@@ -4,6 +4,7 @@ import { computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { type Product } from '@/types/product';
 import { useProductStore } from '@/stores/product.store';
+
 import ProductForm from '@/components/forms/ProductForm.vue';
 
 const route = useRoute();
@@ -13,24 +14,25 @@ const productId = route.params.id as string;
 
 const product = computed(() => productStore.getProductById(productId));
 
+
 onMounted(async () => {
   if (!product.value) {
     try {
       await productStore.fetchProductById(productId);
       if (!product.value) {
         console.error("Producto no encontrado después de cargar."); // To-Do notificacion
-        router.push({ name: 'home' });
+        router.push({ name: 'Home' });
       }
 
     } catch (error) {
       console.error('Error al cargar el producto:', error); // To-Do notificacion
-      router.push({ name: 'home' });
+      router.push({ name: 'Home' });
 
     }
   }
 });
 
-const updateProduct = async (updatedProduct: Partial<Product>) => {
+const updateProduct = async (updatedProduct: Product) => {
   if (product.value) {
     try {
       await productStore.updateProduct(productId, updatedProduct);
@@ -60,6 +62,7 @@ const updateProduct = async (updatedProduct: Partial<Product>) => {
     <div v-else class="loading">
       <p>Cargando producto...</p>
     </div>
+
   </div>
 </template>
 

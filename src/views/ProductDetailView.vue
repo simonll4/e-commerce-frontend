@@ -1,21 +1,18 @@
 <script setup lang="ts">
-
-import { toRefs, ref, watch, onMounted } from 'vue';
+import { computed, watch, onMounted, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { useProductStore } from '@/stores/product.store';
 import NavBar from '@/components/NavBar.vue';
 import ProductItem from '@/components/ProductItem.vue';
 
-
 const route = useRoute();
 const productId = String(route.params.id);
 const productStore = useProductStore();
 const { isLoading } = toRefs(productStore);
-const product = ref(productStore.getProductById(productId));
+const product = computed(() => productStore.getProductById(productId));
 
-
-//Función asíncrona que verifica si el producto no está cargado
+// Función asíncrona que verifica si el producto no está cargado
 const fetchProduct = async () => {
   if (!product.value) {
     await productStore.fetchProductById(productId);
@@ -24,30 +21,25 @@ const fetchProduct = async () => {
 
 onMounted(fetchProduct);
 
+// Observa cambios en el 'productId' y recarga el producto cuando cambie
 watch(
   () => productStore.products,
   () => {
-    product.value = productStore.getProductById(productId);
+    fetchProduct();
   }
 );
 </script>
 
 <template>
   <header>
-    <div>
-      <NavBar />
-    </div>
+    <NavBar />
   </header>
-  <div>
-    <div v-if="product" class="product-detail">
-      <ProductItem :product="product" />
-    </div>
-    <div v-else-if="isLoading">
-      <p>Loading...</p>
-    </div>
-    <div v-else>
-      <p>Producto no encontrado.</p>
-    </div>
+  <div v-if="isLoading">Cargando...</div>
+  <div v-else-if="product" class="product-detail">
+    <ProductItem :product="product" />
+  </div>
+  <div v-else>
+    Producto no encontrado.
   </div>
 </template>
 

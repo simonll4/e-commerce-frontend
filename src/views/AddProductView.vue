@@ -7,15 +7,18 @@ import { type Product } from '@/types/product';
 const router = useRouter();
 const productStore = useProductStore();
 
-const handleSubmit = async (product: Partial<Product>) => {
+
+const handleSubmit = async (product: Product) => {
   try {
+    console.log("acaaaaaaaa",product);
     await productStore.addProduct(product as Product);
-    router.push({ name: 'home' });
+    router.push({ name: 'Home' });
   } catch (error) {
     console.error('Error al agregar el producto: ', error);
   }
 };
 </script>
+
 
 <template>
   <div class="add-product-view">

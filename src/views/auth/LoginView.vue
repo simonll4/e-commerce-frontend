@@ -12,7 +12,7 @@ import LoginForm from '@/components/forms/LoginForm.vue';
 const router = useRouter();
 
 const onLoginSuccess = () => {
-  router.push({ name: 'home' });
+  router.push({ name: 'Home' });
 };
 </script>
 <style scoped>

@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import { reactive, ref, defineEmits, watchEffect } from 'vue';
+import { reactive, computed, defineEmits, watchEffect } from 'vue';
 import { type Product } from '@/types/product';
+import { useAuthStore } from '@/stores/auth.store';
+
+const authStore = useAuthStore();
+const userId = computed(() => authStore.userId);
 
 const emit = defineEmits(['submit']);
 const props = defineProps<{
   product?: Product;
 }>();
 
-const form = reactive<Partial<Product>>({
+// Inicializar el formulario con los valores del producto o valores predeterminados
+const form = reactive<Product>({
+  user: { id: Number(userId.value) || 0 },
   name: '',
   brand: '',
   description: '',
@@ -19,10 +25,14 @@ const form = reactive<Partial<Product>>({
   imageURL: '',
 });
 
-// Inicializar el formulario con los datos del producto si se pasa como prop
+// Asegurarse de que `userId` esté asignado cuando esté disponible
 watchEffect(() => {
+  if (userId.value) {
+    form.user.id = Number(userId.value);
+  }
+
   if (props.product) {
-    Object.assign(form, props.product);
+    Object.assign(form, { ...props.product, userId: Number(userId.value) });
   }
 });
 

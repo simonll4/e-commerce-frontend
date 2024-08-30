@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import { useAuthStore } from '@/stores/auth.store';
+
+const authStore = useAuthStore();
+
+const handleLogout = () => {
+  authStore.logout();
+};
+
+</script>
+
 <template>
   <header>
     <nav class="navbar">
@@ -8,7 +19,7 @@
             <router-link class="nav-link" to="/add-product">Agregar Producto</router-link>
           </li>
           <li class="nav-item profile-dropdown">
-            <router-link class="nav-link" to="/auth/login">
+            <router-link class="nav-link" to="/auth/login" @click.prevent="handleLogout">
               <i class="fas fa-user-circle"></i> Cerrar Sesion
             </router-link>
           </li>

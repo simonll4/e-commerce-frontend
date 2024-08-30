@@ -19,7 +19,7 @@ const deleteProduct = async () => {
     console.log('ID del producto a eliminar:', props.product.id);
     await productStore.deleteProduct(String(props.product.id));
     console.log('Producto eliminado correctamente');
-    router.push({ name: 'home' });
+    router.push({ name: 'Home' });
   } catch (e) {
     console.error('Error al eliminar el producto', e);
   }
