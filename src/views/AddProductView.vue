@@ -10,7 +10,6 @@ const productStore = useProductStore();
 
 const handleSubmit = async (product: Product) => {
   try {
-    console.log("acaaaaaaaa",product);
     await productStore.addProduct(product as Product);
     router.push({ name: 'Home' });
   } catch (error) {

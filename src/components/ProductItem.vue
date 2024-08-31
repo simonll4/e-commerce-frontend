@@ -27,6 +27,118 @@ const deleteProduct = async () => {
 </script>
 
 <template>
+  <v-container class="d-flex justify-center align-center" style="height: 100vh;">
+    <v-card class="pa-4" max-width="600">
+      <v-img :src="product.imageURL" height="300" class="mb-4"></v-img>
+      <v-card-title>{{ product.name }}</v-card-title>
+      <v-card-subtitle class="text-h6 text-primary mb-2">${{ product.price }}</v-card-subtitle>
+      <v-card-text class="product-description">{{ product.description }}</v-card-text>
+      <v-card-actions class="actions">
+        <v-btn color="" class="edit-button" @click="goToEditProduct">Editar</v-btn>
+        <v-btn color="" class="delete-button" @click="deleteProduct">Eliminar</v-btn>
+        <v-btn color="" class="back-button" @click="() => router.push({ name: 'Home' })">Volver a Inicio</v-btn>
+      </v-card-actions>
+      <!-- <v-card-actions>
+        <v-btn color="secondary" @click="() => router.push({ name: 'Home' })">Volver a Inicio</v-btn>
+      </v-card-actions> -->
+    </v-card>
+  </v-container>
+</template>
+
+<style scoped>
+.v-container {
+  background-color: #f5f5f5;
+}
+
+.v-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-description {
+  font-size: 1em;
+  color: #616161;
+  margin-bottom: 1.5rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.edit-button,
+.delete-button {
+
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button {
+  background-color: #09f809;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #178517;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+
+.back-button {
+  background-color: #2196f3;
+  color: white;
+}
+
+.back-button:hover {
+  background-color: #1976d2;
+}
+</style>
+
+
+
+
+
+
+<!-- <script setup lang="ts">
+import { useRouter } from 'vue-router';
+import { useProductStore } from '@/stores/product.store';
+import { type Product } from '@/types/product';
+
+const props = defineProps<{
+  product: Product;
+}>();
+
+const router = useRouter();
+const productStore = useProductStore();
+
+const goToEditProduct = () => {
+  router.push({ name: 'EditProduct', params: { id: props.product.id } });
+};
+
+const deleteProduct = async () => {
+  try {
+    console.log('ID del producto a eliminar:', props.product.id);
+    await productStore.deleteProduct(String(props.product.id));
+    console.log('Producto eliminado correctamente');
+    router.push({ name: 'Home' });
+  } catch (e) {
+    console.error('Error al eliminar el producto', e);
+  }
+};
+</script>
+
+<template>
   <div class="product-item">
     <div class="image-wrapper">
       <img :src="product.imageURL" :alt="product.name" class="product-image" />
@@ -164,4 +276,4 @@ const deleteProduct = async () => {
 .delete-button:hover {
   background-color: #d32f2f;
 }
-</style>
+</style> -->

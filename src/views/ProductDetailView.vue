@@ -31,6 +31,30 @@ watch(
 </script>
 
 <template>
+  <v-app>
+    <header>
+      <NavBar />
+    </header>
+    <v-container>
+      <v-row>
+        <v-col cols="12">
+          <div v-if="isLoading" class="text-center my-5">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            <div>Cargando...</div>
+          </div>
+          <div v-else-if="product" class="product-detail">
+            <ProductItem :product="product" />
+          </div>
+          <div v-else class="text-center my-5">
+            Producto no encontrado.
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
+</template>
+
+<!-- <template>
   <header>
     <NavBar />
   </header>
@@ -41,7 +65,7 @@ watch(
   <div v-else>
     Producto no encontrado.
   </div>
-</template>
+</template> -->
 
 <style scoped>
 .product-detail {

@@ -1,10 +1,3 @@
-<template>
-  <div class="auth-container">
-    <h2>Iniciar Sesión</h2>
-    <LoginForm @loginSuccess="onLoginSuccess" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import LoginForm from '@/components/forms/LoginForm.vue';
@@ -15,6 +8,14 @@ const onLoginSuccess = () => {
   router.push({ name: 'Home' });
 };
 </script>
+
+<template>
+  <div class="auth-container">
+    <h2>Iniciar Sesión</h2>
+    <LoginForm @loginSuccess="onLoginSuccess" />
+  </div>
+</template>
+
 <style scoped>
 .auth-container {
   max-width: 400px;
@@ -31,4 +32,3 @@ h2 {
   color: #333;
 }
 </style>
-

@@ -9,6 +9,6 @@ export interface Product {
   releaseDate?: string;
   productAvailable?: boolean;
   stockQuantity: string;
-  imageURL?: string;
+  imageURL: string;
 }
 
