@@ -1,3 +1,6 @@
+<script setup lang="ts">
+</script>
+
 <template>
   <v-container class="error-view" fluid>
     <v-row justify="center" align="center" class="mt-10">
@@ -12,10 +15,6 @@
     </v-row>
   </v-container>
 </template>
-
-<script setup lang="ts">
-// No es necesario agregar lógica adicional en este caso
-</script>
 
 <style scoped>
 .error-view {

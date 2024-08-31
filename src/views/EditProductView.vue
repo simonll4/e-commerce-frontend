@@ -6,6 +6,7 @@ import { type Product } from '@/types/product';
 import { useProductStore } from '@/stores/product.store';
 
 import ProductForm from '@/components/forms/ProductForm.vue';
+import NavBar from '@/components/NavBar.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -47,38 +48,31 @@ const updateProduct = async (updatedProduct: Product) => {
 
 </script>
 
-<template>
+<!-- <template>
   <header>
     <div>
       <NavBar />
     </div>
   </header>
+  <ProductForm :product="product" @submit="updateProduct" />
+</template> -->
 
-  <div class="edit-product">
-    <h1>Editar Producto</h1>
-    <div v-if="product">
-      <ProductForm :product="product" @submit="updateProduct" />
-    </div>
-    <div v-else class="loading">
-      <p>Cargando producto...</p>
-    </div>
+<template>
+  <header>
+    <NavBar />
+  </header>
+  <main>
+    <v-app>
+      <v-container>
 
-  </div>
+        <v-row>
+          <v-col cols="12">
+            <ProductForm :product="product" @submit="updateProduct" />
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-app>
+  </main>
 </template>
 
-<style scoped>
-.edit-product {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.loading {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #666;
-}
-</style>
+<style scoped></style>

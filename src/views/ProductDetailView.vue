@@ -54,19 +54,6 @@ watch(
   </v-app>
 </template>
 
-<!-- <template>
-  <header>
-    <NavBar />
-  </header>
-  <div v-if="isLoading">Cargando...</div>
-  <div v-else-if="product" class="product-detail">
-    <ProductItem :product="product" />
-  </div>
-  <div v-else>
-    Producto no encontrado.
-  </div>
-</template> -->
-
 <style scoped>
 .product-detail {
   max-width: 600px;
