@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits, watch } from 'vue';
 
 // Props para recibir las opciones de ordenamiento
 const props = defineProps({
@@ -20,6 +20,12 @@ const onSearch = () => {
 const onOrderChange = () => {
   emit('orderChange', selectedOrder.value);
 };
+
+// Escuchar cambios en searchQuery y selectedOrder para actualizar los productos
+watch([searchQuery, selectedOrder], () => {
+  onSearch();
+  onOrderChange();
+});
 </script>
 
 <template>

@@ -34,6 +34,8 @@ onMounted(async () => {
 });
 
 const updateProduct = async (updatedProduct: Product) => {
+
+  console.log('updateProduct', updatedProduct);
   if (product.value) {
     try {
       await productStore.updateProduct(productId, updatedProduct);
@@ -47,15 +49,6 @@ const updateProduct = async (updatedProduct: Product) => {
 };
 
 </script>
-
-<!-- <template>
-  <header>
-    <div>
-      <NavBar />
-    </div>
-  </header>
-  <ProductForm :product="product" @submit="updateProduct" />
-</template> -->
 
 <template>
   <header>

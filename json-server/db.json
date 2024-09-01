@@ -8,9 +8,9 @@
   ],
   "products": [
     {
+      "id": "2",
       "user": {
-        "id": 1,
-        "userName": "simonll4"
+        "id": 1
       },
       "name": "Microsoft Xbox X/S Wireless Controller Robot White",
       "brand": "microsoft",
@@ -20,99 +20,87 @@
       "stockQuantity": "30",
       "releaseDate": "2024-08-01",
       "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692255251854-xbox.jpg",
-      "id": "2",
-      "userId": 1
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692255251854-xbox.jpg"
     },
     {
+      "id": "30",
       "user": {
-        "id": 1,
-        "userName": "simonll4"
+        "id": 1
       },
       "name": "Sony Srs-Xb13 Wireless Extra Bass Portable Compact Bluetooth Speaker",
       "brand": "sony",
       "description": "Waterproof and dustproof with an IP67 rating, this speaker is just as good outside as it is inside.\nGet up to 16 hours of battery life to keep the party going.\nNeed to make a call? No problem. Whether you’re at home or out and about, the built-in mic lets you enjoy hands-free calling straight through your speaker.\nIn one tap, the Sony SRS-XB13 enables quick effortless Bluetooth pairing with you Android devices.\nA passive radiator works together with a full-range speaker to enhance low-end tones, giving bass a boost.",
       "price": "42",
       "category": "Other",
-      "stockQuantity": 3,
+      "stockQuantity": "3",
       "releaseDate": "",
       "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692940742197-speaker1.jpg",
-      "id": "30",
-      "userId": 1
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692940742197-speaker1.jpg"
     },
     {
+      "id": "31",
       "user": {
-        "id": 1,
-        "userName": "simonll4"
+        "id": 1
       },
       "name": "Panasonic RB-M300B Deep Bass Wireless Bluetooth Immersive Headphones",
       "brand": "panasonic",
       "description": "ULTRA-LOW BASS RESPONSE Enjoy powerful deep bass, without compromising the depth and balance of the track\nWIRELESS PERFORMANCE Reliable Bluetooth connectivity with built-in microphone\n50 HOURS PLAYBACK On a full four-hour charge, plus quick 15min charge for 3 hours playback\nDUO POWER DRIVERS Two 40 mm Neodymium driver units provide deep, yet delicate bass sound\nHIGH-COMFORT FIT Soft cushioned headband and earpads fit gently over the ears for hours of anytime anywhere comfort",
       "price": "289",
       "category": "Headphone",
-      "stockQuantity": 5,
+      "stockQuantity": "5",
       "releaseDate": "",
       "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1691056086962-headphone.jpg",
-      "id": "31",
-      "userId": 1
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1691056086962-headphone.jpg"
     },
     {
+      "id": "32",
       "user": {
-        "id": 1,
-        "userName": "simonll4"
+        "id": 1
       },
       "name": "Sony WH-CH520 Wireless On-Ear Bluetooth Headphones",
       "brand": "sony",
       "description": "With up to 50-hour battery life and quick charging, you’ll have enough power for multi-day road trips and long festival weekends.\nGreat sound quality customizable to your music preference with EQ Custom on the Sony | Headphones Connect App.\nBoost the quality of compressed music files and enjoy streaming music with high quality sound through DSEE.\nDesigned to be lightweight and comfortable for all-day use.",
       "price": "54",
       "category": "Headphone",
-      "stockQuantity": 2,
+      "stockQuantity": "2",
       "releaseDate": "",
       "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692941955003-headphone2.jpg",
-      "id": "32",
-      "userId": 1
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692941955003-headphone2.jpg"
     },
     {
+      "id": "33",
       "user": {
-        "id": 1,
-        "userName": "simonll4"
+        "id": 1
       },
       "name": "boAt Stone 180 5W Bluetooth Speaker",
       "brand": "boat",
       "description": "Stone 180 comes equipped with 1.75\" Dynamic Drivers for powerful immersive sound\nIts power packed 800mAh battery ensures extended indulgence in musical bliss with up to 10 hours of play time, Charging Time : 1.5 Hours\nThe speaker offers 5W of premium High Definition sound, Frequency Response - 70Hz-70kHz\nStone 180 supports instant wireless connectivity with latest Bluetooth v5.0\nConnect two Stone 180’s and turn the scene right around with double the volume at the same clarity level, get the party started anywhere, anytime with the boAt Stone 180\nIt is IPX7 rated which offers protection against sweat and water.",
-      "price": "13",
+      "price": "14",
       "category": "Other",
-      "stockQuantity": 8,
+      "stockQuantity": "8",
       "releaseDate": "",
       "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692943845065-71vI6nfLtYL._SL1500_.jpg",
-      "id": "33",
-      "userId": 1
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692943845065-71vI6nfLtYL._SL1500_.jpg"
     },
     {
+      "id": "34",
       "user": {
-        "id": 1,
-        "userName": "simonll4"
+        "id": 1
       },
       "name": "Mivi Play Bluetooth Speaker",
       "brand": "mivi",
       "description": "Studio Grade Sound: The Mivi Play Bluetooth speaker delivers a deep and powerful sound with a solid bass to amplify your beats and make you fall in love with every note.\nPlay it non-stop: The Mivi Play wireless speaker packs a battery life of up to 12 long hours on a single charge to keep your party going on and on till the break of dawn.\nPremium Brag Worthy Design: The Mivi Play portable wireless speaker comes with a sleek design, that makes it numero uno choice for those who love their music in private or with a couple friends!\nConnections made stronger: Nobody likes it when their music gets interrupted. Mivi Play’s latest and advanced Bluetooth 5.0 lets you enjoy seamless wireless connectivity, keeping your connections strong and uninterrupted. Now that’s the next generation of wireless bluetooth speakers!",
       "price": "10",
       "category": "Other",
-      "stockQuantity": 3,
+      "stockQuantity": "3",
       "releaseDate": "",
       "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692944238682-61UJnlIHF9S._SL1500_.jpg",
-      "id": "34",
-      "userId": 1
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692944238682-61UJnlIHF9S._SL1500_.jpg"
     },
     {
+      "id": "35",
       "user": {
-        "id": 1,
-        "userName": "simonll4"
+        "id": 1
       },
       "name": "JBL Go 2 Wireless Portable Bluetooth Speaker",
       "brand": "JBL",
@@ -122,209 +110,206 @@
       "stockQuantity": "1",
       "releaseDate": "",
       "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692944486283-8193DNNjZFS._SL1500_.jpg",
-      "id": "35",
-      "userId": 1
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692944486283-8193DNNjZFS._SL1500_.jpg"
     },
     {
+      "id": "36",
       "user": {
-        "id": 1,
-        "userName": "simonll4"
+        "id": 1
       },
       "name": "Mivi Duopods A25 Bluetooth Truly Wireless Earbuds",
       "brand": "Mivi",
       "description": "Made in India : From design to manufacturing, Mivi DuoPods A25 is proudly made in India. It is built locally to compete globally.\nConcert In Your Ears: Need to get away from the ever noisy city life? Simply tune in to the Mivi DuoPods A25 and immerse yourself in the high-quality sound of these wireless earbuds.\nStudio Quality Sound: The Mivi DuoPods A25 has a studio quality sound output which makes it one of the best wireless earbuds in the market or anything youve ever tried.",
-      "price": 11.99,
+      "price": "11.99",
       "category": "Headphone",
-      "stockQuantity": 6,
+      "stockQuantity": "6",
       "releaseDate": "",
       "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692945068061-61yTSVeLebS._SL1500_.jpg",
-      "id": "36",
-      "userId": 1
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692945068061-61yTSVeLebS._SL1500_.jpg"
     },
     {
-      "id": 1,
+      "id": "1",
       "user": {
         "id": 1
       },
       "name": "Majestic Mountain Graphic T-Shirt",
-      "description": "Elevate your wardrobe with this stylish black t-shirt featuring a striking monochrome mountain range graphic. Perfect for those who love the outdoors or want to add a touch of nature-inspired design to their look, this tee is crafted from soft, breathable fabric ensuring all-day comfort. Ideal for casual outings or as a unique gift, this t-shirt is a versatile addition to any collection.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Elevate your wardrobe with this stylish black t-shirt featuring a striking monochrome mountain range graphic. Perfect for those who love the outdoors or want to add a touch of nature-inspired design to their look, this tee is crafted from soft, breathable fabric ensuring all-day comfort. Ideal for casual outings or as a unique gift, this t-shirt is a versatile addition to any collection.",
       "price": "44",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/QkIa5tT.jpeg"
     },
     {
-      "id": 2,
+      "id": "2",
       "user": {
         "id": 1
       },
       "name": "Classic Red Pullover Hoodie",
-      "description": "Elevate your casual wardrobe with our Classic Red Pullover Hoodie. Crafted with a soft cotton blend for ultimate comfort, this vibrant red hoodie features a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs for a snug fit. The timeless design ensures easy pairing with jeans or joggers for a relaxed yet stylish look, making it a versatile addition to your everyday attire.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Elevate your casual wardrobe with our Classic Red Pullover Hoodie. Crafted with a soft cotton blend for ultimate comfort, this vibrant red hoodie features a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs for a snug fit. The timeless design ensures easy pairing with jeans or joggers for a relaxed yet stylish look, making it a versatile addition to your everyday attire.",
       "price": "10",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/1twoaDy.jpeg"
     },
     {
-      "id": 3,
+      "id": "3",
       "user": {
         "id": 1
       },
       "name": "Classic Heather Gray Hoodie",
-      "description": "Stay cozy and stylish with our Classic Heather Gray Hoodie. Crafted from soft, durable fabric, it features a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs. Perfect for a casual day out or a relaxing evening in, this hoodie is a versatile addition to any wardrobe.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Stay cozy and stylish with our Classic Heather Gray Hoodie. Crafted from soft, durable fabric, it features a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs. Perfect for a casual day out or a relaxing evening in, this hoodie is a versatile addition to any wardrobe.",
       "price": "69",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/cHddUCu.jpeg"
     },
     {
-      "id": 4,
+      "id": "4",
       "user": {
         "id": 1
       },
       "name": "Classic Grey Hooded Sweatshirt",
-      "description": "Elevate your casual wear with our Classic Grey Hooded Sweatshirt. Made from a soft cotton blend, this hoodie features a front kangaroo pocket, an adjustable drawstring hood, and ribbed cuffs for a snug fit. Perfect for those chilly evenings or lazy weekends, it pairs effortlessly with your favorite jeans or joggers.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Elevate your casual wear with our Classic Grey Hooded Sweatshirt. Made from a soft cotton blend, this hoodie features a front kangaroo pocket, an adjustable drawstring hood, and ribbed cuffs for a snug fit. Perfect for those chilly evenings or lazy weekends, it pairs effortlessly with your favorite jeans or joggers.",
       "price": "90",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/R2PN9Wq.jpeg"
     },
     {
-      "id": 5,
+      "id": "5",
       "user": {
         "id": 1
       },
       "name": "Classic Black Hooded Sweatshirt",
-      "description": "Elevate your casual wardrobe with our Classic Black Hooded Sweatshirt. Made from high-quality, soft fabric that ensures comfort and durability, this hoodie features a spacious kangaroo pocket and an adjustable drawstring hood. Its versatile design makes it perfect for a relaxed day at home or a casual outing.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Elevate your casual wardrobe with our Classic Black Hooded Sweatshirt. Made from high-quality, soft fabric that ensures comfort and durability, this hoodie features a spacious kangaroo pocket and an adjustable drawstring hood. Its versatile design makes it perfect for a relaxed day at home or a casual outing.",
       "price": "79",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/cSytoSD.jpeg"
     },
     {
-      "id": 6,
+      "id": "6",
       "user": {
         "id": 1
       },
       "name": "Classic Comfort Fit Joggers",
-      "description": "Discover the perfect blend of style and comfort with our Classic Comfort Fit Joggers. These versatile black joggers feature a soft elastic waistband with an adjustable drawstring, two side pockets, and ribbed ankle cuffs for a secure fit. Made from a lightweight and durable fabric, they are ideal for both active days and relaxed lounging.",
       "brand": "",
+      "description": "Discover the perfect blend of style and comfort with our Classic Comfort Fit Joggers. These versatile black joggers feature a soft elastic waistband with an adjustable drawstring, two side pockets, and ribbed ankle cuffs for a secure fit. Made from a lightweight and durable fabric, they are ideal for both active days and relaxed lounging.",
+      "price": "25.05",
       "category": "Fashion",
-      "price": "25",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/ZKGofuB.jpeg"
     },
     {
-      "id": 7,
+      "id": "7",
       "user": {
         "id": 1
       },
       "name": "Classic Comfort Drawstring Joggers",
-      "description": "Experience the perfect blend of comfort and style with our Classic Comfort Drawstring Joggers. Designed for a relaxed fit, these joggers feature a soft, stretchable fabric, convenient side pockets, and an adjustable drawstring waist with elegant gold-tipped detailing. Ideal for lounging or running errands, these pants will quickly become your go-to for effortless, casual wear.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Experience the perfect blend of comfort and style with our Classic Comfort Drawstring Joggers. Designed for a relaxed fit, these joggers feature a soft, stretchable fabric, convenient side pockets, and an adjustable drawstring waist with elegant gold-tipped detailing. Ideal for lounging or running errands, these pants will quickly become your go-to for effortless, casual wear.",
       "price": "79",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/mp3rUty.jpeg"
     },
     {
-      "id": 8,
       "user": {
         "id": 1
       },
       "name": "Classic Red Jogger Sweatpants",
-      "description": "Experience ultimate comfort with our red jogger sweatpants, perfect for both workout sessions and lounging around the house. Made with soft, durable fabric, these joggers feature a snug waistband, adjustable drawstring, and practical side pockets for functionality. Their tapered design and elastic cuffs offer a modern fit that keeps you looking stylish on the go.",
       "brand": "",
+      "description": "Experience ultimate comfort with our red jogger sweatpants, perfect for both workout sessions and lounging around the house. Made with soft, durable fabric, these joggers feature a snug waistband, adjustable drawstring, and practical side pockets for functionality. Their tapered design and elastic cuffs offer a modern fit that keeps you looking stylish on the go.",
+      "price": "98.02",
       "category": "Fashion",
-      "price": "98",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
-      "imageURL": "https://i.imgur.com/9LFjwpI.jpeg"
+      "imageURL": "https://i.imgur.com/9LFjwpI.jpeg",
+      "id": "8",
+      "userId": 1
     },
     {
-      "id": 9,
+      "id": "9",
       "user": {
         "id": 1
       },
       "name": "Classic Navy Blue Baseball Cap",
-      "description": "Step out in style with this sleek navy blue baseball cap. Crafted from durable material, it features a smooth, structured design and an adjustable strap for the perfect fit. Protect your eyes from the sun and complement your casual looks with this versatile and timeless accessory.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Step out in style with this sleek navy blue baseball cap. Crafted from durable material, it features a smooth, structured design and an adjustable strap for the perfect fit. Protect your eyes from the sun and complement your casual looks with this versatile and timeless accessory.",
       "price": "61",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/R3iobJA.jpeg"
     },
     {
-      "id": 10,
+      "id": "10",
       "user": {
         "id": 1
       },
       "name": "Classic Blue Baseball Cap",
-      "description": "Top off your casual look with our Classic Blue Baseball Cap, made from high-quality materials for lasting comfort. Featuring a timeless six-panel design with a pre-curved visor, this adjustable cap offers both style and practicality for everyday wear.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Top off your casual look with our Classic Blue Baseball Cap, made from high-quality materials for lasting comfort. Featuring a timeless six-panel design with a pre-curved visor, this adjustable cap offers both style and practicality for everyday wear.",
       "price": "86",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/wXuQ7bm.jpeg"
     },
     {
-      "id": 11,
+      "id": "11",
       "user": {
         "id": 1
       },
       "name": "Classic Red Baseball Cap",
-      "description": "Elevate your casual wardrobe with this timeless red baseball cap. Crafted from durable fabric, it features a comfortable fit with an adjustable strap at the back, ensuring one size fits all. Perfect for sunny days or adding a sporty touch to your outfit.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Elevate your casual wardrobe with this timeless red baseball cap. Crafted from durable fabric, it features a comfortable fit with an adjustable strap at the back, ensuring one size fits all. Perfect for sunny days or adding a sporty touch to your outfit.",
       "price": "35",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/cBuLvBi.jpeg"
     },
     {
-      "id": 12,
+      "id": "12",
       "user": {
         "id": 1
       },
       "name": "Classic Black Baseball Cap",
-      "description": "Elevate your casual wear with this timeless black baseball cap. Made with high-quality, breathable fabric, it features an adjustable strap for the perfect fit. Whether you’re out for a jog or just running errands, this cap adds a touch of style to any outfit.",
       "brand": "",
-      "category": "Fashion",
+      "description": "Elevate your casual wear with this timeless black baseball cap. Made with high-quality, breathable fabric, it features an adjustable strap for the perfect fit. Whether you’re out for a jog or just running errands, this cap adds a touch of style to any outfit.",
       "price": "58",
+      "category": "Fashion",
+      "stockQuantity": "Unknown",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
       "imageURL": "https://i.imgur.com/KeqG6r4.jpeg"
     },
     {
-      "id": 13,
+      "id": "13",
       "user": {
         "id": 1
       },
@@ -335,26 +320,27 @@
       "price": "56",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
+      "stockQuantity": "0",
       "imageURL": "https://i.imgur.com/wAWGSHG.jpeg"
     },
     {
-      "id": 14,
       "user": {
         "id": 1
       },
       "name": "Classic Blue Denim Shorts",
-      "description": "Embrace timeless style with our Classic Blue Denim Shorts. Crafted from premium denim, these shorts offer a comfortable fit and a versatile design that pairs perfectly with any casual top. The traditional five-pocket styling and button fly closure add a classic touch, making them a must-have addition to your summer wardrobe.",
       "brand": "",
+      "description": "Embrace timeless style with our Classic Blue Denim Shorts. Crafted from premium denim, these shorts offer a comfortable fit and a versatile design that pairs perfectly with any casual top. The traditional five-pocket styling and button fly closure add a classic touch, making them a must-have addition to your summer wardrobe.",
+      "price": "80.97",
       "category": "Fashion",
-      "price": "81",
+      "stockQuantity": "0",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
-      "imageURL": "https://i.imgur.com/ks1WwDI.jpeg"
+      "imageURL": "https://i.imgur.com/ks1WwDI.jpeg",
+      "id": "14",
+      "userId": 1
     },
     {
-      "id": 15,
+      "id": "15",
       "user": {
         "id": 1
       },
@@ -365,11 +351,11 @@
       "price": "29",
       "releaseDate": "2024-08-31",
       "productAvailable": true,
-      "stockQuantity": "Unknown",
+      "stockQuantity": "0",
       "imageURL": "https://i.imgur.com/zU6ddoC.jpeg"
     },
     {
-      "id": 18,
+      "id": "18",
       "user": {
         "id": 1
       },
@@ -384,7 +370,7 @@
       "imageURL": "https://i.imgur.com/ZANVnHE.jpeg"
     },
     {
-      "id": 19,
+      "id": "19",
       "user": {
         "id": 1
       },
@@ -399,7 +385,7 @@
       "imageURL": "https://i.imgur.com/yVeIeDa.jpeg"
     },
     {
-      "id": 20,
+      "id": "20",
       "user": {
         "id": 1
       },
@@ -414,7 +400,7 @@
       "imageURL": "https://i.imgur.com/SolkFEB.jpeg"
     },
     {
-      "id": 21,
+      "id": "21",
       "user": {
         "id": 1
       },
@@ -429,7 +415,7 @@
       "imageURL": "https://i.imgur.com/keVCVIa.jpeg"
     },
     {
-      "id": 22,
+      "id": "22",
       "user": {
         "id": 1
       },

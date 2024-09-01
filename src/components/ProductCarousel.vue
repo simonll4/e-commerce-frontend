@@ -7,7 +7,6 @@ const props = defineProps<{
   products:Product [];
 }>();
 
-
 const emits = defineEmits(['navigateToDetail']);
 
 const goToDetail = (id: string) => {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, onBeforeUpdate, onUpdated } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { useProductStore } from '@/stores/product.store';
@@ -19,7 +19,11 @@ const products = computed(() => productStore.products);
 const isLoading = computed(() => productStore.isLoading);
 const error = computed(() => productStore.error);
 
-const defaultCategory = ['Laptop', 'Headphone', 'Mobile', 'Toys', 'Fashion', 'Other'];
+const defaultsCategories = ['Laptop', 'Headphone', 'Mobile', 'Toys', 'Fashion', 'Other'];
+const selectedCategory = ref<string | null>(null);
+const searchQuery = ref<string>('');
+const selectedOrder = ref<string>('');
+
 
 // ir a detalle del producto
 const goToDetail = (id: string) => {
@@ -30,14 +34,10 @@ const goToDetail = (id: string) => {
   }
 };
 
-// Estado para manejar los filtros y ordenamientos
-const selectedCategory = ref<string | null>(null);
-const searchQuery = ref<string>('');
-const selectedOrder = ref<string>('');
-
-
 // Función para manejar los filtros combinados: categoría, búsqueda y ordenamiento
 const filteredProducts = computed(() => {
+
+  //console.log('filteredProducts');
 
   // Filtrado por categoría
   let filtered = products.value;
@@ -52,11 +52,11 @@ const filteredProducts = computed(() => {
     );
   }
 
-  // Ordenamiento
+
   if (selectedOrder.value === 'Precio: Menor a Mayor') {
-    filtered.sort((a, b) => Number(a.price) - Number(b.price));
+    filtered = [...filtered].sort((a, b) => Number(a.price) - Number(b.price));
   } else if (selectedOrder.value === 'Precio: Mayor a Menor') {
-    filtered.sort((a, b) => Number(b.price) - Number(a.price));
+    filtered = [...filtered].sort((a, b) => Number(b.price) - Number(a.price));
   }
 
   return filtered;
@@ -65,23 +65,26 @@ const filteredProducts = computed(() => {
 
 // Métodos que manejan la entrada del usuario desde el componente de filtrado
 const selectCategory = (category: string) => {
+  //console.log('selectCategory');
   selectedCategory.value = category;
 };
 
 const handleSearch = (query: string) => {
+  //console.log('handleSearch');
   searchQuery.value = query;
 };
 
 const handleOrderChange = (order: string) => {
+  //console.log('handleOrderChange');
   selectedOrder.value = order;
 };
 
 // Imitación de los productos más vendidos, seleccionados de manera aleatoria
+const bestSellingProducts = ref<Product[]>([]);
 const getRandomProducts = (products: Product[], count: number) => {
   const shuffled = products.sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
 };
-const bestSellingProducts = ref<Product[]>([]);
 
 onMounted(() => {
   productStore.fetchProducts().then(() => {
@@ -101,7 +104,7 @@ onMounted(() => {
 
       <CarouselProduct :products="bestSellingProducts" @navigateToDetail="goToDetail" />
 
-      <CategorySelector :categories="defaultCategory" :selectedCategory="selectedCategory"
+      <CategorySelector :categories="defaultsCategories" :selectedCategory="selectedCategory"
         @selectCategory="selectCategory" />
 
       <SearchFilterBar @search="handleSearch" @orderChange="handleOrderChange" />

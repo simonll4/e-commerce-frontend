@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from '@/router';
 import { Product } from '@/types/product';
 import { defineProps } from 'vue';
 
@@ -14,8 +15,7 @@ const props = defineProps<{
 // Función para redirigir al detalle del producto
 const goToDetail = (id: string) => {
   if (id) {
-    // Aquí debe integrarse la lógica de redirección a la vista de detalles del producto
-    console.log('Redirigiendo a detalles del producto con ID:', id);
+    router.push({ name: 'ProductDetail', params: { id } });
   } else {
     console.error('El ID del producto está ausente');
   }
