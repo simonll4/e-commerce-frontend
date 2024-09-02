@@ -1,15 +1,8 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import {AuthUser } from '@/types/auth.user';
-import {AuthRequest} from '@/types/auth';
+import { AuthRequest, AuthState, AuthUser } from '@/types/auth';
 import router from '@/router';
-
-interface AuthState {
-  user: AuthUser | null;
-  isLoading: boolean;
-  error: string | null;
-}
 
 export const useAuthStore = defineStore('authStore', {
   state: (): AuthState => ({
@@ -25,31 +18,25 @@ export const useAuthStore = defineStore('authStore', {
   },
 
   actions: {
+
     async login(authRequest: AuthRequest) {
       this.isLoading = true;
       this.error = null;
       try {
-        const response = await axios.get('http://localhost:3000/users', {
-          params: {
-            userName: authRequest.userName,
-            password: authRequest.password
-          }
-        });
+        const response = await axios.get('http://localhost:3000/users');
 
-        const user = response.data.find((u: AuthUser) => 
+        const user = response.data.find((u: AuthUser) =>
           u.userName === authRequest.userName && u.password === authRequest.password);
 
         if (user) {
           const token = 'fake-jwt-token'; // Simulando un token
           Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'Strict' });
-
           this.user = {
             id: user.id,
             userName: user.userName,
-            password: authRequest.password,
+            password: user.password,
           };
-          
-
+          localStorage.setItem('user', JSON.stringify(this.user));
           router.push('/');
         } else {
           this.error = 'Nombre de usuario o contraseña incorrectos';
@@ -80,7 +67,6 @@ export const useAuthStore = defineStore('authStore', {
           userName: authRequest.userName,
           password: authRequest.password,
         };
-
         router.push('/');
       } catch (error) {
         this.error = 'Error al registrar el usuario.';
@@ -90,42 +76,38 @@ export const useAuthStore = defineStore('authStore', {
       }
     },
 
-    
     logout() {
-      console.log('logout');
       this.user = null;
       Cookies.remove('token', { secure: true, sameSite: 'Strict' });
+      localStorage.removeItem('user');
       router.push({ name: 'Login' });
     },
 
-    // async checkAuth() {
-    //   const token = Cookies.get('token'); 
-    //   if (token) {
-    //     const response = await axios.get('http://localhost:3000/users');
-    //     this.user = response.data.find((u: AuthUser) => u.userName === this.user?.userName) || null;
-    //     return !!this.user;
-    //   } else {
-    //     this.logout();
-    //     return false;
-    //   }
-    // }
     async checkAuth() {
-
       const token = Cookies.get('token');
       if (!token) {
         this.logout();
         return false;
       }
 
+      if (!this.user) {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          this.user = JSON.parse(storedUser);
+        }
+      }
+
+      if (!this.user) {
+        this.logout();
+        return false;
+      }
+
       try {
-        // Simula la verificación del usuario con la lista de usuarios en el servidor mock
         const response = await axios.get('http://localhost:3000/users');
-
-        // Busca el usuario en la lista recibida desde el servidor mock
         const foundUser = response.data.find((u: AuthUser) => u.userName === this.user?.userName);
-
         if (foundUser) {
-          this.user = foundUser; 
+          this.user = foundUser;
+          localStorage.setItem('user', JSON.stringify(this.user));
           return true;
         } else {
           this.logout();
@@ -138,6 +120,7 @@ export const useAuthStore = defineStore('authStore', {
         return false;
       }
     }
+
   },
 });
 

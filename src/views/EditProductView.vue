@@ -8,6 +8,8 @@ import { useProductStore } from '@/stores/product.store';
 import ProductForm from '@/components/forms/ProductForm.vue';
 import NavBar from '@/components/NavBar.vue';
 
+
+
 const route = useRoute();
 const router = useRouter();
 const productStore = useProductStore();
@@ -57,7 +59,6 @@ const updateProduct = async (updatedProduct: Product) => {
   <main>
     <v-app>
       <v-container>
-
         <v-row>
           <v-col cols="12">
             <ProductForm :product="product" @submit="updateProduct" />
