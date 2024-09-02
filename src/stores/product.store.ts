@@ -12,19 +12,32 @@ export const useProductStore = defineStore('productStore', {
     products: [] as Product[],
     isLoading: false,
     error: null as string | null,
+    currentPage: 1,
+    totalPages: 0,
+    perPage: 5,
+    hasMoreProducts: true,
   }),
 
   // Acciones: métodos para modificar el estado o realizar operaciones asíncronas
   actions: {
 
-    //Obtener todos los productos del servidor
-    async fetchProducts() {
+    //Obtener productos paginados
+    async fetchProducts(page: number = 1) {
+      if (!this.hasMoreProducts) return;
       this.isLoading = true;
       this.error = null;
-
       try {
-        const response = await axios.get('http://127.0.0.1:3000/products');
-        this.products = response.data;
+        const response = await axios.get(`http://127.0.0.1:3000/products?_page=${page}&_per_page=${this.perPage}`);
+
+        if (page === 1) {
+          this.products = response.data.data; // Si es la primera página, sobrescribe los productos
+        } else {
+          this.products = [...this.products, ...response.data.data]; // Si es una página subsiguiente, agrega los productos
+        }
+        // Actualiza la paginación
+        this.currentPage = page;
+        this.totalPages = response.data.pages;
+        this.hasMoreProducts = this.currentPage < this.totalPages;
       } catch (error) {
         this.error = 'Error al cargar los productos';
         console.error('Error al cargar los productos:', error);
@@ -32,19 +45,16 @@ export const useProductStore = defineStore('productStore', {
         this.isLoading = false;
       }
     },
-
+    
     // Acción para obtener un producto por su ID
     async fetchProductById(productId: string) {
       this.isLoading = true;
       this.error = null;
-
-      // Comprueba si el producto ya existe en la lista local
       const existingProduct = this.products.find(p => p.id === Number(productId));
       if (existingProduct) {
         this.isLoading = false;
-        return existingProduct; // Devolver el producto encontrado
+        return existingProduct;
       }
-
       try {
         const response = await axios.get<Product>(`http://127.0.0.1:3000/products/${productId}`);
         this.products.push(response.data);
@@ -101,7 +111,7 @@ export const useProductStore = defineStore('productStore', {
       }
     },
   },
-  
+
   // Getters: métodos para acceder al estado de manera reactiva
   getters: {
     getProductById: (state) => (id: string) => {

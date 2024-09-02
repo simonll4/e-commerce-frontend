@@ -1,25 +1,32 @@
 <script setup lang="ts">
-import router from '@/router';
 import { Product } from '@/types/product';
-import { defineProps } from 'vue';
+import { defineProps, onBeforeUnmount, onMounted, ref } from 'vue';
+import { useIntersectionObserver } from '@vueuse/core';
 
 // Define los props que el componente recibirá
 const props = defineProps<{
   isLoading: boolean;
+  isSpinnerLoading: boolean;
   error: string | null;
-  filteredProducts: Array<Product>;
+  products: Array<Product>;
+  fetchMoreProducts: () => void;
+  goToDetail: (id: string) => void;
 }>();
 
-// Define los eventos que emitirá el componente (en este caso ninguno)
+const sentinel = ref(null);
 
-// Función para redirigir al detalle del producto
-const goToDetail = (id: string) => {
-  if (id) {
-    router.push({ name: 'ProductDetail', params: { id } });
-  } else {
-    console.error('El ID del producto está ausente');
-  }
-};
+onMounted(() => {
+  const { stop } = useIntersectionObserver(sentinel, ([{ isIntersecting }]) => {
+    if (isIntersecting && !props.isLoading) {
+      props.fetchMoreProducts();
+    }
+  });
+
+  onBeforeUnmount(() => {
+    stop();
+  });
+});
+
 </script>
 
 <template>
@@ -35,14 +42,14 @@ const goToDetail = (id: string) => {
     </v-col>
 
     <!-- Mensaje cuando no hay productos disponibles -->
-    <v-col v-if="filteredProducts.length === 0" cols="12" class="text-center">
+    <v-col v-if="products.length === 0" cols="12" class="text-center">
       <v-card class="pa-4" outlined>
         <v-card-title>No hay productos disponibles en esta categoría</v-card-title>
       </v-card>
     </v-col>
 
     <!-- Lista de productos -->
-    <v-col v-else v-for="product in filteredProducts" :key="product.id" cols="12" sm="6" md="4" lg="3">
+    <v-col v-else v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3">
       <v-card @click="goToDetail(String(product.id))" class="product-card" hover>
         <v-img :src="product.imageURL" alt="Imagen del producto" aspect-ratio="1.5" class="product-image"></v-img>
         <v-card-title class="text-h6">{{ product.name }}</v-card-title>
@@ -55,6 +62,12 @@ const goToDetail = (id: string) => {
           </v-btn>
         </v-card-actions>
       </v-card>
+    </v-col>
+
+    <v-col cols="12" ref="sentinel"></v-col>
+
+    <v-col cols="12" class="text-center" v-if="isSpinnerLoading && products.length > 0">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-col>
   </v-row>
 </template>

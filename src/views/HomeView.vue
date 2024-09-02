@@ -1,29 +1,19 @@
 <script setup lang="ts">
-import { onMounted, computed, ref, onBeforeUpdate, onUpdated } from 'vue';
+import { onMounted, computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { useProductStore } from '@/stores/product.store';
 
 import SearchFilterBar from '@/components/SearchFilterBar.vue';
-import CarouselProduct from '@/components/ProductCarousel.vue';
+import ProductCarousel from '@/components/ProductCarousel.vue';
 import CategorySelector from '@/components/CategorySelector.vue';
 import ProductList from '@/components/ProductList.vue';
 import NavBar from '@/components/NavBar.vue';
 
 import type { Product } from '@/types/product';
 
-
 const router = useRouter();
 const productStore = useProductStore();
-const products = computed(() => productStore.products);
-const isLoading = computed(() => productStore.isLoading);
-const error = computed(() => productStore.error);
-
-const defaultsCategories = ['Laptop', 'Headphone', 'Mobile', 'Toys', 'Fashion', 'Other'];
-const selectedCategory = ref<string | null>(null);
-const searchQuery = ref<string>('');
-const selectedOrder = ref<string>('');
-
 
 // ir a detalle del producto
 const goToDetail = (id: string) => {
@@ -34,48 +24,56 @@ const goToDetail = (id: string) => {
   }
 };
 
+const displayedProducts = computed(() => productStore.products);
+const isLoading = computed(() => productStore.isLoading);
+const error = computed(() => productStore.error);
+const hasMoreProducts = computed(() => productStore.hasMoreProducts);
+
+const isSpinnerLoading = ref(false);
+
+const fetchMoreProducts = async () => {
+  console.log('fetchMoreProducts');
+  if (!isLoading.value && hasMoreProducts.value) {
+    await productStore.fetchProducts(productStore.currentPage + 1);
+    isSpinnerLoading.value = true;
+  }
+};
+
+const defaultsCategories = ['Laptop', 'Headphone', 'Mobile', 'Toys', 'Fashion', 'Other'];
+const selectedCategory = ref<string | null>(null);
+const searchQuery = ref<string>('');
+const selectedOrder = ref<string>('');
+
 // Función para manejar los filtros combinados: categoría, búsqueda y ordenamiento
 const filteredProducts = computed(() => {
-
-  //console.log('filteredProducts');
-
   // Filtrado por categoría
-  let filtered = products.value;
+  let filtered = displayedProducts.value;
   if (selectedCategory.value) {
     filtered = filtered.filter((product) => product.category === selectedCategory.value);
   }
-
   // Filtrado por búsqueda
   if (searchQuery.value) {
     filtered = filtered.filter((product) =>
       product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
   }
-
-
+  // Ordenamiento
   if (selectedOrder.value === 'Precio: Menor a Mayor') {
     filtered = [...filtered].sort((a, b) => Number(a.price) - Number(b.price));
   } else if (selectedOrder.value === 'Precio: Mayor a Menor') {
     filtered = [...filtered].sort((a, b) => Number(b.price) - Number(a.price));
   }
-
   return filtered;
 });
 
-
 // Métodos que manejan la entrada del usuario desde el componente de filtrado
 const selectCategory = (category: string) => {
-  //console.log('selectCategory');
   selectedCategory.value = category;
 };
-
 const handleSearch = (query: string) => {
-  //console.log('handleSearch');
   searchQuery.value = query;
 };
-
 const handleOrderChange = (order: string) => {
-  //console.log('handleOrderChange');
   selectedOrder.value = order;
 };
 
@@ -88,29 +86,27 @@ const getRandomProducts = (products: Product[], count: number) => {
 
 onMounted(() => {
   productStore.fetchProducts().then(() => {
-    bestSellingProducts.value = getRandomProducts(products.value, 15);
+    bestSellingProducts.value = getRandomProducts(displayedProducts.value, 10);
   });
 });
-
 </script>
 
 <template>
   <header>
     <NavBar />
   </header>
-
   <main>
     <v-container>
 
-      <CarouselProduct :products="bestSellingProducts" @navigateToDetail="goToDetail" />
+      <ProductCarousel :products="bestSellingProducts" @navigateToDetail="goToDetail" />
 
       <CategorySelector :categories="defaultsCategories" :selectedCategory="selectedCategory"
         @selectCategory="selectCategory" />
 
       <SearchFilterBar @search="handleSearch" @orderChange="handleOrderChange" />
 
-      <ProductList :isLoading="isLoading" :error="error" :filteredProducts="filteredProducts"
-        @goToDetail="goToDetail" />
+      <ProductList :isLoading="isLoading" :isSpinnerLoading="isSpinnerLoading" :error="error"
+        :products="filteredProducts" :goToDetail="goToDetail" :fetchMoreProducts="fetchMoreProducts" />
 
     </v-container>
   </main>

@@ -8,21 +8,6 @@
   ],
   "products": [
     {
-      "id": "2",
-      "user": {
-        "id": 1
-      },
-      "name": "Microsoft Xbox X/S Wireless Controller Robot White",
-      "brand": "microsoft",
-      "description": "Experience the modernized design of the Xbox wireless controller in robot white, featuring sculpted surfaces and refined Geometry for enhanced comfort and effortless control during gameplay.\nStay on target with textured grip on the triggers, bumpers, and back case and with a new hybrid D-pad for accurate, yet familiar input.\nMake the controller your own by customizing button Mapping with the Xbox accessories app.",
-      "price": "57",
-      "category": "Other",
-      "stockQuantity": "30",
-      "releaseDate": "2024-08-01",
-      "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692255251854-xbox.jpg"
-    },
-    {
       "id": "30",
       "user": {
         "id": 1
@@ -83,7 +68,6 @@
       "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692943845065-71vI6nfLtYL._SL1500_.jpg"
     },
     {
-      "id": "34",
       "user": {
         "id": 1
       },
@@ -94,8 +78,10 @@
       "category": "Other",
       "stockQuantity": "3",
       "releaseDate": "",
-      "productAvailable": true,
-      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692944238682-61UJnlIHF9S._SL1500_.jpg"
+      "productAvailable": false,
+      "imageURL": "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692944238682-61UJnlIHF9S._SL1500_.jpg",
+      "id": "34",
+      "userId": 1
     },
     {
       "id": "35",
