@@ -14,7 +14,7 @@ export const useProductStore = defineStore('productStore', {
     error: null as string | null,
     currentPage: 1,
     totalPages: 0,
-    perPage: 5,
+    perPage: 8,
     hasMoreProducts: true,
   }),
 
@@ -117,5 +117,6 @@ export const useProductStore = defineStore('productStore', {
     getProductById: (state) => (id: string) => {
       return state.products.find(p => String(p.id) === id);
     },
+    
   },
 });

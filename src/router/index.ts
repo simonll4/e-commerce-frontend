@@ -5,10 +5,8 @@ import Cookies from 'js-cookie';
 import { useAuthStore } from '@/stores/auth.store';
 import LoginView from '@/views/auth/LoginView.vue';
 
-
-
 const routes = [
-  
+
   {
     path: '/auth/login',
     name: 'Login',

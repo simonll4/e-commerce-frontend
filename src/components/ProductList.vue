@@ -65,10 +65,10 @@ onMounted(() => {
     </v-col>
 
     <v-col cols="12" ref="sentinel"></v-col>
-
     <v-col cols="12" class="text-center" v-if="isSpinnerLoading && products.length > 0">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-col>
+    
   </v-row>
 </template>
 

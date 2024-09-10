@@ -46,8 +46,8 @@ const selectedOrder = ref<string>('');
 
 // Función para manejar los filtros combinados: categoría, búsqueda y ordenamiento
 const filteredProducts = computed(() => {
-  // Filtrado por categoría
   let filtered = displayedProducts.value;
+  // Filtrado por categoría
   if (selectedCategory.value) {
     filtered = filtered.filter((product) => product.category === selectedCategory.value);
   }
@@ -59,8 +59,12 @@ const filteredProducts = computed(() => {
   }
   // Ordenamiento
   if (selectedOrder.value === 'Precio: Menor a Mayor') {
+    // ToDo fetch sort, piso los productos del store y comienzo a paginar de nuevo
+    // filtered = displayedProducts.value;
     filtered = [...filtered].sort((a, b) => Number(a.price) - Number(b.price));
   } else if (selectedOrder.value === 'Precio: Mayor a Menor') {
+    //ToDo fetch sort, piso los productos del store y comienzo a paginar de nuevo 
+    //filtered = displayedProducts.value;
     filtered = [...filtered].sort((a, b) => Number(b.price) - Number(a.price));
   }
   return filtered;

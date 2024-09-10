@@ -78,3 +78,28 @@ El objetivo es continuar con el desarrollo de una aplicación web avanzada para 
 1. **Autenticación de Usuarios**: Sistema de login para acceder a la aplicación, gestionado a través de hooks como `onMounted` para verificar el estado de autenticación.
 2. **Búsqueda y Filtrado Dinámico**: Implementar funcionalidades de búsqueda y filtrado de productos, con actualizaciones eficientes manejadas en los hooks `onBeforeUpdate` y `onUpdated`.
 3. **Paginación y Carga Diferida**: Implementación de paginación y carga diferida para gestionar grandes listas de productos, optimizando la carga de datos con `onMounted` y limpieza de procesos con `onBeforeUnmount`.
+
+
+# Proyecto: Gestión de Productos - Parte 2
+## Descripción del Proyecto
+Este proyecto es una continuación del Proyecto 1, expandiendo la funcionalidad de la aplicación de gestión de productos. El objetivo es incorporar nuevas características y pantallas, aprovechando los conocimientos adquiridos sobre reactividad, propiedades computadas y el uso de librerías gráficas.
+
+## Nuevas Funcionalidades
+
+### 1. Pantalla de Login
+- Permite a los usuarios autenticarse antes de acceder a la aplicación.
+- Implementa validaciones y manejo de errores en el login.
+- Utiliza propiedades computadas para gestionar el estado del formulario y reactividad para actualizar la interfaz.
+
+### 2. Pantalla de Registro
+- Permite a nuevos usuarios registrarse en la aplicación.
+- Incluye validaciones en tiempo real utilizando reactividad.
+- Usa propiedades computadas para mostrar mensajes dinámicos y verificar la fortaleza de la contraseña.
+
+### 3. Pantalla de Dashboard
+- Muestra estadísticas clave sobre los productos, como el número total de productos, los más vendidos, etc.
+- Integra gráficos utilizando una librería gráfica como PrimeVue o Vuetify, aprovechando las propiedades computadas para actualizar los datos en tiempo real.
+
+### 4. Pantalla de Perfil de Usuario
+- Permite a los usuarios ver y editar su información personal.
+- Implementa la reactividad para manejar cambios en la información del usuario y propiedades computadas para mostrar el estado de la edición.

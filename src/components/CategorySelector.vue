@@ -1,20 +1,3 @@
-<template>
-  <v-card class="mb-4">
-    <v-card-title class="text-h6">Categorías</v-card-title>
-    <v-row class="mb-4" justify="center">
-      <v-col cols="12" sm="6" md="4" lg="2" v-for="category in categories" :key="category">
-        <v-card @click="onCategorySelect(category)" outlined class="category-card"
-          :class="{ 'selected-card': category === selectedCategory }">
-          <v-img :src="getCategoryImageUrl(category)" height="140" alt="Imagen de categoría"></v-img>
-          <v-card-title class="text-center" style="font-size: 0.8rem;">
-            {{ category }}
-          </v-card-title>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-card>
-</template>
-
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
 
@@ -37,6 +20,23 @@ const getCategoryImageUrl = (category: string) => {
   return new URL(`../assets/images/${category}.avif`, import.meta.url).href;
 };
 </script>
+
+<template>
+  <v-card class="mb-4">
+    <v-card-title class="text-h6">Categorías</v-card-title>
+    <v-row class="mb-4" justify="center">
+      <v-col cols="12" sm="6" md="4" lg="2" v-for="category in categories" :key="category">
+        <v-card @click="onCategorySelect(category)" outlined class="category-card"
+          :class="{ 'selected-card': category === selectedCategory }">
+          <v-img :src="getCategoryImageUrl(category)" height="140" alt="Imagen de categoría"></v-img>
+          <v-card-title class="text-center" style="font-size: 0.8rem;">
+            {{ category }}
+          </v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-card>
+</template>
 
 <style scoped>
 .category-card {
