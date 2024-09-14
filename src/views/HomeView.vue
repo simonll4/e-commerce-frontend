@@ -48,15 +48,15 @@ const selectedOrder = ref<string>('');
 const filteredProducts = computed(() => {
   let filtered = displayedProducts.value;
   // Filtrado por categoría
-  if (selectedCategory.value) {
-    filtered = filtered.filter((product) => product.category === selectedCategory.value);
-  }
+  // if (selectedCategory.value) {
+  //   filtered = filtered.filter((product) => product.category === selectedCategory.value);
+  // }
   // Filtrado por búsqueda
-  if (searchQuery.value) {
-    filtered = filtered.filter((product) =>
-      product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-    );
-  }
+  // if (searchQuery.value) {
+  //   filtered = filtered.filter((product) =>
+  //     product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  //   );
+  // }
   // Ordenamiento
   if (selectedOrder.value === 'Precio: Menor a Mayor') {
     // ToDo fetch sort, piso los productos del store y comienzo a paginar de nuevo
@@ -99,7 +99,8 @@ onMounted(() => {
   <header>
     <NavBar />
   </header>
-  <main>
+  
+  <!-- <main>
     <v-container>
 
       <ProductCarousel :products="bestSellingProducts" @navigateToDetail="goToDetail" />
@@ -113,7 +114,7 @@ onMounted(() => {
         :products="filteredProducts" :goToDetail="goToDetail" :fetchMoreProducts="fetchMoreProducts" />
 
     </v-container>
-  </main>
+  </main> -->
 </template>
 
 <style scoped></style>

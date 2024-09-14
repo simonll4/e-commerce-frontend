@@ -1,47 +1,80 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed, reactive } from 'vue'; // Import the reactive function from the vue package
 import { useAuthStore } from '@/stores/auth.store';
+import { RegisterRequest } from '@/types/auth';
 
-// Definir `emit`
 const emit = defineEmits(['registerSuccess']);
 
-const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
+const form = reactive({
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  avatar: ''
+});
+
+
 const authStore = useAuthStore();
+const { isLoading, error, isAuthenticated} = authStore;
 
-const isLoading = computed(() => authStore.isLoading);
-const error = computed(() => authStore.error);
+const passwordsDoNotMatch = computed(() => form.password !== form.confirmPassword);
 
-const passwordsDoNotMatch = computed(() => password.value !== confirmPassword.value);
 
 const register = async () => {
   if (passwordsDoNotMatch.value) return;
-  await authStore.register(email.value, password.value);
-  if (authStore.isAuthenticated) {
-    emit('registerSuccess'); // Emitir el evento 'registerSuccess'
+
+  const registerRequest: RegisterRequest = {
+    name: form.name,
+    email: form.email,
+    password: form.password,
+    avatar: form.avatar,
+  };
+
+  try {
+    await authStore.register(registerRequest);
+    if (isAuthenticated) {
+      emit('registerSuccess');
+    }
+  } catch (e) {
+    console.error('Error during registration:', e);
   }
 };
 </script>
 
+
 <template>
   <form @submit.prevent="register">
+    <!-- Campo Nombre -->
+    <div class="form-group">
+      <label for="name">Nombre</label>
+      <input type="text" id="name" v-model="form.name" required />
+    </div>
+
+    <!-- Campo Correo Electrónico -->
     <div class="form-group">
       <label for="email">Correo Electrónico</label>
-      <input type="email" id="email" v-model="email" required />
+      <input type="email" id="email" v-model="form.email" required />
     </div>
 
+    <!-- Campo Contraseña -->
     <div class="form-group">
       <label for="password">Contraseña</label>
-      <input type="password" id="password" v-model="password" required />
+      <input type="password" id="password" v-model="form.password" required />
     </div>
 
+    <!-- Campo Confirmar Contraseña -->
     <div class="form-group">
       <label for="confirmPassword">Confirmar Contraseña</label>
-      <input type="password" id="confirmPassword" v-model="confirmPassword" required />
+      <input type="password" id="confirmPassword" v-model="form.confirmPassword" required />
     </div>
 
-    <button type="submit" :disabled="isLoading || passwordsDoNotMatch">
+    <!-- Campo Avatar (URL de Imagen) -->
+    <div class="form-group">
+      <label for="avatar">Avatar (URL de imagen)</label>
+      <input type="url" id="avatar" v-model="form.avatar" required />
+    </div>
+
+    <button type="submit" :disabled= "passwordsDoNotMatch">
       {{ isLoading ? 'Registrando...' : 'Registrarse' }}
     </button>
 

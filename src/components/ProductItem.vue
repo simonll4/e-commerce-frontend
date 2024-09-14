@@ -34,7 +34,10 @@ const deleteProduct = async () => {
       <v-card-subtitle class="text-h6 text-primary mb-2">${{ product.price }}</v-card-subtitle>
       <v-card-text class="product-description">{{ product.description }}</v-card-text>
       <v-card-actions class="actions">
-        <v-btn color="" class="edit-button" @click="goToEditProduct">Editar</v-btn>
+        <!-- <v-btn color="" class="edit-button" @click="goToEditProduct">Editar</v-btn> -->
+        <router-link :to="{ name: 'EditProduct', params: { id: props.product.id } }" class="edit-button">
+          <v-btn color="">Editar</v-btn>
+        </router-link>
         <v-btn color="" class="delete-button" @click="deleteProduct">Eliminar</v-btn>
         <v-btn color="" class="back-button" @click="() => router.push({ name: 'Home' })">Volver a Inicio</v-btn>
       </v-card-actions>

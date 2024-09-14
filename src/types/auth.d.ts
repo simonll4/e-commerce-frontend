@@ -1,10 +1,18 @@
-export interface AuthRequest {
-  userName: string;
+export interface LoginRequest {
+  email: string;
   password: string;
 }
 
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+  avatar: string; // URL de la imagen
+}
+
 export interface AuthState {
-  user: AuthUser | null;
+ // user: AuthUser | null;
+  isAuthenticated
   isLoading: boolean;
   error: string | null;
 }
@@ -14,3 +22,4 @@ export interface AuthUser {
   userName: string;
   password: string;
 }
+
