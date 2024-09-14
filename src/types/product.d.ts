@@ -1,14 +1,13 @@
 export interface Product {
   id?: number;
-  user: {id: number};
-  name: string;
+  title: string;
   description: string;
   brand: string;
-  category: string;
+  category: {"id": number, "name": string, "image": string, "creationAt": string, "updatedAt": string};
   price: string;
-  releaseDate?: string;
+  createdAt: string;
+  updatedAt: string;
   productAvailable?: boolean;
   stockQuantity: string;
-  imageURL: string;
+  images: string[];
 }
-

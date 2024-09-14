@@ -14,7 +14,7 @@ export const useProductStore = defineStore('productStore', {
     error: null as string | null,
     currentPage: 1,
     totalPages: 0,
-    perPage: 8,
+    perPage: 10,
     hasMoreProducts: true,
   }),
 

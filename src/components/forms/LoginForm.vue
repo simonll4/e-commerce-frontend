@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth.store';
-import { AuthRequest } from '@/types/auth';
+import { LoginRequest } from '@/types/auth';
 
 // Emitir un evento cuando el login sea exitoso
 const emit = defineEmits(['loginSuccess']);
@@ -16,12 +16,12 @@ const error = computed(() => authStore.error);
 
 
 const login = async () => {
-  const authRequest: AuthRequest = {
-    userName: userName.value,
+  const loginRequest: LoginRequest  = {
+    email: userName.value,
     password: password.value,
   };
 
-  await authStore.login(authRequest);
+  await authStore.login(loginRequest);
   if (authStore.isAuthenticated) {
     emit('loginSuccess');
   }

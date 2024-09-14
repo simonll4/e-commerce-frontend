@@ -58,33 +58,27 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
-  // Intentar autenticar si no está autenticado pero hay un token en las cookies
-  if (!authStore.isAuthenticated && Cookies.get('token')) {
-    const isAuthenticated = await authStore.checkAuth();
-    if (!isAuthenticated) {
-      if (to.name !== 'Login') {
-        return next({ name: 'Login' });
-      } else {
-        return next();
-      }
+  // Verificar si la ruta requiere autenticación
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  // Si la ruta no requiere autenticación, dejar continuar
+  if (!requiresAuth) {
+    return next();
+  }
+
+  // Si la ruta requiere autenticación, verificar si el usuario está autenticado
+  const isAuthenticated = await authStore.checkAuth();
+
+  if (isAuthenticated) {
+    // Si está autenticado y trata de ir a login, redirigir al Home
+    if (to.name === 'Login') {
+      return next({ name: 'Home' });
     }
+    return next(); // Permitir acceso a rutas protegidas si está autenticado
+  } else {
+    // Si no está autenticado, redirigir a Login
+    return next({ name: 'Login' });
   }
-
-  // Si la ruta requiere autenticación y el usuario no está autenticado, redirige al login
-  if (to.matched.some(record => record.meta.requiresAuth) && !authStore.isAuthenticated) {
-    if (to.name !== 'Login') {
-      return next({ name: 'Login' });
-    } else {
-      return next();
-    }
-  }
-
-  // Si el usuario está autenticado y está intentando acceder a la página de inicio de sesión, redirige al dashboard
-  if (to.name === 'Login' && authStore.isAuthenticated) {
-    return next({ name: 'Home' });
-  }
-
-  next();
 });
 
 export default router;
