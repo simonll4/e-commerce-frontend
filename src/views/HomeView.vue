@@ -20,13 +20,6 @@ productStore.fetchProductById('1');
 
 productStore.deleteProduct("14");
 
-productStore.updateProduct("1", {
-    title: "al mati le gusta el front",
-    price: 44,
-    description: "hay los coloressss",
-    brand: "iua",
-});
-
 // const producto22 = {
 //     title: "al mati le gusta el front",
 //     price: 44,

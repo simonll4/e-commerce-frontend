@@ -15,11 +15,13 @@ export interface AuthState {
   isAuthenticated
   isLoading: boolean;
   error: string | null;
+ 
 }
 
 export interface AuthUser {
   id: string;
   userName: string;
+  role: boolean;
   password: string;
 }
 

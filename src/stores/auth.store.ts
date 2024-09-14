@@ -9,23 +9,30 @@ import AuthServices from '@/services/auth.services';
 const service = new AuthServices();
 
 export const useAuthStore = defineStore('authStore', {
-  state: (): AuthState => ({
-    //user: null,
-    isAuthenticated: false,
-    isLoading: false,
-    error: null,
+  state: (): { auth: AuthState; user: AuthUser } => ({
+    auth: {
+      isAuthenticated: false,
+      isLoading: false,
+      error: null,
+    },
+    user: {
+      id: '',
+      userName: '',
+      role: false,
+      password: '',
+    },
   }),
 
   getters: {
     token: () => localStorage.getItem('token'),
-    //userId: (state) => state.user?.id || null,
+    userRole: (state) => state.user.role,
   },
 
   actions: {
 
     async login(loginRequest: LoginRequest) {
-      this.isLoading = true;
-      this.error = null;
+      this.auth.isLoading = true;
+      this.auth.error = null;
       try {
         const response = await service.login(loginRequest);
         const { access_token, refresh_token } = response.data;
@@ -37,29 +44,29 @@ export const useAuthStore = defineStore('authStore', {
           sameSite: 'Strict',
           path: '/',
         });
-        this.isAuthenticated = true;
+        this.auth.isAuthenticated = true;
         router.push({ name: 'Home' });
       } catch (error) {
-        this.error = 'Error de autenticación';
+        this.auth.error = 'Error de autenticación';
         console.error('Error al iniciar sesión:', error);
       } finally {
-        this.isLoading = false;
+        this.auth.isLoading = false;
       }
     },
 
     async register(registerRequest: RegisterRequest) {
-      this.isLoading = true;
-      this.error = null;
+      this.auth.isLoading = true;
+      this.auth.error = null;
       try {
         console.log('registerRequest:', registerRequest);
         const response = await service.register(registerRequest);
-       
+
         router.push('/');
       } catch (error) {
-        this.error = 'Error al registrar el usuario.';
+        this.auth.error = 'Error al registrar el usuario.';
         console.error('Error al registrar el usuario:', error);
       } finally {
-        this.isLoading = false;
+        this.auth.isLoading = false;
       }
     },
 
@@ -74,7 +81,6 @@ export const useAuthStore = defineStore('authStore', {
         await service.checkAccessToken();
         return true;
       } catch (error) {
-        console.error('Error al verificar hgjghjgjchgfgfdgel token:');
         const refreshToken = Cookies.get('refresh_token');
         if ((error as any).response && (error as any).response.status === 401 && refreshToken) {
           try {
