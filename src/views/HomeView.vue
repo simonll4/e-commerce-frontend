@@ -15,91 +15,117 @@ import type { Product } from '@/types/product';
 const router = useRouter();
 const productStore = useProductStore();
 
-// ir a detalle del producto
-const goToDetail = (id: string) => {
-  if (id) {
-    router.push({ name: 'ProductDetail', params: { id } });
-  } else {
-    console.error('Product ID is missing');
-  }
-};
+productStore.fetchProducts();
+productStore.fetchProductById('1');
 
-const displayedProducts = computed(() => productStore.products);
-const isLoading = computed(() => productStore.isLoading);
-const error = computed(() => productStore.error);
-const hasMoreProducts = computed(() => productStore.hasMoreProducts);
+productStore.deleteProduct("14");
 
-const isSpinnerLoading = ref(false);
-
-const fetchMoreProducts = async () => {
-  console.log('fetchMoreProducts');
-  if (!isLoading.value && hasMoreProducts.value) {
-    await productStore.fetchProducts(productStore.currentPage + 1);
-    isSpinnerLoading.value = true;
-  }
-};
-
-const defaultsCategories = ['Laptop', 'Headphone', 'Mobile', 'Toys', 'Fashion', 'Other'];
-const selectedCategory = ref<string | null>(null);
-const searchQuery = ref<string>('');
-const selectedOrder = ref<string>('');
-
-// Función para manejar los filtros combinados: categoría, búsqueda y ordenamiento
-const filteredProducts = computed(() => {
-  let filtered = displayedProducts.value;
-  // Filtrado por categoría
-  // if (selectedCategory.value) {
-  //   filtered = filtered.filter((product) => product.category === selectedCategory.value);
-  // }
-  // Filtrado por búsqueda
-  // if (searchQuery.value) {
-  //   filtered = filtered.filter((product) =>
-  //     product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  //   );
-  // }
-  // Ordenamiento
-  if (selectedOrder.value === 'Precio: Menor a Mayor') {
-    // ToDo fetch sort, piso los productos del store y comienzo a paginar de nuevo
-    // filtered = displayedProducts.value;
-    filtered = [...filtered].sort((a, b) => Number(a.price) - Number(b.price));
-  } else if (selectedOrder.value === 'Precio: Mayor a Menor') {
-    //ToDo fetch sort, piso los productos del store y comienzo a paginar de nuevo 
-    //filtered = displayedProducts.value;
-    filtered = [...filtered].sort((a, b) => Number(b.price) - Number(a.price));
-  }
-  return filtered;
+productStore.updateProduct("1", {
+    title: "al mati le gusta el front",
+    price: 44,
+    description: "hay los coloressss",
+    brand: "iua",
 });
 
-// Métodos que manejan la entrada del usuario desde el componente de filtrado
-const selectCategory = (category: string) => {
-  selectedCategory.value = category;
-};
-const handleSearch = (query: string) => {
-  searchQuery.value = query;
-};
-const handleOrderChange = (order: string) => {
-  selectedOrder.value = order;
-};
+// const producto22 = {
+//     title: "al mati le gusta el front",
+//     price: 44,
+//     description: "hay los coloressss",
+//     brand: "iua",
+//     images: [
+//         "https://i.imgur.com/QkIa5tT.jpeg",
+//         "https://i.imgur.com/jb5Yu0h.jpeg",
+//         "https://i.imgur.com/UlxxXyG.jpeg"
+//     ],
+//     categoryId: 1
+// }
+// productStore.createProduct(producto22);
 
-// Imitación de los productos más vendidos, seleccionados de manera aleatoria
-const bestSellingProducts = ref<Product[]>([]);
-const getRandomProducts = (products: Product[], count: number) => {
-  const shuffled = products.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-};
+// // ir a detalle del producto
+// const goToDetail = (id: string) => {
+//   if (id) {
+//     router.push({ name: 'ProductDetail', params: { id } });
+//   } else {
+//     console.error('Product ID is missing');
+//   }
+// };
 
-onMounted(() => {
-  productStore.fetchProducts().then(() => {
-    bestSellingProducts.value = getRandomProducts(displayedProducts.value, 10);
-  });
-});
+// const displayedProducts = computed(() => productStore.products);
+// const isLoading = computed(() => productStore.isLoading);
+// const error = computed(() => productStore.error);
+// const hasMoreProducts = computed(() => productStore.hasMoreProducts);
+
+// const isSpinnerLoading = ref(false);
+
+// const fetchMoreProducts = async () => {
+//   console.log('fetchMoreProducts');
+//   if (!isLoading.value && hasMoreProducts.value) {
+//     await productStore.fetchProducts(productStore.currentPage + 1);
+//     isSpinnerLoading.value = true;
+//   }
+// };
+
+// const defaultsCategories = ['Laptop', 'Headphone', 'Mobile', 'Toys', 'Fashion', 'Other'];
+// const selectedCategory = ref<string | null>(null);
+// const searchQuery = ref<string>('');
+// const selectedOrder = ref<string>('');
+
+// // Función para manejar los filtros combinados: categoría, búsqueda y ordenamiento
+// const filteredProducts = computed(() => {
+//   let filtered = displayedProducts.value;
+//   // Filtrado por categoría
+//   // if (selectedCategory.value) {
+//   //   filtered = filtered.filter((product) => product.category === selectedCategory.value);
+//   // }
+//   // Filtrado por búsqueda
+//   // if (searchQuery.value) {
+//   //   filtered = filtered.filter((product) =>
+//   //     product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+//   //   );
+//   // }
+//   // Ordenamiento
+//   if (selectedOrder.value === 'Precio: Menor a Mayor') {
+//     // ToDo fetch sort, piso los productos del store y comienzo a paginar de nuevo
+//     // filtered = displayedProducts.value;
+//     filtered = [...filtered].sort((a, b) => Number(a.price) - Number(b.price));
+//   } else if (selectedOrder.value === 'Precio: Mayor a Menor') {
+//     //ToDo fetch sort, piso los productos del store y comienzo a paginar de nuevo 
+//     //filtered = displayedProducts.value;
+//     filtered = [...filtered].sort((a, b) => Number(b.price) - Number(a.price));
+//   }
+//   return filtered;
+// });
+
+// // Métodos que manejan la entrada del usuario desde el componente de filtrado
+// const selectCategory = (category: string) => {
+//   selectedCategory.value = category;
+// };
+// const handleSearch = (query: string) => {
+//   searchQuery.value = query;
+// };
+// const handleOrderChange = (order: string) => {
+//   selectedOrder.value = order;
+// };
+
+// // Imitación de los productos más vendidos, seleccionados de manera aleatoria
+// const bestSellingProducts = ref<Product[]>([]);
+// const getRandomProducts = (products: Product[], count: number) => {
+//   const shuffled = products.sort(() => 0.5 - Math.random());
+//   return shuffled.slice(0, count);
+// };
+
+// onMounted(() => {
+//   productStore.fetchProducts().then(() => {
+//     bestSellingProducts.value = getRandomProducts(displayedProducts.value, 10);
+//   });
+// });
 </script>
 
 <template>
   <header>
     <NavBar />
   </header>
-  
+
   <!-- <main>
     <v-container>
 
