@@ -12,9 +12,29 @@ export interface Product {
   images: string[];
 }
 
-export interface ProductPagination {
-    totalItems: number;
-    totalPages: number;
-    currentPage: number;
-    itemsPerPage: number;
+export interface FilterProduct {
+    totalItems?: number;
+    totalPages?: number;
+    offset?: number;
+    limit?: number;
+    sortBy?: string;
+    sortDirection?: string;
+}
+
+export interface CreateProduct {
+  title: string;
+  description: string;
+  brand: string;
+  categoryId: number;
+  price: number;
+  images: string[];
+}
+
+export interface UpdateProduct {
+  title?: string;
+  description?: string;
+  brand?: string;
+  categoryId?: number;
+  price?: number;
+  images?: string[];
 }
