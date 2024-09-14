@@ -11,3 +11,10 @@ export interface Product {
   stockQuantity: string;
   images: string[];
 }
+
+export interface ProductPagination {
+    totalItems: number;
+    totalPages: number;
+    currentPage: number;
+    itemsPerPage: number;
+}
