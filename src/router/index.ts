@@ -3,31 +3,90 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Cookies from 'js-cookie';
 
 import { useAuthStore } from '@/stores/auth.store';
-import LoginView from '@/views/auth/LoginView.vue';
-import AdminDashboard from '@/views/admin/DashboardView.vue';
+import HomeView from '@/views/public/HomeView.vue';
 
 const routes = [
+  // public routes
+  {
+    path: '/',
+    name: 'Home',
+    component: HomeView,
+  },
+  {
+    path: '/products',
+    name: 'Products',
+    component: () => import('@/views/public/ProductListView.vue'),
+  },
+  {
+    path: '/products/:id',
+    name: 'ProductDetail',
+    component: () => import('@/views/public/ProductDetailView.vue'),
+  },
 
+  // Auth routes
   {
     path: '/auth/login',
     name: 'Login',
-    component: LoginView,
+    component: () => import('@/views/auth/LoginView.vue'),
   },
   {
     path: '/auth/register',
     name: 'Register',
     component: () => import('@/views/auth/RegisterView.vue'),
   },
+
+  // Admin routes
   {
     path: '/admin',
-    component: AdminDashboard,
+    children: [
+      {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/admin/DashboardView.vue')
+      },
+      {
+        path: '/profile',
+        name: 'ProfileAdmin',
+        component: () => import('@/views/admin/ProfileView.vue')
+      },
+      {
+        path: '/products',
+        name: 'ProductsAdmin',
+        component: () => import('@/views/admin/ProductManagerView.vue')
+      },
+      {
+        path: '/products/:id',
+        name: 'ProductDetailAdmin',
+        component: () => import('@/views/admin/ProductDetailView.vue')
+      },
+      {
+        path: '/customers',
+        name: 'Customers',
+        component: () => import('@/views/admin/CustomerManagerView.vue')
+      },
+    ],
     meta: { requiresAuth: true, isAdmin: true }
   },
+
+  // Customer Routes
   {
-    path: '/',
-    name: 'Home',
-    component: () => import('@/views/customer/HomeView.vue'),
+    path: '/customer',
+    name: 'Customer',
+    children:[
+        {
+          path: '/profile',
+          name: 'ProfileCustomer',
+          component: () => import('@/views/customer/ProfileView.vue'),
+        },
+        {
+          path: '/order',
+          name: 'Order',
+          component: () => import('@/views/customer/CartView.vue'),
+        },
+    ],
+    meta: { requiresAuth: true }
   },
+  
   // ,
   // {
   //   path: '/product/:id',
