@@ -3,21 +3,31 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Cookies from 'js-cookie';
 
 import { useAuthStore } from '@/stores/auth.store';
-import LoginView from '@/views/auth/LoginView.vue';
-import AdminDashboard from '@/views/admin/DashboardView.vue';
+import HomeView from '@/views/public/HomeView.vue';
 
 const routes = [
+  // public routes
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/customer/HomeView.vue'),
+    component: HomeView,
+  },
+  {
+    path: '/products',
+    name: 'Products',
+    component: () => import('@/views/public/ProductListView.vue'),
+  },
+  {
+    path: '/products/:id',
+    name: 'ProductDetail',
+    component: () => import('@/views/public/ProductDetailView.vue'),
   },
 
   // Auth routes
   {
     path: '/auth/login',
     name: 'Login',
-    component: LoginView,
+    component: () => import('@/views/auth/LoginView.vue'),
   },
   {
     path: '/auth/register',
@@ -59,16 +69,6 @@ const routes = [
   },
 
   // Customer Routes
-  {
-    path: '/products',
-    name: 'Products',
-    component: () => import('@/views/customer/ProductListView.vue'),
-  },
-  {
-    path: '/products/:id',
-    name: 'ProductDetail',
-    component: () => import('@/views/customer/ProductDetailView.vue'),
-  },
   {
     path: '/customer',
     name: 'Customer',
