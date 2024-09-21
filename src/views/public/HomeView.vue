@@ -115,9 +115,13 @@ productStore.deleteProduct("14");
 </script>
 
 <template>
-  <header>
+  <!-- <header>
     <NavBar />
-  </header>
+  </header> -->
+
+  <v-app>
+    <NavBar />
+  </v-app>
 
   <!-- <main>
     <v-container>
