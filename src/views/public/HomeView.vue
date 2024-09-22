@@ -4,14 +4,13 @@ import { useRouter } from 'vue-router';
 
 import { useProductStore } from '@/stores/product.store';
 
-import SearchFilterBar from '@/components/SearchFilterBar.vue';
 import HeroCarousel from '@/components/HeroCarousel.vue';
 import CategorySelector from '@/components/CategorySelector.vue';
 
-import ProductCarousel from '@/components/ProductCarousel.vue';
-import ProductList from '@/components/ProductList.vue';
+import ProductCarousel from '@/components/product/ProductCarousel.vue';
+import ProductList from '@/components/product/ProductList.vue';
 
-import Footer from '@/components/Footer.vue';
+import Footer from '@/components/navigation/Footer.vue';
 import NavBar from '@/components/NavBar.vue';
 import SideBar from '@/components/SideBar.vue';
 
