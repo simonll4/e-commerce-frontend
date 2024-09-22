@@ -1,44 +1,50 @@
 <script setup lang="ts">
-import { Product } from '@/types/product';
-import { defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
+import ProductItem from './ProductItem.vue';
 
-// Define los props que recibirá el componente
-const props = defineProps<{
-  products:Product [];
-}>();
-
-const emits = defineEmits(['navigateToDetail']);
-
-const goToDetail = (id: string) => {
-  emits('navigateToDetail', id);
-};
+const products = ref([
+  {
+    id: 1,
+    name: 'Smartphone',
+    description: 'Latest model with high-end features',
+    price: '$999',
+    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_656548-MLA46114829749_052021-O.webp'
+  },
+  {
+    id: 2,
+    name: 'Laptop',
+    description: 'Powerful laptop for professionals',
+    price: '$1999',
+    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_720868-MLU72675284142_112023-O.webp'
+  },
+  {
+    id: 3,
+    name: 'Headphones',
+    description: 'Noise-cancelling over-ear headphones',
+    price: '$299',
+    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_844082-MLU77448376172_072024-O.webp'
+  },
+  {
+    id: 4,
+    name: 'Whirlpool Bed',
+    description: 'Super comfy bed for sleeping like a baby',
+    price: '$799',
+    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_944972-MLA54385774876_032023-O.webp'
+  }
+]);
 </script>
 
 <template>
-  <v-card class="mb-4">
-    <v-card-title class="text-h6">Tus Productos más Vendidos</v-card-title>
-    <v-slide-group show-arrows>
-      <v-slide-item v-for="(recentProduct, index) in products" :key="index">
-        <v-card class="mx-2" max-width="150" @click="goToDetail(String(recentProduct.id))" outlined>
-          <v-img :src="recentProduct.imageURL" height="120" alt="Imagen del producto"></v-img>
-          <v-card-subtitle class="text-h7 mt-1">
-            $ {{ recentProduct.price }}
-          </v-card-subtitle>
-          <v-card-text class="text-body-2" style="font-size: 0.75rem;">
-            {{ recentProduct.name }}
-          </v-card-text>
-        </v-card>
-      </v-slide-item>
-    </v-slide-group>
-  </v-card>
+  <v-slide-group show-arrows class="mb-3">
+    <v-slide-item v-for="product in products" :key="product.id">
+      <ProductItem :product="product" />
+    </v-slide-item>
+  </v-slide-group>
 </template>
 
 <style scoped>
-.mx-2 {
-  margin-inline: 8px;
-}
-
-.mb-4 {
-  margin-bottom: 16px;
+.v-slide-group {
+  width: 100%;
+  height: 100%;
 }
 </style>

@@ -22,13 +22,13 @@ const isLoggedIn = ref(true);
             alt="Logo"
             max-height="50"
             max-width="50"
-            class="mr-3 ml-6"
+            class="mr-3 ml-0"
           ></v-img>
-          <v-app-bar-title class="fw-bold logo-title text-h5">MiTienda.com</v-app-bar-title>
+          <v-app-bar-title class="fw-bold logo-title text-h5 ml-2 d-lg-flex d-none">MiTienda.com</v-app-bar-title>
         </v-col>
 
         <!-- Botones de navegación en el centro -->
-        <v-col cols="4" class="d-flex justify-center">
+        <v-col cols="4" class="d-md-flex d-none justify-center">
           <router-link to="/" class="nav-link">Home</router-link>
           <router-link to="/products" class="nav-link">Products</router-link>
           <router-link to="/about" class="nav-link">About</router-link>
