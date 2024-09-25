@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router';
 
 import { useProductStore } from '@/stores/product.store';
 import NavBar from '@/components/NavBar.vue';
-import ProductItem from '@/components/ProductItem.vue';
+import ProductItem from '@/components/product/ProductItem.vue';
 
 const route = useRoute();
 const productId = String(route.params.id);
