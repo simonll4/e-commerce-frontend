@@ -102,30 +102,40 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
-  const isAuthenticated = await authStore.checkAuth();
-  if (isAuthenticated) {
-    const userRole = authStore.userRole;
-    // Si el usuario está autenticado y trata de ir a la ruta de login, redirigir al Home
-    if (to.name === 'Login') {
-      return next({ name: 'Home' });
-    }
-    const routeRole = to.meta.isAdmin;
-    // Si la ruta requiere un rol y el usuario no tiene el rol adecuado, redirigir
-    if (routeRole && routeRole !== userRole) {
-      return next({ name: 'Home' }); // Redirige a una página de "No Autorizado"
-    }
-    return next();
-  } 
-  // else {
-  //   return next({ name: 'Login' });
-  // }
-
-  // Verificar si la ruta requiere autenticación
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  // Si la ruta no requiere autenticación, dejar continuar
   if (!requiresAuth) {
     return next();
   }
+
+  const isAuthenticated = await authStore.checkAuth();
+  if (!isAuthenticated) {
+    return next({ name: 'Login' });
+  }
+
+  const userRole = authStore.userRole;
+  const routeRole = to.meta.isAdmin;
+  if (routeRole && routeRole !== userRole) {
+    return next({ name: 'Home' }); // O redirigir a una página de "No Autorizado"
+  }
+  return next();
+
+  // if (isAuthenticated) {
+  //   const userRole = authStore.userRole;
+  //   // Si el usuario está autenticado y trata de ir a la ruta de login, redirigir al Home
+  //   if (to.name === 'Login') {
+  //     return next({ name: 'Home' });
+  //   }
+  //   const routeRole = to.meta.isAdmin;
+  //   // Si la ruta requiere un rol y el usuario no tiene el rol adecuado, redirigir
+  //   if (routeRole && routeRole !== userRole) {
+  //     return next({ name: 'Home' }); // Redirige a una página de "No Autorizado"
+  //   }
+  //   return next();
+  // }
+  // // else {
+  // //   return next({ name: 'Login' });
+  // // }
+
 });
 
 export default router;
