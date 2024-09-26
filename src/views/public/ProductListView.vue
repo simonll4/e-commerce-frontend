@@ -1,33 +1,73 @@
 <script setup lang="ts">
+import { computed, ref, onMounted, watch } from 'vue';
 
 import Footer from '@/components/navigation/Footer.vue';
 import NavBar from '@/components/NavBar.vue';
 import SideBar from '@/components/SideBar.vue';
 import Paginator from '@/components/navigation/Paginator.vue';
-
 import SearchProduct from '@/components/forms/SearchProduct.vue';
 import ProductList from '@/components/product/ProductList.vue';
 
+import { useProductStore } from '@/stores/product.store';
+
+const productStore = useProductStore();
+
+const products = computed(() => productStore.products);
+const isLoading = computed(() => productStore.isLoading);
+const error = computed(() => productStore.error);
+
+const searchQuery = ref<string>('');
+const selectedOrder = ref<string>('');
+
+const fetchMoreProducts = async () => {
+    console.log('fetchMoreProducts');
+    try {
+        const productos = await productStore.fetchProducts();
+        console.log('Productos obtenidos:', productos);
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+    }
+};
+
+onMounted(() => {
+    fetchMoreProducts();
+});
 </script>
 
 <template>
     <v-app>
         <v-layout class="d-flex flex-column min-vh-100">
             <NavBar />
-            <v-flex class="d-flex">
+            <v-col class="d-flex">
                 <SideBar />
                 <v-main class="d-flex flex-column flex-grow-1">
                     <v-container class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1">
                         <SearchProduct />
-                        <ProductList />
-                        <Paginator />
+                        <ProductList :products="products" />
+                        <Paginator :totalPages="productStore.totalPages" :currentPage="productStore.currentPage" />
                     </v-container>
                 </v-main>
-            </v-flex>
+            </v-col>
         </v-layout>
     </v-app>
     <Footer />
 </template>
+
+<!-- <main>
+    <v-container>
+
+      <ProductCarousel :products="bestSellingProducts" @navigateToDetail="goToDetail" />
+
+      <CategorySelector :categories="defaultsCategories" :selectedCategory="selectedCategory"
+        @selectCategory="selectCategory" />
+
+      <SearchFilterBar @search="handleSearch" @orderChange="handleOrderChange" />
+
+      <ProductList :isLoading="isLoading" :isSpinnerLoading="isSpinnerLoading" :error="error"
+        :products="filteredProducts" :goToDetail="goToDetail" :fetchMoreProducts="fetchMoreProducts" />
+
+    </v-container>
+  </main> -->
 
 <style scoped>
 .nav-title {

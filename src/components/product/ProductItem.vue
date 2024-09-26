@@ -1,29 +1,21 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
+import type { Product } from '@/types/product';
 
-const props = defineProps({
-  product: {
-    type: Object,
-    required: true,
-    default: () => ({
-      name: '',
-      description: '',
-      price: '',
-      imageUrl: ''
-    })
-  }
-});
+const props = defineProps<{
+  product: Product;
+}>();
 
-function addToCart() {
-  console.log(`${props.product.name} added to cart`);
+function goToDetails() {
+  console.log(`${props.product.title} detalle`);
 }
 </script>
 
 <template>
   <v-card max-width="344" outlined>
-    <v-img :src="product.imageUrl" height="200"></v-img>
+    <v-img :src="product.images[0]" height="200"></v-img>
 
-    <v-card-subtitle>{{ product.name }}</v-card-subtitle>
+    <v-card-subtitle>{{ product.title }}</v-card-subtitle>
 
     <v-card-title class="text-h6">
       {{ product.description }}
@@ -34,7 +26,7 @@ function addToCart() {
     </v-card-text>
 
     <v-card-actions>
-      <v-btn class="bg-light-blue-accent-3" @click="addToCart">
+      <v-btn class="bg-light-blue-accent-3" @click="goToDetails">
         Ver más
       </v-btn>
     </v-card-actions>

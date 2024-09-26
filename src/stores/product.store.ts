@@ -26,43 +26,51 @@ export const useProductStore = defineStore('productStore', {
 
     async fetchProducts() {
       if ((this.filteredProducts?.totalItems ?? 0) !== 0 && (this.filteredProducts?.offset ?? 0) >= (this.filteredProducts?.totalItems ?? 0)) return;
-
       this.isLoading = true;
       this.error = null;
       try {
         const response = await service.getProducts(this.filteredProducts);
-        console.log("asdasdas ", response.data)
 
-        this.filteredProducts.offset = response.data.pagination.offset;
+        this.products = response.data.products;
+        const paginationInfo = response.data.pagination;
+        this.filteredProducts = {
+          totalItems: paginationInfo.totalItems,
+          totalPages: paginationInfo.totalPages,
+          offset: paginationInfo.offset,
+          limit: paginationInfo.limit
+        }
 
-        // if (page === 1) {
-        //   this.products = response.data.data; // Si es la primera página, sobrescribe los productos
-        // } else {
-        //   this.products = [...this.products, ...response.data.data]; // Si es una página subsiguiente, agrega los productos
-        // }
-
-        const response1 = await service.getProducts(this.filteredProducts);
-        console.log("asdasdas ", response1.data)
-
+        if ((this.filteredProducts?.offset ?? 0) === 0) {
+          this.products = response.data.products;
+        } else {
+          this.products = [...this.products, ...response.data.products];
+        }
+        return this.products
       } catch (error) {
         this.error = 'Error al cargar los productos';
-        console.error('Error al cargar los productos:', error);
       } finally {
         this.isLoading = false;
       }
     },
 
-    //   // Acción para obtener un producto por su ID
+    // Acción para obtener un producto por su ID
     async fetchProductById(productId: string) {
       this.isLoading = true;
       this.error = null;
 
       try {
         const response = await service.getProductById(productId);
-        console.log("soy uno ", response.data);
+
+        const fetchedProduct = response.data;
+        const index = this.products.findIndex(p => String(p.id) === productId);
+        if (index !== -1) {
+          this.products[index] = fetchedProduct;
+        } else {
+          this.products.push(fetchedProduct);
+        }
+
       } catch (error) {
         this.error = 'Error al cargar el producto';
-        console.error('Error al cargar el producto:', error);
       } finally {
         this.isLoading = false;
       }
@@ -71,10 +79,12 @@ export const useProductStore = defineStore('productStore', {
     async createProduct(createdProduct: CreateProduct) {
       try {
         const response = await service.createProduct(createdProduct);
-        console.log("soy agregado ", response.data);
+
+        const newProduct = response.data;
+        this.products.push(newProduct);
+
       } catch (error) {
         this.error = 'Error al agregar el producto';
-        console.error('Error al agregar el producto:', error);
         throw error;
       }
     },
@@ -83,12 +93,15 @@ export const useProductStore = defineStore('productStore', {
     async deleteProduct(productId: string) {
       this.isLoading = true;
       this.error = null;
+
+      await service.deleteProduct(productId);
+      // Eliminar el producto de la lista en el store
+      this.products = this.products.filter(product => product.id !== Number(productId));
+
       try {
         const response = await service.deleteProduct(productId);
-        console.log("soy eliminado ", response.data);
       } catch (error) {
         this.error = 'Error al eliminar el producto';
-        console.error('Error al eliminar el producto:', error);
         throw error;
       } finally {
         this.isLoading = false;
@@ -98,10 +111,16 @@ export const useProductStore = defineStore('productStore', {
     async updateProduct(productId: string, updatedProduct: UpdateProduct) {
       try {
         const response = await service.updateProduct(productId, updatedProduct);
-        console.log("soy actualizado ", response.data);
+
+        const updatedData = response.data;
+        // Encontrar y actualizar el producto en la lista
+        const index = this.products.findIndex(product => product.id === Number(productId));
+        if (index !== -1) {
+          this.products[index] = updatedData;
+        }
+
       } catch (error) {
         this.error = 'Error al actualizar el producto';
-        console.error('Error al actualizar el producto:', error);
         throw error;
       }
     },
@@ -111,5 +130,12 @@ export const useProductStore = defineStore('productStore', {
     getProductById: (state) => (id: string) => {
       return state.products.find(p => String(p.id) === id);
     },
+    totalPages(state): number {
+      return state.filteredProducts.totalPages ?? 0;
+    },
+    currentPage(state): number {
+      return Math.floor((state.filteredProducts.offset ?? 0) / (state.filteredProducts.limit ?? 10)) + 1;
+    },
+
   },
 });

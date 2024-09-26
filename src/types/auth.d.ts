@@ -7,6 +7,7 @@ export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
+  role: string;
   avatar: string; // URL de la imagen
 }
 
@@ -21,7 +22,8 @@ export interface AuthState {
 export interface AuthUser {
   id: string;
   userName: string;
-  role: boolean;
-  password: string;
+  isAdmin: boolean;
+  email: string;
+  avatar: string;
 }
 

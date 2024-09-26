@@ -18,14 +18,15 @@ export const useAuthStore = defineStore('authStore', {
     user: {
       id: '',
       userName: '',
-      role: false,
-      password: '',
+      isAdmin: false,
+      email: '',
+      avatar: '',
     },
   }),
 
   getters: {
     token: () => localStorage.getItem('token'),
-    userRole: (state) => state.user.role,
+    userRole: (state) => state.user.isAdmin,
   },
 
   actions: {
@@ -35,7 +36,16 @@ export const useAuthStore = defineStore('authStore', {
       this.auth.error = null;
       try {
         const response = await service.login(loginRequest);
-        const { access_token, refresh_token } = response.data;
+        const user = response.data.user;
+        const { access_token, refresh_token } = response.data.tokens;
+
+        this.user = {
+          id: user.id,
+          userName: user.name,
+          isAdmin: user.role === 'admin',
+          email: user.email,
+          avatar: user.avatar,
+        };
 
         localStorage.setItem('token', access_token);
         Cookies.set('refresh_token', refresh_token, {
@@ -78,7 +88,17 @@ export const useAuthStore = defineStore('authStore', {
 
     async checkAuth() {
       try {
-        await service.checkAccessToken();
+        const response = await service.checkAccessToken();
+        const user = response.data;
+        
+        this.user = {
+          id: user.id,
+          userName: user.name,
+          isAdmin: user.role === 'admin',
+          email: user.email,
+          avatar: user.avatar,
+        };
+
         return true;
       } catch (error) {
         const refreshToken = Cookies.get('refresh_token');
