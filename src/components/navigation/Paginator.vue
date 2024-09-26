@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { c } from 'vite/dist/node/types.d-aGj9QkWt';
 import { computed } from 'vue';
 
 const props = defineProps({

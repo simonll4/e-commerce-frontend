@@ -19,11 +19,13 @@ const error = computed(() => productStore.error);
 const searchQuery = ref<string>('');
 const selectedOrder = ref<string>('');
 
+
+// Función para obtener más productos
 const fetchMoreProducts = async () => {
     console.log('fetchMoreProducts');
     try {
-        const productos = await productStore.fetchProducts();
-        console.log('Productos obtenidos:', productos);
+        await productStore.fetchProducts();
+        console.log('Productos obtenidos:', productStore.products);
     } catch (error) {
         console.error('Error al obtener productos:', error);
     }
