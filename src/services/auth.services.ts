@@ -8,7 +8,7 @@ export default class AuthServices {
   }
 
   register(registerRequest: any) {
-    return api().post('/api/v1/users', registerRequest);
+    return api().post('/api/v1/auth/register', registerRequest);
   }
 
   checkAccessToken() {
