@@ -20,8 +20,8 @@ const goToAccount = () => {
   </v-btn>
   <v-menu offset-y>
     <template #activator="{ props }">
-      <v-btn icon v-bind="props" class="bg-white"> 
-        <v-icon class="mdi mdi-dots-vertical"></v-icon>
+      <v-btn icon v-bind="props" class="bg-grey-lighten-4"> 
+        <v-icon class="mdi mdi-dots-vertical bg-grey-lighten-4"></v-icon>
       </v-btn>
     </template>
     <v-list>

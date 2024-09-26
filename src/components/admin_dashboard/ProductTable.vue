@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref, computed, defineProps } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, defineProps } from "vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps<{
   showButton: boolean;
@@ -8,41 +8,49 @@ const props = defineProps<{
 }>();
 
 const search = ref<string>("");
-const items = ref<Array<{ name: string; image: string; price: number; stock: boolean; createdAt: string }>>([
+const items = ref<
+  Array<{
+    name: string;
+    image: string;
+    price: number;
+    stock: boolean;
+    createdAt: string;
+  }>
+>([
   {
     name: "Nebula GTX 3080",
     image: "1.png",
     price: 699.99,
     stock: true,
-    createdAt: "2023-01-01"
+    createdAt: "2023-01-01",
   },
   {
     name: "Galaxy RTX 3080",
     image: "2.png",
     price: 799.99,
     stock: false,
-    createdAt: "2023-02-01"
+    createdAt: "2023-02-01",
   },
   {
     name: "Orion RX 6800 XT",
     image: "3.png",
     price: 649.99,
     stock: true,
-    createdAt: "2023-03-01"
+    createdAt: "2023-03-01",
   },
   {
     name: "Vortex RTX 3090",
     image: "4.png",
     price: 1499.99,
     stock: true,
-    createdAt: "2023-04-01"
+    createdAt: "2023-04-01",
   },
   {
     name: "Cosmos GTX 1660 Super",
     image: "5.png",
     price: 229.99,
     stock: true,
-    createdAt: "2023-05-01"
+    createdAt: "2023-05-01",
   },
 ]);
 
@@ -55,7 +63,7 @@ const displayedItems = computed(() => {
 const router = useRouter();
 
 const goToProductManagerView = () => {
-  router.push({ path: '/admin/products' });
+  router.push({ path: "/admin/products" });
 };
 </script>
 
@@ -115,8 +123,8 @@ const goToProductManagerView = () => {
     </v-data-table>
   </v-card>
   <div v-if="props.showButton" class="mt-4 d-flex justify-center">
-      <v-btn class="bg-light-blue-accent-3" @click="goToProductManagerView">
-        Ver todos los productos
-      </v-btn>
-    </div>
+    <v-btn class="bg-light-blue-accent-3" @click="goToProductManagerView">
+      Ver todos los productos
+    </v-btn>
+  </div>
 </template>
