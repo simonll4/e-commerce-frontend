@@ -13,27 +13,41 @@
       ></v-list-item>
     </v-list>
     <v-divider></v-divider>
-    <v-list density="compact" nav>
-      <v-list-item prepend-icon="mdi-home" title="Inicio" value="home"></v-list-item>
+    <v-list>
+      <v-list-item
+        prepend-icon="mdi-home"
+        title="Inicio"
+        value="home"
+        to="/admin/dashboard"
+        tag="router-link"
+      ></v-list-item>
       <v-list-item
         prepend-icon="mdi-cart"
         title="Productos"
         value="products"
+        to="/admin/products"
+        tag="router-link"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-account"
         title="Clientes"
         value="clients"
+        to="/admin/customers"
+        tag="router-link"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-wrench"
         title="Configuración"
         value="config"
+        to="/"
+        tag="router-link"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-logout"
         title="Cerrar Sesión"
         value="logout"
+        to="/"
+        tag="router-link"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -44,5 +58,4 @@
   cursor: pointer;
   color: white;
 }
-
-</style> 
+</style>

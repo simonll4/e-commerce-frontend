@@ -12,13 +12,13 @@ const isLoggedIn = ref(true);
 </script>
 
 <template>
-  <v-app-bar :elevation="2">
+  <v-app-bar :elevation="1" class="bg-grey-lighten-4">
     <v-container fluid>
       <v-row align="center" justify="space-between">
         <!-- Logo y título a la izquierda -->
         <v-col cols="4" class="d-flex align-center">
           <v-img
-            src="/src/assets/images/logo_market.svg"
+            src="/src/assets/images/logo_shop.svg"
             alt="Logo"
             max-height="50"
             max-width="50"
