@@ -1,94 +1,149 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useAuthStore } from '@/stores/auth.store';
-import { LoginRequest } from '@/types/auth';
+  import { ref, computed } from "vue";
+  import { useAuthStore } from "@/stores/auth.store";
+  import { LoginRequest } from "@/types/auth";
 
-// Emitir un evento cuando el login sea exitoso
-const emit = defineEmits(['loginSuccess']);
+  // Emitir un evento cuando el login sea exitoso
+  const emit = defineEmits(["loginSuccess"]);
 
-// form fields
-const userName = ref('');
-const password = ref('');
+  // form fields
+  const userName = ref("");
+  const password = ref("");
 
-const authStore = useAuthStore();
-const isLoading = computed(() => authStore.isLoading);
-const error = computed(() => authStore.error);
+  const authStore = useAuthStore();
+  const isLoading = computed(() => authStore.auth.isLoading);
+  const error = computed(() => authStore.auth.error);
 
+  const login = async () => {
+    const loginRequest: LoginRequest = {
+      email: userName.value,
+      password: password.value,
+    };
 
-const login = async () => {
-  const loginRequest: LoginRequest  = {
-    email: userName.value,
-    password: password.value,
+    await authStore.login(loginRequest);
+    if (authStore.auth.isAuthenticated) {
+      emit("loginSuccess");
+    }
   };
-
-  await authStore.login(loginRequest);
-  if (authStore.isAuthenticated) {
-    emit('loginSuccess');
-  }
-};
 </script>
 
 <template>
-  <form @submit.prevent="login">
-    <div class="form-group">
-      <label for="userName">Nombre de Usuario</label>
-      <input type="text" id="userName" v-model="userName" required />
-    </div>
+  <v-container fluid class="d-flex fill-height pa-0">
+    <v-row no-gutters class="fill-height">
+      <!-- Columna de Imagen -->
+      <v-col cols="12" md="7" class="image-column">
+        <v-img
+          src="@/assets/images/login.png"
+          alt="Imagen de la tienda"
+          class="fill-height"
+          cover
+        ></v-img>
+      </v-col>
 
-    <div class="form-group">
-      <label for="password">Contraseña</label>
-      <input type="password" id="password" v-model="password" required />
-    </div>
-
-    <button type="submit" :disabled="isLoading">
-      {{ isLoading ? 'Iniciando...' : 'Iniciar Sesión' }}
-    </button>
-
-    <p v-if="error" class="error">{{ error }}</p>
-  </form>
+      <!-- Columna del Formulario -->
+      <v-col
+        cols="12"
+        md="5"
+        class="form-column d-flex align-center justify-center"
+      >
+        <div class="form-container">
+          <h2 class="login-title my-1">Iniciar Sesión</h2>
+          <v-divider class="mb-6"></v-divider>
+          <v-form @submit.prevent="login" class="login-form">
+            <v-text-field
+              v-model="userName"
+              placeholder="Ingresa tu nombre de usuario"
+              outlined
+              dense
+              required
+              :disabled="isLoading"
+              class="input-field"
+              hide-details
+            ></v-text-field>
+            <v-text-field
+              v-model="password"
+              placeholder="Ingresa tu contraseña"
+              type="password"
+              outlined
+              dense
+              required
+              :disabled="isLoading"
+              class="input-field mt-4"
+              hide-details
+            ></v-text-field>
+            <v-btn
+              class="login-button input-width mt-6"
+              :loading="isLoading"
+              :disabled="isLoading"
+              color="primary"
+              type="submit"
+              block
+            >
+              <span v-if="!isLoading">Ingresar</span>
+            </v-btn>
+            <v-alert
+              v-if="error"
+              type="error"
+              class="mt-4"
+              transition="scale-transition"
+              border="start"
+              prominent
+            >
+              {{ error }}
+            </v-alert>
+            <div class="text-center mt-6">
+              <p>¿No tienes una cuenta?</p>
+              <router-link to="/auth/register">
+                <v-btn
+                  class="register-button input-field mt-2"
+                  color="secondary"
+                >
+                  Regístrate aquí
+                </v-btn>
+              </router-link>
+            </div>
+          </v-form>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped>
-.form-group {
-  margin-bottom: 1rem;
-}
+  .fill-height {
+    height: 100vh;
+  }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #555;
-}
+  .image-column {
+    background-color: #ffffff;
+  }
 
-.form-group input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+  .form-column {
+    background-color: #ffffff;
+    padding: 20px;
+  }
 
-button {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .login-form {
+    width: 20rem;
+  }
 
-button:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
-}
+  .login-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+  }
 
-button:hover:not(:disabled) {
-  background-color: #0056b3;
-}
+  .input-field {
+    background-color: #ffffff;
+    width: 100%;
+  }
 
-.error {
-  margin-top: 1rem;
-  color: red;
-  text-align: center;
-}
+  .login-button {
+    background-color: #00b0ff;
+  }
+
+  .register-button {
+    background-color: #0088cc;
+    color: white;
+  }
 </style>

@@ -1,128 +1,198 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'; // Import the reactive function from the vue package
-import { useAuthStore } from '@/stores/auth.store';
-import { RegisterRequest } from '@/types/auth';
+  import { computed, reactive } from "vue"; // Import the reactive function from the vue package
+  import { useAuthStore } from "@/stores/auth.store";
+  import { RegisterRequest } from "@/types/auth";
 
-const emit = defineEmits(['registerSuccess']);
+  const emit = defineEmits(["registerSuccess"]);
 
-const form = reactive({
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  avatar: ''
-});
+  const form = reactive({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    avatar: "",
+  });
 
+  const authStore = useAuthStore();
+  const { isLoading, error, isAuthenticated } = authStore.auth;
 
-const authStore = useAuthStore();
-const { isLoading, error, isAuthenticated} = authStore;
+  const passwordsDoNotMatch = computed(
+    () => form.password !== form.confirmPassword
+  );
 
-const passwordsDoNotMatch = computed(() => form.password !== form.confirmPassword);
+  const register = async () => {
+    if (passwordsDoNotMatch.value) return;
 
+    const registerRequest: RegisterRequest = {
+      name: form.name,
+      email: form.email,
+      password: form.password,
+      avatar: form.avatar,
+    };
 
-const register = async () => {
-  if (passwordsDoNotMatch.value) return;
-
-  const registerRequest: RegisterRequest = {
-    name: form.name,
-    email: form.email,
-    password: form.password,
-    avatar: form.avatar,
-  };
-
-  try {
-    await authStore.register(registerRequest);
-    if (isAuthenticated) {
-      emit('registerSuccess');
+    try {
+      await authStore.register(registerRequest);
+      if (isAuthenticated) {
+        emit("registerSuccess");
+      }
+    } catch (e) {
+      console.error("Error during registration:", e);
     }
-  } catch (e) {
-    console.error('Error during registration:', e);
-  }
-};
+  };
 </script>
 
-
 <template>
-  <form @submit.prevent="register">
-    <!-- Campo Nombre -->
-    <div class="form-group">
-      <label for="name">Nombre</label>
-      <input type="text" id="name" v-model="form.name" required />
-    </div>
+  <v-container fluid class="d-flex fill-height pa-0">
+    <v-row no-gutters class="fill-height align-center justify-center">
+      <!-- Columna del Formulario -->
+      <v-col cols="12" lg="12" class="form-column pa-5">
+        <div class="form-container">
+          <h2 class="register-title">Registro</h2>
+          <v-form @submit.prevent="register">
+            <v-row>
+              <!-- Columna Izquierda con Campos -->
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="form.name"
+                  placeholder="Ingresa tu nombre"
+                  outlined
+                  dense
+                  required
+                  :disabled="isLoading"
+                  hide-details
+                ></v-text-field>
 
-    <!-- Campo Correo Electrónico -->
-    <div class="form-group">
-      <label for="email">Correo Electrónico</label>
-      <input type="email" id="email" v-model="form.email" required />
-    </div>
+                <v-text-field
+                  v-model="form.email"
+                  placeholder="Ingresa tu correo"
+                  outlined
+                  dense
+                  required
+                  :disabled="isLoading"
+                  hide-details
+                  type="email"
+                  class="mt-4"
+                ></v-text-field>
 
-    <!-- Campo Contraseña -->
-    <div class="form-group">
-      <label for="password">Contraseña</label>
-      <input type="password" id="password" v-model="form.password" required />
-    </div>
+                <v-text-field
+                  v-model="form.password"
+                  placeholder="Ingresa tu contraseña"
+                  type="password"
+                  outlined
+                  dense
+                  required
+                  :disabled="isLoading"
+                  hide-details
+                  class="mt-4"
+                ></v-text-field>
 
-    <!-- Campo Confirmar Contraseña -->
-    <div class="form-group">
-      <label for="confirmPassword">Confirmar Contraseña</label>
-      <input type="password" id="confirmPassword" v-model="form.confirmPassword" required />
-    </div>
+                <v-text-field
+                  v-model="form.confirmPassword"
+                  placeholder="Repite tu contraseña"
+                  type="password"
+                  outlined
+                  dense
+                  required
+                  :disabled="isLoading"
+                  hide-details
+                  class="mt-4"
+                ></v-text-field>
+              </v-col>
 
-    <!-- Campo Avatar (URL de Imagen) -->
-    <div class="form-group">
-      <label for="avatar">Avatar (URL de imagen)</label>
-      <input type="url" id="avatar" v-model="form.avatar" required />
-    </div>
+              <!-- Columna Derecha con Avatar -->
+              <v-col
+                cols="12"
+                md="6"
+                lg="6"
+                class="d-flex flex-column align-center justify-center"
+              >
+                <v-img
+                  :src="form.avatar || 'https://via.placeholder.com/150'"
+                  alt="Previsualización del Avatar"
+                  max-width="150"
+                  class="avatar-preview mb-4"
+                ></v-img>
 
-    <button type="submit" :disabled= "passwordsDoNotMatch">
-      {{ isLoading ? 'Registrando...' : 'Registrarse' }}
-    </button>
+                <v-text-field
+                  v-model="form.avatar"
+                  placeholder="Ingresa la URL de tu avatar"
+                  outlined
+                  dense
+                  required
+                  :disabled="isLoading"
+                  class="input-width"
+                  hide-details
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-    <p v-if="error" class="error">{{ error }}</p>
-  </form>
+            <v-btn
+              class="register-button input-width mt-6"
+              :loading="isLoading"
+              :disabled="isLoading"
+              color="primary"
+              type="submit"
+              block
+            >
+              <span v-if="!isLoading">Registrarse</span>
+            </v-btn>
+
+            <v-alert
+              v-if="error"
+              type="error"
+              class="mt-4"
+              transition="scale-transition"
+              border="start"
+              prominent
+            >
+              {{ error }}
+            </v-alert>
+          </v-form>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped>
-.form-group {
-  margin-bottom: 1rem;
-}
+  .fill-height {
+    height: 100vh;
+  }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #555;
-}
+  .form-column {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
 
-.form-group input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+  .form-container {
+    width: 100%;
+  }
 
-button {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+  .register-title {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
 
-button:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
-}
+  .avatar-preview {
+    width: 100%;
+    border-radius: 50%;
+    border: 2px solid #00b0ff;
+  }
 
-button:hover:not(:disabled) {
-  background-color: #218838;
-}
+  .input-width {
+    width: 100%;
+  }
 
-.error {
-  margin-top: 1rem;
-  color: red;
-  text-align: center;
-}
+  .register-button {
+    background-color: #00b0ff;
+  }
+
+  /* Reducir tamaño de la fuente en los inputs */
+  .v-text-field .v-input__control {
+    font-size: 0.9rem;
+  }
 </style>
