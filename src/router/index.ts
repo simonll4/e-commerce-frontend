@@ -40,32 +40,32 @@ const routes = [
     path: '/admin',
     children: [
       {
-        path: '/dashboard',
+        path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/admin/DashboardView.vue')
       },
       {
-        path: '/profile',
+        path: 'profile',
         name: 'ProfileAdmin',
         component: () => import('@/views/admin/ProfileView.vue')
       },
       {
-        path: '/products',
+        path: 'products',
         name: 'ProductsAdmin',
         component: () => import('@/views/admin/ProductManagerView.vue')
       },
       {
-        path: '/products/:id',
+        path: 'products/:id',
         name: 'ProductDetailAdmin',
         component: () => import('@/views/admin/ProductDetailView.vue')
       },
       {
-        path: '/customers',
+        path: 'customers',
         name: 'Customers',
         component: () => import('@/views/admin/CustomerManagerView.vue')
       },
     ],
-    meta: { requiresAuth: true, isAdmin: true }
+    // meta: { requiresAuth: true, isAdmin: true }
   },
 
   // Customer Routes
@@ -74,12 +74,12 @@ const routes = [
     name: 'Customer',
     children:[
         {
-          path: '/profile',
+          path: 'profile',
           name: 'ProfileCustomer',
           component: () => import('@/views/customer/ProfileView.vue'),
         },
         {
-          path: '/order',
+          path: 'order',
           name: 'Order',
           component: () => import('@/views/customer/CartView.vue'),
         },
