@@ -16,42 +16,14 @@ export const useProductStore = defineStore('productStore', {
       totalPages: 0,
       offset: 0,
       limit: 8,
+      filter: '',
       sortBy: '',
       sortDirection: '',
-    } as FilterProduct
+    } as FilterProduct & { [key: string]: any }
   }),
 
   actions: {
-    // async fetchProducts(page: number) {
-    //   const offset = (page - 1) * (this.filteredProducts?.limit ?? 0);
-    //   // Verificar si ya tenemos los productos de esta página
-    //   if (this.paginatedProducts[page]) {
-    //     return this.paginatedProducts[page];
-    //   }
-    //   this.isLoading = true;
-    //   this.error = null;
-    //   try {
-    //     const params = {
-    //       ...this.filteredProducts,
-    //       offset,
-    //     };
-    //     const response = await service.getProducts(params);
-    //     console.log(response.data.products);
-    //     const { products, pagination } = response.data;
 
-    //     // Actualizar el estado del store
-    //     this.filteredProducts.totalItems = pagination.totalItems;
-    //     this.filteredProducts.totalPages = pagination.totalPages;
-    //     this.filteredProducts.offset = pagination.offset;
-    //     this.paginatedProducts[page] = products;
-
-    //     return products; // Devolver los productos obtenidos
-    //   } catch (error) {
-    //     this.error = 'Error al cargar los productos';
-    //   } finally {
-    //     this.isLoading = false;
-    //   }
-    // },
     async fetchProducts(page: number) {
       const offset = (page - 1) * (this.filteredProducts.limit ?? 0);
 
@@ -149,6 +121,16 @@ export const useProductStore = defineStore('productStore', {
     setSortOrder(sortBy: string, sortDirection: string) {
       this.filteredProducts.sortBy = sortBy;
       this.filteredProducts.sortDirection = sortDirection;
+    },
+    setFilter(filters: Record<string, any>) {
+      const queryParams = new URLSearchParams();
+      for (const [filterName, filterValue] of Object.entries(filters)) {
+        if (filterValue || filterValue === 0) {
+          queryParams.append(filterName, filterValue);
+        }
+        console.log(queryParams.toString());
+      }
+      this.filteredProducts.filter = queryParams.toString();
     }
   },
 

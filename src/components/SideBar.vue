@@ -2,6 +2,7 @@
 import { useAuthStore } from "@/stores/auth.store";
 import { onMounted } from "vue";
 
+
 const authStore = useAuthStore();
 onMounted(() => {
     authStore.checkAuth();
@@ -9,6 +10,7 @@ onMounted(() => {
 </script>
 
 <template>
+
     <v-navigation-drawer class="mt-2" elevation="1" absolute mobile-breakpoint="md">
         <v-list>
             <v-list-item
@@ -20,11 +22,12 @@ onMounted(() => {
             <router-link to="/">
                 <v-list-item prepend-icon="mdi-home" title="Inicio" value="home"></v-list-item>
             </router-link>
-            
+
             <v-list-item prepend-icon="mdi-cart" title="Mis Compras" value="orders"></v-list-item>
             <v-list-item prepend-icon="mdi-shopping" title="Explorar" value="products"></v-list-item>
             <v-list-item prepend-icon="mdi-logout" title="Cerrar Sesión" value="logout" class="text-red"
                 @click="authStore.logout"></v-list-item>
         </v-list>
     </v-navigation-drawer>
+
 </template>

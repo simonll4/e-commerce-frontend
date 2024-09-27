@@ -16,9 +16,7 @@ const isAuthenticated = computed(() => localStorage.getItem('token'));
             <v-col class="d-flex">
                 <SideBar v-if="isAuthenticated" />
                 <v-main class="d-flex flex-column flex-grow-1">
-                    <v-container class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1">
-                        <ProductList />
-                    </v-container>
+                    <ProductList />
                 </v-main>
             </v-col>
         </v-layout>
