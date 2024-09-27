@@ -126,6 +126,7 @@ export const useAuthStore = defineStore('authStore', {
             return false;
           }
         } else {
+
           this.logout();
           return false;
         }

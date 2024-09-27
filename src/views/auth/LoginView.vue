@@ -1,12 +1,19 @@
 <script setup lang="ts">
-  import { useRouter } from "vue-router";
-  import LoginForm from "@/components/forms/LoginForm.vue";
+import LoginForm from "@/components/forms/LoginForm.vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth.store";
 
-  const router = useRouter();
+const authStore = useAuthStore();
+const router = useRouter();
 
-  const onLoginSuccess = () => {
+const onLoginSuccess = () => {
+  if (authStore.user.isAdmin) {
+    router.push({ name: "Dashboard" });
+    return;
+  } else {
     router.push({ name: "Home" });
-  };
+  }
+};
 </script>
 
 <template>
@@ -16,10 +23,10 @@
 </template>
 
 <style scoped>
-  .auth-container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #f9f9f9;
-  }
+.auth-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
 </style>

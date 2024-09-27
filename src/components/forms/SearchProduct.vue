@@ -21,11 +21,12 @@ const onOrderChange = () => {
   emit("orderChange", selectedOrder.value);
 };
 
-// Escuchar cambios en searchQuery y selectedOrder para actualizar los productos
-watch([searchQuery, selectedOrder], () => {
-  onSearch();
-  onOrderChange();
-});
+watch(selectedOrder, onOrderChange);
+
+// watch([searchQuery, selectedOrder], () => {
+//   onSearch();
+//   onOrderChange();
+// });
 </script>
 
 <template>
@@ -38,28 +39,13 @@ watch([searchQuery, selectedOrder], () => {
     </span>
     <v-row no-gutters class="align-center justify-center mb-4" dense>
       <v-col cols="8" class="mr-3">
-        <v-text-field
-          v-model="searchQuery"
-          placeholder="Buscar productos, marcas y más..."
-          prepend-inner-icon="mdi-magnify"
-          outlined
-          dense
-          hide-details
-          class="search-bar"
-          @input="onSearch"
-        ></v-text-field>
+        <v-text-field v-model="searchQuery" placeholder="Buscar productos, marcas y más..."
+          prepend-inner-icon="mdi-magnify" outlined dense hide-details class="search-bar"
+          @input="onSearch"></v-text-field>
       </v-col>
       <v-col cols="3" class="text-right">
-        <v-select
-          :items="orderOptions"
-          v-model="selectedOrder"
-          label="Ordenar por"
-          placeholder="Ordenar por"
-          dense
-          hide-details
-          class="order-select"
-          @update:model-value="onOrderChange"
-        ></v-select>
+        <v-select :items="orderOptions" v-model="selectedOrder" label="Ordenar por" placeholder="Ordenar por" dense
+          hide-details class="order-select" @update:model-value="onOrderChange"></v-select>
       </v-col>
     </v-row>
   </div>

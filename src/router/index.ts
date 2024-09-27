@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 
 import { useAuthStore } from '@/stores/auth.store';
 import HomeView from '@/views/public/HomeView.vue';
+import Dashboard from '@/views/admin/DashboardView.vue';
 
 const routes = [
   // public routes
@@ -34,20 +35,20 @@ const routes = [
     name: 'Register',
     component: () => import('@/views/auth/RegisterView.vue'),
   },
-  // {
-  //   path: '/:pathMatch(.*)*',
-  //   name: 'NotFound',
-  //   component: () => import('@/views/NotFoundView.vue'),
-  // }
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/public/NotFoundView.vue'),
+  },
 
   // Admin routes
   {
     path: '/admin',
     children: [
       {
-        path: 'dashboard',
+        path: '',
         name: 'Dashboard',
-        component: () => import('@/views/admin/DashboardView.vue')
+        component: Dashboard,
       },
       {
         path: 'profile',
@@ -103,25 +104,30 @@ router.beforeEach(async (to, from, next) => {
   const refreshToken = Cookies.get('refresh_token');
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  if (!requiresAuth && refreshToken) {
-    await authStore.checkAuth();
-    return next();
-  }
-
   if (requiresAuth) {
     const isAuthenticated = await authStore.checkAuth();
     if (!isAuthenticated) {
       return next({ name: 'Login' });
     }
 
-    const userRole = authStore.userRole;
-    const routeRole = to.meta.isAdmin;
-    if (routeRole && routeRole !== userRole) {
+    const userRole = authStore.userRole; 
+    const isAdminRoute = to.matched.some(record => record.meta.isAdmin);
+
+    if (userRole && to.path === '/') {
+      return next({ name: 'Dashboard' });
+    } else if (!userRole && isAdminRoute) {
       return next({ name: 'Home' });
     }
     return next();
   }
-  return next();
+
+  if (!requiresAuth && refreshToken) {
+    await authStore.checkAuth();
+    return next();
+  }
+  return next(); 
 });
+
+
 
 export default router;
