@@ -1,46 +1,36 @@
 <script setup lang="ts">
 
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { type Product } from '@/types/product';
+import { UpdateProduct, type Product } from '@/types/product';
 import { useProductStore } from '@/stores/product.store';
 
 import ProductForm from '@/components/forms/ProductForm.vue';
 import NavBar from '@/components/NavBar.vue';
 
-
-
 const route = useRoute();
 const router = useRouter();
 const productStore = useProductStore();
+const product = ref();
 const productId = route.params.id as string;
 
-const product = computed(() => productStore.getProductById(productId));
+//const product = computed(() => productStore.getProductById(productId));
 
 
 onMounted(async () => {
-  if (!product.value) {
-    try {
-      await productStore.fetchProductById(productId);
-      if (!product.value) {
-        console.error("Producto no encontrado después de cargar."); // To-Do notificacion
-        router.push({ name: 'Home' });
-      }
-
-    } catch (error) {
-      console.error('Error al cargar el producto:', error); // To-Do notificacion
-      router.push({ name: 'Home' });
-
-    }
+  try {
+    product.value = await productStore.fetchProductById(productId);
+  } catch (error) {
+    console.error('Error al cargar el producto:', error); // To-Do notificacion
+    router.push({ name: 'Home' });
   }
 });
 
-const updateProduct = async (updatedProduct: Product) => {
+const updateProduct = async (updateProduct: UpdateProduct) => {
 
-  console.log('updateProduct', updatedProduct);
   if (product.value) {
     try {
-      await productStore.updateProduct(productId, updatedProduct);
+      await productStore.updateProduct(productId, updateProduct);
       router.push({ name: 'ProductDetail', params: { id: productId } });
     } catch (error) {
       console.error('Error al actualizar el producto:', error);

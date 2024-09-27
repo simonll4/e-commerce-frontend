@@ -66,6 +66,16 @@ const routes = [
         component: () => import('@/views/admin/ProductDetailView.vue')
       },
       {
+        path: 'products/add',
+        name: 'AddProduct',
+        component: () => import('@/views/admin/AddProductView.vue')
+      },
+      {
+        path: 'products/:id/edit',
+        name: 'EditProduct',
+        component: () => import('@/views/admin/EditProductView.vue')
+      },
+      {
         path: 'customers',
         name: 'Customers',
         component: () => import('@/views/admin/CustomerManagerView.vue')
@@ -110,7 +120,7 @@ router.beforeEach(async (to, from, next) => {
       return next({ name: 'Login' });
     }
 
-    const userRole = authStore.userRole; 
+    const userRole = authStore.userRole;
     const isAdminRoute = to.matched.some(record => record.meta.isAdmin);
 
     if (userRole && to.path === '/') {
@@ -125,7 +135,7 @@ router.beforeEach(async (to, from, next) => {
     await authStore.checkAuth();
     return next();
   }
-  return next(); 
+  return next();
 });
 
 export default router;

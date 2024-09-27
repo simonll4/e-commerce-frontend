@@ -1,39 +1,21 @@
 <script setup lang="ts">
 import { reactive, computed, defineEmits, watchEffect } from 'vue';
-import { type Product } from '@/types/product';
-import { useAuthStore } from '@/stores/auth.store';
-
-const authStore = useAuthStore();
-const userId = computed(() => authStore.userId);
+import { type CreateProduct } from '@/types/product';
 
 const emit = defineEmits(['submit']);
 const props = defineProps<{
-  product?: Product;
+  product?: CreateProduct;
 }>();
 
-// Inicializar el formulario con los valores del producto o valores predeterminados
-const form = reactive<Product>({
-  user: { id: Number(userId.value) || 0 },
-  name: '',
+const form = reactive<CreateProduct>({
+  title: '',
   brand: '',
   description: '',
-  price: '',
-  category: '',
-  stockQuantity: '',
-  releaseDate: '',
+  price: 0,
+  categoryId: 0,
+  stockQuantity:0,
   productAvailable: false,
-  imageURL: '',
-});
-
-// Asegurarse de que `userId` esté asignado cuando esté disponible
-watchEffect(() => {
-  if (userId.value) {
-    form.user.id = Number(userId.value);
-  }
-
-  if (props.product) {
-    Object.assign(form, { ...props.product, userId: Number(userId.value) });
-  }
+  images: [],
 });
 
 const submitForm = () => {

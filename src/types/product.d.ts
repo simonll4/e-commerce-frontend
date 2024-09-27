@@ -28,6 +28,8 @@ export interface CreateProduct {
   brand: string;
   categoryId: number;
   price: number;
+  productAvailable?: boolean;
+  stockQuantity: number;
   images: string[];
 }
 

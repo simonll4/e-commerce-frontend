@@ -2,15 +2,15 @@
 import { useRouter } from 'vue-router';
 import ProductForm from '@/components/forms/ProductForm.vue';
 import { useProductStore } from '@/stores/product.store';
-import { type Product } from '@/types/product';
+import { type CreateProduct } from '@/types/product';
 
 const router = useRouter();
 const productStore = useProductStore();
 
 
-const handleSubmit = async (product: Product) => {
+const handleSubmit = async (product: CreateProduct) => {
   try {
-    await productStore.addProduct(product as Product);
+    await productStore.createProduct(product as CreateProduct);
     router.push({ name: 'Home' });
   } catch (error) {
     console.error('Error al agregar el producto: ', error);

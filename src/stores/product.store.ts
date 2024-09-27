@@ -143,6 +143,6 @@ export const useProductStore = defineStore('productStore', {
     },
     currentPage(state): number {
       return Math.floor((state.filteredProducts.offset ?? 0) / (state.filteredProducts.limit ?? 10)) + 1;
-    },
+    }
   }
 });

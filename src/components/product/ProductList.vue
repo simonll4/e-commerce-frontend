@@ -48,7 +48,6 @@ const handleOrderChange = async (order: string) => {
 };
 
 const handleFilterChange = (filters: Record<string, any>) => {
-  console.log("acaaaaaaaa",filters);
   productStore.setFilter(filters);
   loadProducts(1);
 };
@@ -61,7 +60,6 @@ onMounted(() => {
 
 <template>
   <div class="product-container d-flex flex-row">
-    
     <v-container class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1">
       <v-row>
         <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3"
@@ -73,7 +71,6 @@ onMounted(() => {
     <v-container class="bg-white w-50 mt-2 ml-2 border-rounded pa-0 flex-grow-1">
       <OrderAndFilterProduct @orderChange="handleOrderChange" @filterChange="handleFilterChange" />
     </v-container>
-
   </div>
   <Paginator :totalPages="productStore.totalPages" :currentPage="currentPage" @next="handleNextPage"
     @prev="handlePrevPage" />

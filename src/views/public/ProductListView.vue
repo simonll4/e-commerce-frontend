@@ -5,7 +5,6 @@ import SideBar from '@/components/SideBar.vue';
 import ProductList from '@/components/product/ProductList.vue';
 import { computed } from 'vue';
 
-
 const isAuthenticated = computed(() => localStorage.getItem('token'));
 </script>
 
