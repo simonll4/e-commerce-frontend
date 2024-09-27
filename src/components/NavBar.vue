@@ -3,12 +3,9 @@ import { ref } from 'vue';
 import LoggedInMenu from '@/components/navbar/LoggedInMenu.vue';
 import LoggedOutMenu from '@/components/navbar/LoggedOutMenu.vue';
 
-///////////////////////////////////////
-// TODO: Implementar autenticación real
-///////////////////////////////////////
 
-// Simulación de estado de autenticación
-const isLoggedIn = ref(true); 
+
+const isLoggedIn = ref(false); 
 </script>
 
 <template>
@@ -17,13 +14,8 @@ const isLoggedIn = ref(true);
       <v-row align="center" justify="space-between">
         <!-- Logo y título a la izquierda -->
         <v-col cols="4" class="d-flex align-center">
-          <v-img
-            src="/src/assets/images/logo_shop.svg"
-            alt="Logo"
-            max-height="50"
-            max-width="50"
-            class="mr-3 ml-0"
-          ></v-img>
+          <v-img src="/src/assets/images/logo_shop.svg" alt="Logo" max-height="50" max-width="50"
+            class="mr-3 ml-0"></v-img>
           <v-app-bar-title class="fw-bold logo-title text-h5 ml-2 d-lg-flex d-none">MiTienda.com</v-app-bar-title>
         </v-col>
 
@@ -52,7 +44,8 @@ const isLoggedIn = ref(true);
 }
 
 .nav-link:hover {
-  color: #1976d2; /* Color de hover */
+  color: #1976d2;
+  /* Color de hover */
 }
 
 .no-truncate {
