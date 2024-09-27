@@ -7,8 +7,8 @@ export interface Product {
   price: string;
   createdAt: string;
   updatedAt: string;
-  productAvailable?: boolean;
-  stockQuantity: string;
+  productAvailable?: number;
+  stockQuantity: number;
   images: string[];
 }
 

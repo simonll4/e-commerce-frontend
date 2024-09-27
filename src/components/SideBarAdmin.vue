@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+  import { useAuthStore } from "@/stores/auth.store";
+  import { onMounted } from "vue";
+
+  const authStore = useAuthStore();
+  onMounted(() => {
+    authStore.checkAuth();
+  });
+</script>
+
 <template>
   <v-navigation-drawer
     class="mt-2 bg-light-blue-accent-3 rounded"
@@ -7,9 +17,12 @@
   >
     <v-list>
       <v-list-item
-        prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-        subtitle="sandra_a88@gmailcom"
-        title="Sandra Adams"
+        :prepend-avatar="
+          authStore.user.avatar ||
+          'https://imgs.search.brave.com/qkqL3Ff-Zt-okzMti7YwzIr0cmOzFUEU4C9rITf56aY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzg0LzY3LzE5/LzM2MF9GXzg0Njcx/OTM5X2p4eW1vWVpP/OE9lYWNjM0pSQkRF/OGJTWEJXajBaZkE5/LmpwZw'
+        "
+        :subtitle="authStore.user.email"
+        :title="authStore.user.userName"
       ></v-list-item>
     </v-list>
     <v-divider></v-divider>
@@ -48,14 +61,15 @@
         value="logout"
         to="/"
         tag="router-link"
+        @click="authStore.logout"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <style scoped>
-.v-list-item {
-  cursor: pointer;
-  color: white;
-}
+  .v-list-item {
+    cursor: pointer;
+    color: white;
+  }
 </style>

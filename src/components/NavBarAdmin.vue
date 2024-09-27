@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+  import { computed, ref } from "vue";
 
-///////////////////////////////////////
-// TODO: Implementar autenticación real
-///////////////////////////////////////
+  ///////////////////////////////////////
+  // TODO: Implementar autenticación real
+  ///////////////////////////////////////
 
-// Simulación de estado de autenticación
-const isLoggedIn = ref(true); 
+  // Simulación de estado de autenticación
+  const isLoggedIn = computed(() => localStorage.getItem("token"));
 </script>
 
 <template>
@@ -22,9 +22,11 @@ const isLoggedIn = ref(true);
             max-width="50"
             class="mr-3 ml-0"
           ></v-img>
-          <v-app-bar-title class="fw-bold logo-title text-h5 ml-2 d-lg-flex d-none">MiTienda.com</v-app-bar-title>
+          <v-app-bar-title
+            class="fw-bold logo-title text-h5 ml-2 d-lg-flex d-none"
+            >MiTienda.com</v-app-bar-title
+          >
         </v-col>
-
 
         <v-col cols="4" class="d-flex justify-end align-center">
           <v-icon class="mdi mdi-account-circle"></v-icon>
@@ -36,20 +38,20 @@ const isLoggedIn = ref(true);
 </template>
 
 <style scoped>
-.nav-link {
-  margin: 0 15px;
-  text-decoration: none;
-  color: inherit;
-  font-weight: 500;
-}
+  .nav-link {
+    margin: 0 15px;
+    text-decoration: none;
+    color: inherit;
+    font-weight: 500;
+  }
 
-.nav-link:hover {
-  color: #1976d2; /* Color de hover */
-}
+  .nav-link:hover {
+    color: #1976d2; /* Color de hover */
+  }
 
-.no-truncate {
-  white-space: nowrap;
-  overflow: visible;
-  text-overflow: clip;
-}
+  .no-truncate {
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+  }
 </style>
