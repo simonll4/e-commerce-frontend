@@ -33,7 +33,7 @@ const togglePasswordVisibility = () => {
 </script>
 
 <template>
-  <v-container fluid class="fill-hegiht pa-0">
+  <v-container fluid class="pa-0">
     <v-row no-gutters class="fill-height">
       <!-- Columna de Imagen -->
       <v-col cols="8" class="image-column">
@@ -51,7 +51,7 @@ const togglePasswordVisibility = () => {
 
       <!-- Columna del Formulario -->
       <v-col cols="4" class="form-column d-flex justify-center">
-        <div class="form-container">
+        <v-container class="pa-10">
           <h4 class="login-title my-1 text-h4">¡Bienvenido de vuelta! 👋🏻</h4>
           <span>Inicia sesión en tu cuenta para continuar</span>
           <v-form @submit.prevent="login" class="login-form">
@@ -115,7 +115,7 @@ const togglePasswordVisibility = () => {
               </router-link>
             </div>
           </v-form>
-        </div>
+        </v-container>
       </v-col>
     </v-row>
   </v-container>
