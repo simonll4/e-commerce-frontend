@@ -9,7 +9,7 @@ import AuthServices from '@/services/auth.services';
 const service = new AuthServices();
 
 export const useAuthStore = defineStore('authStore', {
-  state: (): { auth: AuthState; user: AuthUser } => ({
+  state: (): { auth: AuthState; user: AuthUser; token: string | null } => ({
     auth: {
       isAuthenticated: false,
       isLoading: false,
@@ -22,6 +22,7 @@ export const useAuthStore = defineStore('authStore', {
       email: '',
       avatar: '',
     },
+    token: localStorage.getItem('token') as string | null,
   }),
   actions: {
     async login(loginRequest: LoginRequest) {
@@ -75,6 +76,13 @@ export const useAuthStore = defineStore('authStore', {
     logout() {
       localStorage.removeItem('token');
       Cookies.remove('refresh_token', { path: '/', secure: true, sameSite: 'Strict' });
+      this.user = {
+        id: '',
+        userName: '',
+        isAdmin: false,
+        email: '',
+        avatar: '',
+      };
       router.push({ name: 'Login' });
     },
 
@@ -82,6 +90,7 @@ export const useAuthStore = defineStore('authStore', {
       try {
         const response = await service.checkAccessToken();
         const user = response.data;
+
         this.user = {
           id: user.id,
           userName: user.name,
@@ -89,6 +98,7 @@ export const useAuthStore = defineStore('authStore', {
           email: user.email,
           avatar: user.avatar,
         };
+
         return true;
       } catch (error) {
         const refreshToken = Cookies.get('refresh_token');
@@ -96,23 +106,34 @@ export const useAuthStore = defineStore('authStore', {
           try {
             const response = await service.refreshToken(refreshToken);
             const { access_token } = response.data;
+            console.log('Nuevo token:', access_token);
             localStorage.setItem('token', access_token);
+
+            // el refresh no manda info del user
+            const response1 = await service.checkAccessToken();
+            const user = response1.data;
+            this.user = {
+              id: user.id,
+              userName: user.name,
+              isAdmin: user.role === 'admin',
+              email: user.email,
+              avatar: user.avatar,
+            };
+
             return true;
           } catch (refreshError) {
-            console.error('Error al renovar el token:', refreshError);
             this.logout();
             return false;
           }
         } else {
-          console.error('Error al verificar el token:', error);
           this.logout();
           return false;
         }
       }
-    }
+    },
   },
   getters: {
-    token: () => localStorage.getItem('token'),
+    token: (state) => state.token,
     userRole: (state) => state.user.isAdmin,
   },
 });

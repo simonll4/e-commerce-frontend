@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { useRouter } from "vue-router";
   import LoginForm from "@/components/forms/LoginForm.vue";
-  import NavBar from "@/components/NavBar.vue";
 
   const router = useRouter();
 

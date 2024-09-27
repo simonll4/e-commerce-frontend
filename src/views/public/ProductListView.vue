@@ -13,7 +13,7 @@ const authStore = useAuthStore();
         <v-layout class="d-flex flex-column min-vh-100">
             <NavBar />
             <v-col class="d-flex">
-                <SideBar v-if="authStore.token"  />
+                <SideBar v-if="authStore.token" />
                 <v-main class="d-flex flex-column flex-grow-1">
                     <v-container class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1">
                         <ProductList />

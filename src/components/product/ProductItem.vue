@@ -13,8 +13,10 @@ function goToDetails() {
 
 <template>
   <v-card max-width="344" outlined>
-    <!-- <v-img :src="product.images[0]" height="200"></v-img> -->
-    <v-img v-if="product.images && product.images.length > 0" :src="product.images[0]" height="200"></v-img>
+    <!-- <v-img v-if="product.images && product.images.length > 0" :src="product.images[0]" height="200"></v-img> -->
+    <v-img v-if="product.images && product.images.length > 0"
+      :src="product.images[0] ? product.images[0] : 'https://placehold.co/600x400'" height="200">
+    </v-img>
     <v-card-subtitle>{{ product.title }}</v-card-subtitle>
     <v-card-title class="text-h6">
       {{ product.description }}

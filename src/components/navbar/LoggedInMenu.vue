@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth.store';
 
+const authStore = useAuthStore();
 const router = useRouter();
 
 const handleLogout = () => {
-  // Lógica para cerrar sesión
-  router.push('/logout');
+  authStore.logout();
 };
 
 const goToAccount = () => {
@@ -20,7 +21,7 @@ const goToAccount = () => {
   </v-btn>
   <v-menu offset-y>
     <template #activator="{ props }">
-      <v-btn icon v-bind="props" class="bg-grey-lighten-4"> 
+      <v-btn icon v-bind="props" class="bg-grey-lighten-4">
         <v-icon class="mdi mdi-dots-vertical bg-grey-lighten-4"></v-icon>
       </v-btn>
     </template>
@@ -48,10 +49,12 @@ const goToAccount = () => {
 }
 
 .cart-button:hover .mdi-cart {
-  color: white; /* Cambia el color del icono al hacer hover */
+  color: white;
+  /* Cambia el color del icono al hacer hover */
 }
 
 .cart-button:hover span {
-  color: white; /* Cambia el color del texto al hacer hover */
+  color: white;
+  /* Cambia el color del texto al hacer hover */
 }
 </style>

@@ -6,6 +6,8 @@ import { fa } from 'vuetify/iconsets/fa';
 import '@mdi/font/css/materialdesignicons.css'; // Ensure you are using css-loader
 import '@fortawesome/fontawesome-free/css/all.css'; // Ensure your project is capable of handling css files
 
+
+
 export default createVuetify({
   icons: {
     defaultSet: 'mdi',
