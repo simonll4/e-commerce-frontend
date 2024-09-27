@@ -1,13 +1,19 @@
 <script setup lang="ts">
-  import { useRouter } from "vue-router";
-  import LoginForm from "@/components/forms/LoginForm.vue";
-  import NavBar from "@/components/NavBar.vue";
+import LoginForm from "@/components/forms/LoginForm.vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth.store";
 
-  const router = useRouter();
+const authStore = useAuthStore();
+const router = useRouter();
 
-  const onLoginSuccess = () => {
+const onLoginSuccess = () => {
+  if (authStore.user.isAdmin) {
+    router.push({ name: "Dashboard" });
+    return;
+  } else {
     router.push({ name: "Home" });
-  };
+  }
+};
 </script>
 
 <template>

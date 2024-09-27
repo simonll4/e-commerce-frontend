@@ -27,6 +27,26 @@ const handlePrevPage = (newPage: number) => {
   }
 };
 
+// Manejar el cambio de ordenamiento
+const handleOrderChange = async (order: string) => {
+  let sortBy = '';
+  let sortDirection = '';
+  switch (order) {
+    case 'Precio: Menor a Mayor':
+      sortBy = 'price';
+      sortDirection = 'ASC';
+      break;
+    case 'Precio: Mayor a Menor':
+      sortBy = 'price';
+      sortDirection = 'DESC';
+      break;
+    default:
+      break;
+  }
+  productStore.setSortOrder(sortBy, sortDirection);
+  loadProducts(1);
+};
+
 onMounted(() => {
   loadProducts(currentPage.value);
 });
@@ -34,14 +54,14 @@ onMounted(() => {
 
 <template>
   <div class="product-container">
-    <SearchProduct />
+    <!-- <SearchProduct /> -->
+    <SearchProduct @orderChange="handleOrderChange" />
     <v-row>
       <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3" class="d-flex justify-center">
         <ProductItem :product="product" />
       </v-col>
     </v-row>
   </div>
-  <!-- <Paginator :totalPages="productStore.totalPages" :currentPage="productStore.currentPage" /> -->
   <Paginator :totalPages="productStore.totalPages" :currentPage="currentPage" @next="handleNextPage"
     @prev="handlePrevPage" />
 </template>

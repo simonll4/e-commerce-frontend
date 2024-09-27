@@ -22,12 +22,41 @@ export const useProductStore = defineStore('productStore', {
   }),
 
   actions: {
+    // async fetchProducts(page: number) {
+    //   const offset = (page - 1) * (this.filteredProducts?.limit ?? 0);
+    //   // Verificar si ya tenemos los productos de esta página
+    //   if (this.paginatedProducts[page]) {
+    //     return this.paginatedProducts[page];
+    //   }
+    //   this.isLoading = true;
+    //   this.error = null;
+    //   try {
+    //     const params = {
+    //       ...this.filteredProducts,
+    //       offset,
+    //     };
+    //     const response = await service.getProducts(params);
+    //     console.log(response.data.products);
+    //     const { products, pagination } = response.data;
+
+    //     // Actualizar el estado del store
+    //     this.filteredProducts.totalItems = pagination.totalItems;
+    //     this.filteredProducts.totalPages = pagination.totalPages;
+    //     this.filteredProducts.offset = pagination.offset;
+    //     this.paginatedProducts[page] = products;
+
+    //     return products; // Devolver los productos obtenidos
+    //   } catch (error) {
+    //     this.error = 'Error al cargar los productos';
+    //   } finally {
+    //     this.isLoading = false;
+    //   }
+    // },
     async fetchProducts(page: number) {
-      const offset = (page - 1) * (this.filteredProducts?.limit ?? 0);
-      // Verificar si ya tenemos los productos de esta página
-      if (this.paginatedProducts[page]) {
-        return this.paginatedProducts[page];
-      }
+      const offset = (page - 1) * (this.filteredProducts.limit ?? 0);
+
+      this.filteredProducts.offset = offset;
+
       this.isLoading = true;
       this.error = null;
       try {
@@ -44,7 +73,7 @@ export const useProductStore = defineStore('productStore', {
         this.filteredProducts.offset = pagination.offset;
         this.paginatedProducts[page] = products;
 
-        return products; // Devolver los productos obtenidos
+        return products;
       } catch (error) {
         this.error = 'Error al cargar los productos';
       } finally {
@@ -116,16 +145,14 @@ export const useProductStore = defineStore('productStore', {
         throw error;
       }
     },
+
+    setSortOrder(sortBy: string, sortDirection: string) {
+      this.filteredProducts.sortBy = sortBy;
+      this.filteredProducts.sortDirection = sortDirection;
+    }
   },
 
   getters: {
-    getProductById: (state) => (id: string) => {
-      for (const products of Object.values(state.paginatedProducts)) {
-        const foundProduct = products.find(p => String(p.id) === id);
-        if (foundProduct) return foundProduct;
-      }
-      return null;
-    },
     getProductsByPage: (state) => (page: number) => {
       return state.paginatedProducts[page] || [];
     },

@@ -15,9 +15,7 @@ import ProductChartOverview from "@/components/admin_dashboard/ProductChartOverv
       <v-flex class="d-flex">
         <SideBarAdmin />
         <v-main class="d-flex flex-column flex-grow-1">
-          <v-container
-            class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1 main-container"
-          >
+          <v-container class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1 main-container">
             <h1 class="text-h4 ma-5">Inicio</h1>
             <Overview />
             <div class="product-data-overview">
@@ -44,13 +42,16 @@ import ProductChartOverview from "@/components/admin_dashboard/ProductChartOverv
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 .min-vh-100 {
   min-height: 100vh;
 }
+
 .flex-grow-1 {
   flex-grow: 1;
 }
+
 .product-data-overview {
-    width: 96.2%;
+  width: 96.2%;
 }
 </style>

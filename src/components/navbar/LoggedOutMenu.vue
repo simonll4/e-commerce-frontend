@@ -4,15 +4,16 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const goToLogin = () => {
-  router.push('/login');
+  router.push('/auth/login');
 };
 
 const goToRegister = () => {
-  router.push('/register');
+  router.push('/auth/register');
 };
 </script>
 
 <template>
+   
   <v-btn color="black" @click="goToLogin" class="mr-2 bg-white">Ingresar</v-btn>
   <v-btn color="white" class="font-weight-bold bg-light-blue-lighten-2 glow-button" @click="goToRegister">Crea Tu Cuenta</v-btn>
 </template>

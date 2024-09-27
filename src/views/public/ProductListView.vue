@@ -3,9 +3,10 @@ import Footer from '@/components/navigation/Footer.vue';
 import NavBar from '@/components/NavBar.vue';
 import SideBar from '@/components/SideBar.vue';
 import ProductList from '@/components/product/ProductList.vue';
-import { useAuthStore } from '@/stores/auth.store';
+import { computed } from 'vue';
 
-const authStore = useAuthStore();
+
+const isAuthenticated = computed(() => localStorage.getItem('token'));
 </script>
 
 <template>
@@ -13,7 +14,7 @@ const authStore = useAuthStore();
         <v-layout class="d-flex flex-column min-vh-100">
             <NavBar />
             <v-col class="d-flex">
-                <SideBar v-if="authStore.token"  />
+                <SideBar v-if="isAuthenticated" />
                 <v-main class="d-flex flex-column flex-grow-1">
                     <v-container class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1">
                         <ProductList />

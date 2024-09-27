@@ -1,37 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, onMounted } from 'vue';
 import ProductItem from './ProductItem.vue';
+import { useProductStore } from '@/stores/product.store';
 
-const products = ref([
-  {
-    id: 1,
-    name: 'Smartphone',
-    description: 'Latest model with high-end features',
-    price: '$999',
-    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_656548-MLA46114829749_052021-O.webp'
-  },
-  {
-    id: 2,
-    name: 'Laptop',
-    description: 'Powerful laptop for professionals',
-    price: '$1999',
-    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_720868-MLU72675284142_112023-O.webp'
-  },
-  {
-    id: 3,
-    name: 'Headphones',
-    description: 'Noise-cancelling over-ear headphones',
-    price: '$299',
-    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_844082-MLU77448376172_072024-O.webp'
-  },
-  {
-    id: 4,
-    name: 'Whirlpool Bed',
-    description: 'Super comfy bed for sleeping like a baby',
-    price: '$799',
-    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_944972-MLA54385774876_032023-O.webp'
-  }
-]);
+const productStore = useProductStore();
+
+const products = computed(() => productStore.getProductsByPage(1));
+const loadProducts = async () => {
+  await productStore.fetchProducts(1);
+};
+
+onMounted(() => {
+  loadProducts();
+});
 </script>
 
 <template>

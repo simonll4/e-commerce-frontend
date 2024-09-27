@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 
 import { useAuthStore } from '@/stores/auth.store';
 import HomeView from '@/views/public/HomeView.vue';
+import Dashboard from '@/views/admin/DashboardView.vue';
 
 const routes = [
   // public routes
@@ -34,20 +35,20 @@ const routes = [
     name: 'Register',
     component: () => import('@/views/auth/RegisterView.vue'),
   },
-  // {
-  //   path: '/:pathMatch(.*)*',
-  //   name: 'NotFound',
-  //   component: () => import('@/views/NotFoundView.vue'),
-  // }
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/public/NotFoundView.vue'),
+  },
 
   // Admin routes
   {
     path: '/admin',
     children: [
       {
-        path: 'dashboard',
+        path: '',
         name: 'Dashboard',
-        component: () => import('@/views/admin/DashboardView.vue')
+        component: Dashboard,
       },
       {
         path: 'profile',
@@ -98,44 +99,35 @@ const router = createRouter({
   routes,
 });
 
-
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-
+  const refreshToken = Cookies.get('refresh_token');
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (!requiresAuth) {
+
+  if (requiresAuth) {
+    const isAuthenticated = await authStore.checkAuth();
+    if (!isAuthenticated) {
+      return next({ name: 'Login' });
+    }
+
+    const userRole = authStore.userRole; 
+    const isAdminRoute = to.matched.some(record => record.meta.isAdmin);
+
+    if (userRole && to.path === '/') {
+      return next({ name: 'Dashboard' });
+    } else if (!userRole && isAdminRoute) {
+      return next({ name: 'Home' });
+    }
     return next();
   }
 
-  const isAuthenticated = await authStore.checkAuth();
-  if (!isAuthenticated) {
-    return next({ name: 'Login' });
+  if (!requiresAuth && refreshToken) {
+    await authStore.checkAuth();
+    return next();
   }
-
-  const userRole = authStore.userRole;
-  const routeRole = to.meta.isAdmin;
-  if (routeRole && routeRole !== userRole) {
-    return next({ name: 'Home' }); // O redirigir a una página de "No Autorizado"
-  }
-  return next();
-
-  // if (isAuthenticated) {
-  //   const userRole = authStore.userRole;
-  //   // Si el usuario está autenticado y trata de ir a la ruta de login, redirigir al Home
-  //   if (to.name === 'Login') {
-  //     return next({ name: 'Home' });
-  //   }
-  //   const routeRole = to.meta.isAdmin;
-  //   // Si la ruta requiere un rol y el usuario no tiene el rol adecuado, redirigir
-  //   if (routeRole && routeRole !== userRole) {
-  //     return next({ name: 'Home' }); // Redirige a una página de "No Autorizado"
-  //   }
-  //   return next();
-  // }
-  // // else {
-  // //   return next({ name: 'Login' });
-  // // }
-
+  return next(); 
 });
+
+
 
 export default router;

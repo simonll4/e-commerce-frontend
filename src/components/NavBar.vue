@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
 import LoggedInMenu from '@/components/navbar/LoggedInMenu.vue';
 import LoggedOutMenu from '@/components/navbar/LoggedOutMenu.vue';
+import { useAuthStore } from '@/stores/auth.store';
 
-
-
-const isLoggedIn = ref(false); 
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => localStorage.getItem('token'));
 </script>
 
 <template>
@@ -28,7 +28,7 @@ const isLoggedIn = ref(false);
 
         <!-- Menú a la derecha según el estado de autenticación -->
         <v-col cols="4" class="d-flex justify-end align-center">
-          <component :is="isLoggedIn ? LoggedInMenu : LoggedOutMenu" />
+          <component :is="isAuthenticated ? LoggedInMenu : LoggedOutMenu" />
         </v-col>
       </v-row>
     </v-container>

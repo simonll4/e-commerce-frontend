@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/stores/auth.store";
+import { onMounted } from "vue";
 
 const authStore = useAuthStore();
+onMounted(() => {
+    authStore.checkAuth();
+});
 </script>
 
 <template>
@@ -13,7 +17,10 @@ const authStore = useAuthStore();
         </v-list>
         <v-divider></v-divider>
         <v-list density="compact" nav>
-            <v-list-item prepend-icon="mdi-home" title="Inicio" value="home"></v-list-item>
+            <router-link to="/">
+                <v-list-item prepend-icon="mdi-home" title="Inicio" value="home"></v-list-item>
+            </router-link>
+            
             <v-list-item prepend-icon="mdi-cart" title="Mis Compras" value="orders"></v-list-item>
             <v-list-item prepend-icon="mdi-shopping" title="Explorar" value="products"></v-list-item>
             <v-list-item prepend-icon="mdi-logout" title="Cerrar Sesión" value="logout" class="text-red"

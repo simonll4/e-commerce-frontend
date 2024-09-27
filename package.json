@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "@types/chart.js": "^2.9.41",
     "axios": "^1.7.5",
     "chart.js": "^4.4.4",
     "dotenv": "^16.4.5",
