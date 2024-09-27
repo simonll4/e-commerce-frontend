@@ -3,16 +3,34 @@ import api from './api';
 
 export default class ProductServices {
 
+  // getProducts(filteredProducts: FilterProduct) {
+  //   const { offset, limit, sortBy,filter, sortDirection } = filteredProducts;
+  //   return api().get('/api/v1/products', {
+  //     params: {
+  //       offset: offset,
+  //       limit: limit || "",
+  //       sortBy: sortBy || "",
+  //       sortDirection: sortDirection || "",
+  //     }
+  //   });
+  // }
+
   getProducts(filteredProducts: FilterProduct) {
-    const { offset, limit, sortBy, sortDirection } = filteredProducts;
-    return api().get('/api/v1/products', {
-      params: {
-        offset: offset,
-        limit: limit || "",
-        sortBy: sortBy || "",
-        sortDirection: sortDirection || "",
-      }
-    });
+    const { offset, limit, sortBy, filter, sortDirection } = filteredProducts;
+    const params: { [key: string]: string | number } = {
+      offset: offset || 0,
+      limit: limit || '',
+      sortBy: sortBy || '',
+      sortDirection: sortDirection || '',
+    };
+    if (filter) {
+      const filterParams = new URLSearchParams(filter);
+      filterParams.forEach((value, key) => {
+        params[key] = value;
+      });
+    }
+
+    return api().get('/api/v1/products', { params });
   }
 
   getProductById(productId: string) {

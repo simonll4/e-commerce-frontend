@@ -18,6 +18,7 @@ export interface FilterProduct {
     offset?: number;
     limit?: number;
     sortBy?: string;
+    filter?: string;
     sortDirection?: string;
 }
 

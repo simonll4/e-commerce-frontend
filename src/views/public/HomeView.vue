@@ -5,9 +5,9 @@ import Footer from '@/components/navigation/Footer.vue';
 import NavBar from '@/components/NavBar.vue';
 import SideBar from '@/components/SideBar.vue';
 import { computed } from 'vue';
+import { useProductStore } from '@/stores/product.store';
 
 const isAuthenticated = computed(() => localStorage.getItem('token'));
-
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const isAuthenticated = computed(() => localStorage.getItem('token'));
     <v-layout class="d-flex flex-column min-vh-100">
       <NavBar />
       <v-col class="d-flex">
-        <SideBar v-if="isAuthenticated"/>
+        <SideBar v-if="isAuthenticated" />
         <v-main class="d-flex flex-column flex-grow-1">
           <v-container class="bg-white mt-2 ml-2 border-rounded pa-0" elevation="1" rounded="md" fluid>
             <HeroCarousel />

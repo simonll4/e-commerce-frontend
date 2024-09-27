@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ProductItem from './ProductItem.vue';
 import Paginator from '@/components/navigation/Paginator.vue';
-import SearchProduct from '@/components/forms/SearchProduct.vue';
+import OrderAndFilterProduct from '@/components/product/OrderAndFilterProduct.vue';
 import { useProductStore } from '@/stores/product.store';
 import { computed, onMounted, ref } from 'vue';
 
@@ -47,20 +47,33 @@ const handleOrderChange = async (order: string) => {
   loadProducts(1);
 };
 
+const handleFilterChange = (filters: Record<string, any>) => {
+  console.log("acaaaaaaaa",filters);
+  productStore.setFilter(filters);
+  loadProducts(1);
+};
+
+
 onMounted(() => {
   loadProducts(currentPage.value);
 });
 </script>
 
 <template>
-  <div class="product-container">
-    <!-- <SearchProduct /> -->
-    <SearchProduct @orderChange="handleOrderChange" />
-    <v-row>
-      <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3" class="d-flex justify-center">
-        <ProductItem :product="product" />
-      </v-col>
-    </v-row>
+  <div class="product-container d-flex flex-row">
+    
+    <v-container class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1">
+      <v-row>
+        <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3"
+          class="d-flex justify-center">
+          <ProductItem :product="product" />
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container class="bg-white w-50 mt-2 ml-2 border-rounded pa-0 flex-grow-1">
+      <OrderAndFilterProduct @orderChange="handleOrderChange" @filterChange="handleFilterChange" />
+    </v-container>
+
   </div>
   <Paginator :totalPages="productStore.totalPages" :currentPage="currentPage" @next="handleNextPage"
     @prev="handlePrevPage" />
