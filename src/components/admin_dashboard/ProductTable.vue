@@ -11,70 +11,29 @@
 
   const search = ref<string>("");
   const items = computed(() => productStore.getProductsByPage(1));
-  const loadProducts = async () => {
-    await productStore.fetchProducts(1);
-  };
 
   const headers = ref([
-    { text: "#", value: "index", width: "50px" },
-    { text: "Producto", value: "title", width: "200px" },
-    { text: "Imagen", value: "image", width: "100px" },
-    { text: "Precio", value: "price", width: "100px" },
-    { text: "Stock", value: "stockQuantity", width: "150px" },
-    { text: "Fecha de Creación", value: "createdAt", width: "150px" },
+    { text: "#", value: "index" },
+    { text: "Producto", value: "title" },
+    { text: "Imagen", value: "image" },
+    { text: "Precio", value: "price" },
+    { text: "Stock", value: "stockQuantity" },
+    { text: "Fecha de Creación", value: "createdAt" },
   ]);
 
-  onMounted(() => {
-    console.log(items);
-    console.log(headers.value);
-    loadProducts();
-  });
-  // const items = ref<
-  //   Array<{
-  //     name: string;
-  //     image: string;
-  //     price: number;
-  //     stock: boolean;
-  //     createdAt: string;
-  //   }>
-  // >([
-  //   {
-  //     name: "Nebula GTX 3080",
-  //     image: "1.png",
-  //     price: 699.99,
-  //     stock: true,
-  //     createdAt: "2023-01-01",
-  //   },
-  //   {
-  //     name: "Galaxy RTX 3080",
-  //     image: "2.png",
-  //     price: 799.99,
-  //     stock: false,
-  //     createdAt: "2023-02-01",
-  //   },
-  //   {
-  //     name: "Orion RX 6800 XT",
-  //     image: "3.png",
-  //     price: 649.99,
-  //     stock: true,
-  //     createdAt: "2023-03-01",
-  //   },
-  //   {
-  //     name: "Vortex RTX 3090",
-  //     image: "4.png",
-  //     price: 1499.99,
-  //     stock: true,
-  //     createdAt: "2023-04-01",
-  //   },
-  //   {
-  //     name: "Cosmos GTX 1660 Super",
-  //     image: "5.png",
-  //     price: 229.99,
-  //     stock: true,
-  //     createdAt: "2023-05-01",
-  //   },
-  // ]);
+  if (!props.limitItems) {
+    headers.value.splice(
+      2,
+      0,
+      { text: "Descripción", value: "description" },
+      { text: "Categoría", value: "category" },
+      { text: "Marca", value: "brand" }
+    );
+  }
 
+  const truncateText = (text: string, length: number) => {
+    return text.length > length ? text.substring(0, length) + "..." : text;
+  };
   // Idea del slice: Mostar solo 4 productos random en la tabla
 
   const displayedItems = computed(() => {
@@ -112,38 +71,65 @@
     <v-data-table
       v-model:search="search"
       :headers="headers"
-      :items="items"
+      :items="displayedItems"
       :hide-default-footer="props.limitItems"
       class="elevation-1"
       item-value="id"
     >
       <template v-slot:item.index="{ index }">
-        {{ index + 1 }}
+        <div class="pa-2">{{ index + 1 }}</div>
       </template>
 
       <template v-slot:item.title="{ item }">
-        {{ item.title }}
+        <div class="pa-2">
+          <router-link
+            :to="{ name: 'ProductDetailAdmin', params: { id: item.id } }"
+            class="text-decoration-none"
+          >
+            {{ item.title }}
+          </router-link>
+        </div>
+      </template>
+
+      <template v-slot:item.description="{ item }">
+        <div class="pa-2">{{ truncateText(item.description, 50) }}</div>
       </template>
 
       <template v-slot:item.image="{ item }">
-        <v-img :src="item.images[0]" width="64" height="64" cover></v-img>
+        <div class="pa-2">
+          <v-img :src="item.images[0]" width="64" height="64"></v-img>
+        </div>
       </template>
 
-      <template v-slot:item.price="{ item }"> ${{ item.price }} </template>
+      <template v-slot:item.price="{ item }">
+        <div class="pa-2">${{ item.price }}</div>
+      </template>
+
+      <template v-slot:item.brand="{ item }">
+        <div class="pa-2">{{ item.brand }}</div>
+      </template>
+
+      <template v-slot:item.category="{ item }">
+        <div class="pa-2">{{ item.category.name }}</div>
+      </template>
 
       <template v-slot:item.stockQuantity="{ item }">
-        <v-chip
-          :color="item.stockQuantity > 0 ? 'green' : 'red'"
-          class="text-uppercase"
-          size="small"
-          label
-        >
-          {{ item.stockQuantity > 0 ? "In stock" : "Out of stock" }}
-        </v-chip>
+        <div class="pa-2">
+          <v-chip
+            :color="item.stockQuantity > 0 ? 'green' : 'red'"
+            class="text-uppercase"
+            size="small"
+            label
+          >
+            {{ item.stockQuantity > 0 ? "In stock" : "Out of stock" }}
+          </v-chip>
+        </div>
       </template>
 
       <template v-slot:item.createdAt="{ item }">
-        {{ new Date(item.createdAt).toLocaleDateString() }}
+        <div class="pa-2">
+          {{ new Date(item.createdAt).toLocaleDateString() }}
+        </div>
       </template>
     </v-data-table>
   </v-card>
