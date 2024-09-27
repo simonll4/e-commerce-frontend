@@ -5,6 +5,10 @@ import Footer from '@/components/navigation/Footer.vue';
 import NavBar from '@/components/NavBar.vue';
 import SideBar from '@/components/SideBar.vue';
 
+import { useAuthStore } from '@/stores/auth.store';
+
+const authStore = useAuthStore();
+
 </script>
 
 <template>
@@ -12,7 +16,7 @@ import SideBar from '@/components/SideBar.vue';
     <v-layout class="d-flex flex-column min-vh-100">
       <NavBar />
       <v-flex class="d-flex">
-        <SideBar />
+        <SideBar v-if="authStore.token" />
         <v-main class="d-flex flex-column flex-grow-1">
           <v-container class="bg-white mt-2 ml-2 border-rounded pa-0" elevation="1" rounded="md" fluid>
             <HeroCarousel />

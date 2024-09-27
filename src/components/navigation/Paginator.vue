@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+const emit = defineEmits(['next', 'prev']);
+
 const props = defineProps({
   totalPages: {
     type: Number,
@@ -12,16 +14,15 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['next', 'prev']);
 const localCurrentPage = computed({
   get() {
     return props.currentPage;
   },
   set(value) {
     if (value > props.currentPage) {
-      emit('next');
+      emit('next', value);
     } else if (value < props.currentPage) {
-      emit('prev');
+      emit('prev', value);
     }
   },
 });

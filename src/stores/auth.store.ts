@@ -23,14 +23,7 @@ export const useAuthStore = defineStore('authStore', {
       avatar: '',
     },
   }),
-
-  getters: {
-    token: () => localStorage.getItem('token'),
-    userRole: (state) => state.user.isAdmin,
-  },
-
   actions: {
-
     async login(loginRequest: LoginRequest) {
       this.auth.isLoading = true;
       this.auth.error = null;
@@ -70,7 +63,6 @@ export const useAuthStore = defineStore('authStore', {
       try {
         console.log('registerRequest:', registerRequest);
         const response = await service.register(registerRequest);
-
         router.push('/');
       } catch (error) {
         this.auth.error = 'Error al registrar el usuario.';
@@ -90,7 +82,6 @@ export const useAuthStore = defineStore('authStore', {
       try {
         const response = await service.checkAccessToken();
         const user = response.data;
-        
         this.user = {
           id: user.id,
           userName: user.name,
@@ -98,7 +89,6 @@ export const useAuthStore = defineStore('authStore', {
           email: user.email,
           avatar: user.avatar,
         };
-
         return true;
       } catch (error) {
         const refreshToken = Cookies.get('refresh_token');
@@ -120,7 +110,10 @@ export const useAuthStore = defineStore('authStore', {
         }
       }
     }
-
+  },
+  getters: {
+    token: () => localStorage.getItem('token'),
+    userRole: (state) => state.user.isAdmin,
   },
 });
 
