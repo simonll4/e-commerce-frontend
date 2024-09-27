@@ -31,7 +31,7 @@
         prepend-icon="mdi-home"
         title="Inicio"
         value="home"
-        to="/admin/dashboard"
+        to="/admin/"
         tag="router-link"
       ></v-list-item>
       <v-list-item
@@ -52,7 +52,7 @@
         prepend-icon="mdi-wrench"
         title="Configuración"
         value="config"
-        to="/"
+        to="/admin/config"
         tag="router-link"
       ></v-list-item>
       <v-list-item
