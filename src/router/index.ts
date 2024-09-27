@@ -98,29 +98,6 @@ const router = createRouter({
   routes,
 });
 
-
-// router.beforeEach(async (to, from, next) => {
-//   const authStore = useAuthStore();
-
-//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-//   if (!requiresAuth) {
-//     return next();
-//   }
-
-//   const isAuthenticated = await authStore.checkAuth();
-//   if (!isAuthenticated) {
-//     return next({ name: 'Login' });
-//   }
-
-//   const userRole = authStore.userRole;
-//   const routeRole = to.meta.isAdmin;
-//   if (routeRole && routeRole !== userRole) {
-//     return next({ name: 'Home' }); // O redirigir a una página de "No Autorizado"
-//   }
-//   return next();
-// });
-
-
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   const refreshToken = Cookies.get('refresh_token');

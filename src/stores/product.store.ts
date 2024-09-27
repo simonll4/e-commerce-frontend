@@ -119,13 +119,6 @@ export const useProductStore = defineStore('productStore', {
   },
 
   getters: {
-    getProductById: (state) => (id: string) => {
-      for (const products of Object.values(state.paginatedProducts)) {
-        const foundProduct = products.find(p => String(p.id) === id);
-        if (foundProduct) return foundProduct;
-      }
-      return null;
-    },
     getProductsByPage: (state) => (page: number) => {
       return state.paginatedProducts[page] || [];
     },

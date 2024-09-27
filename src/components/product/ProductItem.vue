@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import type { Product } from '@/types/product';
+import router from '@/router';
+
 
 const props = defineProps<{
   product: Product;
 }>();
 
 function goToDetails() {
-  console.log(`${props.product.title} detalle`);
+  router.push({ name: 'ProductDetail', params: { id: props.product.id } });
 }
 </script>
 

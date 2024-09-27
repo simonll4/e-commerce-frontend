@@ -5,7 +5,6 @@ import LoggedOutMenu from '@/components/navbar/LoggedOutMenu.vue';
 import { useAuthStore } from '@/stores/auth.store';
 
 const authStore = useAuthStore();
-// const isAuthenticated = computed(() => !!authStore.token);
 const isAuthenticated = computed(() => localStorage.getItem('token'));
 </script>
 
