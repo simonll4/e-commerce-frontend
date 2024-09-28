@@ -21,7 +21,7 @@ const selectedImage = ref(0);
 
 <template>
   <h1 class="text-h4 ma-5 mb-3">{{ product.title }}</h1>
-  <span class="ma-5">Ultima actualización: {{ product.updatedAt}}</span>
+  <span class="ma-5">Ultima actualización: {{ product.updatedAt }}</span>
   <v-container grid-list-md class="activity-container ma-5">
     <v-row>
       <v-col cols="12" md="4">
@@ -30,7 +30,7 @@ const selectedImage = ref(0);
       </v-col>
       <v-col cols="12" md="8">
         <div class="product-details">
-          <div class="product-price text-h5 mb-3">$49.99</div>
+          <div class="product-price text-h5 mb-3">$ {{ product.price }}</div>
           <div class="product-brand mb-2">Marca:{{ product.brand }}</div>
           <div class="product-category mb-2">Categoría: {{ product.category.name }}</div>
           <v-chip class="product-availability" :color="isAvailable ? 'green' : 'red'" label>

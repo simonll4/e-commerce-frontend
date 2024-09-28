@@ -24,7 +24,7 @@ function goToDetails() {
       {{ product.description }}
     </v-card-title>
     <v-card-text class="text-h5 blue--text text--darken-2 mb-0">
-      {{ product.price }}
+      $ {{ product.price }}
     </v-card-text>
     <v-card-actions>
       <v-btn class="bg-light-blue-accent-3" @click="goToDetails">

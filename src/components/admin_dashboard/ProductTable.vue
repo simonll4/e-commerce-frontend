@@ -3,6 +3,8 @@ import { ref, computed, defineProps, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useProductStore } from "@/stores/product.store";
 
+const router = useRouter();
+
 const productStore = useProductStore();
 const props = defineProps<{
   showButton: boolean;
@@ -13,22 +15,22 @@ const search = ref<string>("");
 const items = computed(() => productStore.getProductsByPage(1));
 
 const headers = ref([
-  { text: "#", value: "index" },
-  { text: "Producto", value: "title" },
-  { text: "Imagen", value: "image" },
-  { text: "Precio", value: "price" },
-  { text: "Stock", value: "stockQuantity" },
-  { text: "Fecha de Creación", value: "createdAt" },
-  { text: "Acciones", value: "actions" },
+  { title: "#", key: "index" },
+  { title: "Producto", key: "title" },
+  { title: "Imagen", key: "image" },
+  { title: "Precio", key: "price" },
+  { title: "Stock", key: "stockQuantity" },
+  { title: "Fecha de Creación", key: "createdAt" },
+  { title: "Acciones", key: "actions" },
 ]);
 
 if (!props.limitItems) {
   headers.value.splice(
     2,
     0,
-    { text: "Descripción", value: "description" },
-    { text: "Categoría", value: "category" },
-    { text: "Marca", value: "brand" }
+    { title: "Descripción", key: "description" },
+    { title: "Categoría", key: "category" },
+    { title: "Marca", key: "brand" }
   );
 }
 
@@ -42,7 +44,7 @@ const displayedItems = computed(() => {
 });
 
 const editProduct = (id: number) => {
-  router.push({ path: `/products/${id}/edit` })
+  router.push({ path: `/admin/products/${id}/edit` })
 };
 
 // Estado para manejar el diálogo de confirmación de eliminación
@@ -61,9 +63,6 @@ const deleteProduct = () => {
     productIdToDelete.value = null;
   }
 };
-
-
-const router = useRouter();
 
 const goToProductManagerView = () => {
   router.push({ path: "/admin/products" });
