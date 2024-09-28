@@ -5,7 +5,6 @@ import Footer from '@/components/navigation/Footer.vue';
 import NavBar from '@/components/NavBar.vue';
 import SideBar from '@/components/SideBar.vue';
 import { computed } from 'vue';
-import { useProductStore } from '@/stores/product.store';
 
 const isAuthenticated = computed(() => localStorage.getItem('token'));
 </script>
