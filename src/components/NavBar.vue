@@ -14,10 +14,12 @@ const isAuthenticated = computed(() => localStorage.getItem("token"));
       <v-row align="center" justify="space-between">
         <!-- Logo y título a la izquierda -->
         <v-col cols="4" class="d-flex align-center">
-          <router-link to="/" class="d-flex align-center d-">
+          <router-link to="/" class="d-flex align-center text-decoration-none w-100">
             <v-img src="/src/assets/images/logo_shop.svg" alt="Logo" max-height="50" max-width="50"
               class="mr-3 ml-0"></v-img>
-            <v-app-bar-title class="fw-bold logo-title text-h5 ml-2 d-lg-flex d-none">MiTienad.com</v-app-bar-title>
+            <v-app-bar-title class="fw-bold logo-title text-h5 ml-2 d-lg-flex d-none">
+              MiTienda.com
+            </v-app-bar-title>
           </router-link>
         </v-col>
         <!-- Botones de navegación en el centro -->
