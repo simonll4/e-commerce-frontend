@@ -16,7 +16,7 @@ export const useProductStore = defineStore('productStore', {
       totalItems: 0,
       totalPages: 0,
       offset: 0,
-      limit: 0,
+      limit: 10, // tiene un ser para cambiarlo
       filter: '',
       sortBy: '',
       sortDirection: '',

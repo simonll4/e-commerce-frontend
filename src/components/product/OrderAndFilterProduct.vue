@@ -47,12 +47,8 @@ const resetFilters = () => {
         Filtros de Productos
       </v-card-title>
       <v-card-text>
-
-        <v-select v-model="selectedOrder" :items="orderOptions" label="Ordenar por" class="my-4" dense />
-
-
+        <v-autocomplete v-model="selectedOrder" :items="orderOptions" label="Ordenar por" class="my-4" />
         <v-autocomplete v-model="filters.brand" :items="brands" label="Marca" class="my-4" />
-
         <v-btn @click="applyFilters" color="primary" class="my-2">
           Aplicar Filtros
         </v-btn>
