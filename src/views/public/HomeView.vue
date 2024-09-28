@@ -8,8 +8,6 @@ import { useAuthStore } from '@/stores/auth.store';
 
 const authStore = useAuthStore();
 
-//const isAuthenticated = computed(() => localStorage.getItem('token'));
-
 </script>
 
 <template>
