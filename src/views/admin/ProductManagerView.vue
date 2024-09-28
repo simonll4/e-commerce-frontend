@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const goToCreateProduct = () => {
-  router.push({ path: "/admin/products/add-product" });
+  router.push({ path: "/admin/products/add" });
 };
 </script>
 

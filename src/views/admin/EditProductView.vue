@@ -6,7 +6,9 @@ import { UpdateProduct, type Product } from '@/types/product';
 import { useProductStore } from '@/stores/product.store';
 
 import ProductForm from '@/components/forms/ProductForm.vue';
-import NavBar from '@/components/NavBar.vue';
+import NavBarAdmin from "@/components/NavBarAdmin.vue";
+import SideBarAdmin from "@/components/SideBarAdmin.vue";
+import Footer from "@/components/navigation/Footer.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -39,24 +41,40 @@ const updateProduct = async (updateProduct: UpdateProduct) => {
     console.error('No se puede actualizar: Producto no encontrado.');
   }
 };
-
 </script>
 
 <template>
-  <header>
-    <NavBar />
-  </header>
-  <main>
-    <v-app>
-      <v-container>
-        <v-row>
-          <v-col cols="12">
+  <v-app>
+    <v-layout class="d-flex flex-column min-vh-100">
+      <NavBarAdmin />
+      <v-flex class="d-flex">
+        <SideBarAdmin />
+        <v-main class="d-flex flex-column flex-grow-1">
+          <v-container class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1 main-container">
+            <h1 class="text-h4 ma-5">Editar producto</h1>
             <ProductForm :product="product" @submit="updateProduct" />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-app>
-  </main>
+          </v-container>
+        </v-main>
+      </v-flex>
+    </v-layout>
+  </v-app>
+  <Footer />
 </template>
 
-<style scoped></style>
+<style scoped>
+.main-container {
+  border: 0.1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+}
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+</style>

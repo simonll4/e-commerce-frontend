@@ -4,6 +4,10 @@ import ProductForm from '@/components/forms/ProductForm.vue';
 import { useProductStore } from '@/stores/product.store';
 import { type CreateProduct } from '@/types/product';
 
+import NavBarAdmin from "@/components/NavBarAdmin.vue";
+import SideBarAdmin from "@/components/SideBarAdmin.vue";
+import Footer from "@/components/navigation/Footer.vue";
+
 const router = useRouter();
 const productStore = useProductStore();
 
@@ -20,26 +24,37 @@ const handleSubmit = async (product: CreateProduct) => {
 
 
 <template>
-  <div class="add-product-view">
-    <h1 class="title">Agregar Producto</h1>
-    <ProductForm @submit="handleSubmit" />
-  </div>
+  <v-app>
+    <v-layout class="d-flex flex-column min-vh-100">
+      <NavBarAdmin />
+      <v-flex class="d-flex">
+        <SideBarAdmin />
+        <v-main class="d-flex flex-column flex-grow-1">
+          <v-container class="bg-white mt-2 ml-2 border-rounded pa-0 flex-grow-1 main-container">
+            <h1 class="text-h4 ma-5">Agregar producto</h1>
+            <ProductForm @submit="handleSubmit" />
+          </v-container>
+        </v-main>
+      </v-flex>
+    </v-layout>
+  </v-app>
+  <Footer />
 </template>
 
 <style scoped>
-.add-product-view {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.main-container {
+  border: 0.1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+}
+.min-vh-100 {
+  min-height: 100vh;
 }
 
-.title {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: #333;
+.flex-grow-1 {
+  flex-grow: 1;
 }
 </style>
