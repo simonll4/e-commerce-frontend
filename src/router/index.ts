@@ -100,7 +100,7 @@ const routes = [
         component: () => import('@/views/customer/CartView.vue'),
       },
     ],
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, isAdmin: false }
   },
 ];
 
@@ -108,6 +108,41 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
+
+// router.beforeEach(async (to, from, next) => {
+//   const authStore = useAuthStore();
+//   const refreshToken = Cookies.get('refresh_token');
+//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//   const isAdminRoute = to.matched.some(record => record.meta.isAdmin);
+//   const isAuthenticated = refreshToken ? await authStore.checkAuth() : false;
+//   const userRole = authStore.userRole ? 'admin' : 'customer';
+
+//   if (requiresAuth) {
+//     if (!isAuthenticated) {
+//       return next({ name: 'Login' });
+//     }
+//     if (isAdminRoute) {
+//       if (userRole !== 'admin') {
+//         return next({ name: 'Home' });
+//       }
+//     } else {
+//       if (userRole === 'admin') {
+//         return next({ name: 'Dashboard' });
+//       }
+//     }
+//     return next();
+//   }
+
+//   if (!requiresAuth && isAuthenticated) {
+//     if (userRole === 'admin') {
+//       return next({ name: 'Dashboard' });
+//     } else if (userRole === 'customer') {
+//       return next({ name: 'ProfileCustomer' });
+//     }
+//   }
+//   return next();
+// });
+
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
@@ -119,7 +154,6 @@ router.beforeEach(async (to, from, next) => {
     if (!isAuthenticated) {
       return next({ name: 'Login' });
     }
-
     const userRole = authStore.userRole;
     const isAdminRoute = to.matched.some(record => record.meta.isAdmin);
 
@@ -135,6 +169,7 @@ router.beforeEach(async (to, from, next) => {
     await authStore.checkAuth();
     return next();
   }
+
   return next();
 });
 

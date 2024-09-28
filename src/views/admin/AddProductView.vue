@@ -15,13 +15,12 @@ const productStore = useProductStore();
 const handleSubmit = async (product: CreateProduct) => {
   try {
     await productStore.createProduct(product as CreateProduct);
-    router.push({ name: 'Home' });
+    router.push({ name: 'Dashboard' });
   } catch (error) {
     console.error('Error al agregar el producto: ', error);
   }
 };
 </script>
-
 
 <template>
   <v-app>

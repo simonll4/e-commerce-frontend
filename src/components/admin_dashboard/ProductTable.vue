@@ -11,7 +11,6 @@ const props = defineProps<{
   showButton: boolean;
   limitItems: boolean;
 }>();
-const productStore = useProductStore();
 
 const search = ref<string>("");
 const currentPage = ref(1);

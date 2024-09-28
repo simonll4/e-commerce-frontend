@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { UpdateProduct, type Product } from '@/types/product';
 import { useProductStore } from '@/stores/product.store';
@@ -16,24 +16,21 @@ const productStore = useProductStore();
 const product = ref();
 const productId = route.params.id as string;
 
-//const product = computed(() => productStore.getProductById(productId));
-
 
 onMounted(async () => {
   try {
     product.value = await productStore.fetchProductById(productId);
   } catch (error) {
     console.error('Error al cargar el producto:', error); // To-Do notificacion
-    router.push({ name: 'Home' });
+    router.push({ name: 'Dashboard' });
   }
 });
 
 const updateProduct = async (updateProduct: UpdateProduct) => {
-
   if (product.value) {
     try {
-      await productStore.updateProduct(productId, updateProduct);
-      router.push({ name: 'ProductDetail', params: { id: productId } });
+      await productStore.updateProduct(Number(productId), updateProduct);
+      router.push({ name: 'Dashboard' });
     } catch (error) {
       console.error('Error al actualizar el producto:', error);
     }
@@ -70,6 +67,7 @@ const updateProduct = async (updateProduct: UpdateProduct) => {
   justify-content: start;
   flex-direction: column;
 }
+
 .min-vh-100 {
   min-height: 100vh;
 }

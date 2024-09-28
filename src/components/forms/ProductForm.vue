@@ -7,6 +7,10 @@ const props = defineProps<{
   product?: CreateProduct;
 }>();
 
+const submitForm = () => {
+  emit('submit', form);
+};
+
 const form = reactive<CreateProduct>({
   title: '',
   brand: '',
@@ -34,10 +38,6 @@ const removeImageUrl = (index: number) => {
   form.images.splice(index, 1);
 };
 
-const submitForm = () => {
-  emit('submit', form);
-};
-
 // Computed property to handle category name based on categoryId
 const selectedCategory = computed({
   get: () => {
@@ -52,7 +52,6 @@ const selectedCategory = computed({
   }
 });
 
-// Watch for changes in props.product to update form
 watchEffect(() => {
   if (props.product) {
     Object.assign(form, props.product);
