@@ -38,6 +38,7 @@ export const useProductStore = defineStore('productStore', {
           offset,
         };
         const response = await service.getProducts(params);
+        console.log('fetch products');
         const { products, pagination } = response.data;
 
         // Actualizar el estado del store

@@ -4,9 +4,12 @@ import ProductCarousel from '@/components/product/ProductCarousel.vue';
 import Footer from '@/components/navigation/Footer.vue';
 import NavBar from '@/components/NavBar.vue';
 import SideBar from '@/components/SideBar.vue';
-import { computed } from 'vue';
+import { useAuthStore } from '@/stores/auth.store';
 
-const isAuthenticated = computed(() => localStorage.getItem('token'));
+const authStore = useAuthStore();
+
+//const isAuthenticated = computed(() => localStorage.getItem('token'));
+
 </script>
 
 <template>
@@ -14,14 +17,14 @@ const isAuthenticated = computed(() => localStorage.getItem('token'));
     <v-layout class="d-flex flex-column min-vh-100">
       <NavBar />
       <v-col class="d-flex">
-        <SideBar v-if="isAuthenticated" />
+        <SideBar v-if="authStore.isAuthenticated" />
         <v-main class="d-flex flex-column flex-grow-1">
           <v-container class="bg-white mt-2 ml-2 border-rounded pa-0" elevation="1" rounded="md" fluid>
             <HeroCarousel />
           </v-container>
           <v-container class="bg-white mt-2 ml-2 border-rounded pa-0">
             <h2 class="welcome-title">¡Encontra los mejores productos!</h2>
-            <ProductCarousel />
+            <ProductCarousel />``
           </v-container>
         </v-main>
       </v-col>

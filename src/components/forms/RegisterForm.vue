@@ -15,7 +15,6 @@ const form = reactive({
   avatar: "",
 });
 
-
 const register = async () => {
   if (passwordsDoNotMatch.value) return;
 
@@ -95,12 +94,6 @@ const encodedAvatar = computed(() => {
             <!-- Columna derecha de datos (Imagen del usuario) -->
             <v-container class="pr-0">
               <span>Tu foto de perfil</span>
-              <!-- <v-img :src="form.avatar || 'https://via.placeholder.com/150'" alt="Previsualización del Avatar"
-                max-width="150" max-height="150" class="avatar-preview mb-2"></v-img>
-
-              <v-text-field v-model="form.avatar" placeholder="Ingresa la URL de tu avatar" required
-                :disabled="isLoading" hide-details bg-color="white" variant="outlined" density="compact" dense
-                class="form-input"></v-text-field> -->
               <v-img :src="encodedAvatar" alt="Previsualización del Avatar" max-width="150" max-height="150"
                 class="avatar-preview mb-2"></v-img>
 

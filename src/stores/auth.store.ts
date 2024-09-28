@@ -93,6 +93,7 @@ export const useAuthStore = defineStore('authStore', {
     },
 
     logout() {
+      this.auth.isAuthenticated = false;
       localStorage.removeItem('token');
       Cookies.remove('refresh_token', { path: '/', secure: true, sameSite: 'Strict' });
       this.user = {
@@ -153,6 +154,7 @@ export const useAuthStore = defineStore('authStore', {
     },
   },
   getters: {
+    isAuthenticated: (state) => state.auth.isAuthenticated,
     token: (state) => state.token,
     userRole: (state) => state.user.isAdmin,
   },
