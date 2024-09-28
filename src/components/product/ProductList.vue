@@ -6,7 +6,6 @@ import { useProductStore } from '@/stores/product.store';
 import { computed, onMounted, ref } from 'vue';
 
 const productStore = useProductStore();
-
 const currentPage = ref(1);
 const products = computed(() => productStore.getProductsByPage(currentPage.value));
 const isLoading = computed(() => productStore.isLoading); // usar esto para efectos de carga
@@ -52,8 +51,8 @@ const handleFilterChange = (filters: Record<string, any>) => {
   loadProducts(1);
 };
 
-
 onMounted(() => {
+  productStore.setLimit(12);
   loadProducts(currentPage.value);
 });
 </script>
