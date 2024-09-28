@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const goToCreateProduct = () => {
-  router.push({ path: "/admin/products/add-product" });
+  router.push({ path: "/admin/products/add" });
 };
 </script>
 
@@ -28,7 +28,7 @@ const goToCreateProduct = () => {
               </v-btn>
             </div>
             <div class="table-container ml-5 mb-2">
-              <ProductTable :showButton="false" :limitItems="false" />
+              <ProductTable :showButton="false" :limitItems="true" />
             </div>
           </v-container>
         </v-main>
