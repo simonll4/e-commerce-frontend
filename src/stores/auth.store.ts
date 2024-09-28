@@ -64,6 +64,25 @@ export const useAuthStore = defineStore('authStore', {
       try {
         console.log('registerRequest:', registerRequest);
         const response = await service.register(registerRequest);
+        const user = response.data.user;
+        const { access_token, refresh_token } = response.data.tokens;
+
+        this.user = {
+          id: user.id,
+          userName: user.name,
+          isAdmin: user.role === 'admin',
+          email: user.email,
+          avatar: user.avatar,
+        };
+
+        localStorage.setItem('token', access_token);
+        Cookies.set('refresh_token', refresh_token, {
+          expires: 16,
+          secure: true,
+          sameSite: 'Strict',
+          path: '/',
+        });
+        this.auth.isAuthenticated = true;
         router.push('/');
       } catch (error) {
         this.auth.error = 'Error al registrar el usuario.';
@@ -83,7 +102,7 @@ export const useAuthStore = defineStore('authStore', {
         email: '',
         avatar: '',
       };
-      router.push({ name: 'Login' });
+      router.push({ name: 'Home' });
     },
 
     async checkAuth() {

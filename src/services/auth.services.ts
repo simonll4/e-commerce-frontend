@@ -1,4 +1,4 @@
-import { LoginRequest } from '@/types/auth';
+import { LoginRequest, RegisterRequest } from '@/types/auth';
 import api from './api';
 
 export default class AuthServices {
@@ -7,7 +7,7 @@ export default class AuthServices {
     return api().post('/api/v1/auth/login', loginRequest);
   }
 
-  register(registerRequest: any) {
+  register(registerRequest: RegisterRequest) {
     return api().post('/api/v1/auth/register', registerRequest);
   }
 

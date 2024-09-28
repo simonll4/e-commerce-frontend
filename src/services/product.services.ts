@@ -41,7 +41,7 @@ export default class ProductServices {
     return api().post<Product>('/api/v1/products', product);
   }
 
-  updateProduct(productId: string, product: UpdateProduct) {
+  updateProduct(productId: number, product: UpdateProduct) {
     return api().put<Product>(`/api/v1/products/${productId}`, product
     );
   }
