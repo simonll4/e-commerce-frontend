@@ -1,16 +1,35 @@
 <script lang="ts" setup>
+import Paginator from '@/components/navigation/Paginator.vue';
 import { ref, computed, defineProps, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useProductStore } from "@/stores/product.store";
 
-const productStore = useProductStore();
 const props = defineProps<{
   showButton: boolean;
   limitItems: boolean;
 }>();
+const productStore = useProductStore();
 
 const search = ref<string>("");
-const items = computed(() => productStore.getProductsByPage(1));
+const currentPage = ref(1);
+const items = computed(() => productStore.getProductsByPage(currentPage.value));
+const isLoading = computed(() => productStore.isLoading); // usar esto para efectos de carga
+const error = computed(() => productStore.error); // usar esto para mostrar errores
+
+const loadProducts = async (page: number) => {
+  currentPage.value = page;
+  await productStore.fetchProducts(page);
+};
+const handleNextPage = (newPage: number) => {
+  if (newPage <= productStore.totalPages) {
+    loadProducts(newPage);
+  }
+};
+const handlePrevPage = (newPage: number) => {
+  if (newPage > 0) {
+    loadProducts(newPage);
+  }
+};
 
 const headers = ref([
   { text: "#", value: "index" },
@@ -38,7 +57,7 @@ const truncateText = (text: string, length: number) => {
 // Idea del slice: Mostar solo 4 productos random en la tabla
 
 const displayedItems = computed(() => {
-  return props.limitItems ? items.value.slice(0, 4) : items.value;
+  return props.limitItems ? items.value.slice(0, 7) : items.value;
 });
 
 const editProduct = (id: number) => {
@@ -64,10 +83,14 @@ const deleteProduct = () => {
 
 
 const router = useRouter();
-
 const goToProductManagerView = () => {
   router.push({ path: "/admin/products" });
 };
+
+onMounted(() => {
+  productStore.setLimit(7);
+  loadProducts(currentPage.value);
+});
 </script>
 
 <template>
@@ -84,7 +107,7 @@ const goToProductManagerView = () => {
 
     <v-divider></v-divider>
     <v-data-table v-model:search="search" :headers="headers" :items="displayedItems"
-      :hide-default-footer="props.limitItems" class="elevation-1" item-value="id">
+      :hide-default-footer="props.limitItems" class="elevation-1" item-value="id" @update:page="loadProducts" >
       <template v-slot:item.index="{ index }">
         <div class="pa-2">{{ index + 1 }}</div>
       </template>
@@ -153,6 +176,10 @@ const goToProductManagerView = () => {
         </div>
       </template>
     </v-data-table>
+
+    <Paginator :totalPages="productStore.totalPages" :currentPage="currentPage" @next="handleNextPage"
+    @prev="handlePrevPage" />
+
   </v-card>
 
   <div v-if="props.showButton" class="mt-4 d-flex justify-center">

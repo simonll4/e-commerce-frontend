@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { CreateProduct, FilterProduct, UpdateProduct, type Product } from '@/types/product';
 import ProductServices from '@/services/product.services';
+import { set } from 'firebase/database';
 
 
 const service = new ProductServices();
@@ -15,7 +16,7 @@ export const useProductStore = defineStore('productStore', {
       totalItems: 0,
       totalPages: 0,
       offset: 0,
-      limit: 8,
+      limit: 0,
       filter: '',
       sortBy: '',
       sortDirection: '',
@@ -117,7 +118,9 @@ export const useProductStore = defineStore('productStore', {
         throw error;
       }
     },
-
+    setLimit(limit: number) {
+      this.filteredProducts.limit = limit;
+    },
     setSortOrder(sortBy: string, sortDirection: string) {
       this.filteredProducts.sortBy = sortBy;
       this.filteredProducts.sortDirection = sortDirection;
