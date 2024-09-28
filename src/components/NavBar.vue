@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import LoggedInMenu from '@/components/navbar/LoggedInMenu.vue';
-import LoggedOutMenu from '@/components/navbar/LoggedOutMenu.vue';
-import { useAuthStore } from '@/stores/auth.store';
+import { computed } from "vue";
+import LoggedInMenu from "@/components/navbar/LoggedInMenu.vue";
+import LoggedOutMenu from "@/components/navbar/LoggedOutMenu.vue";
+import { useAuthStore } from "@/stores/auth.store";
 
 const authStore = useAuthStore();
-const isAuthenticated = computed(() => localStorage.getItem('token'));
+const isAuthenticated = computed(() => localStorage.getItem("token"));
 </script>
 
 <template>

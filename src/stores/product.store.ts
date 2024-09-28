@@ -100,7 +100,7 @@ export const useProductStore = defineStore('productStore', {
         this.isLoading = false;
       }
     },
-    async updateProduct(productId: string, updatedProduct: UpdateProduct) {
+    async updateProduct(productId: number, updatedProduct: UpdateProduct) {
       try {
         const response = await service.updateProduct(productId, updatedProduct);
         const updatedData = response.data;

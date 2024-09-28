@@ -38,6 +38,7 @@ const headers = ref([
   { text: "Precio", value: "price" },
   { text: "Stock", value: "stockQuantity" },
   { text: "Fecha de Creación", value: "createdAt" },
+  { text: "Acciones", value: "actions" },
 ]);
 
 if (!props.limitItems) {
@@ -58,6 +59,28 @@ const truncateText = (text: string, length: number) => {
 const displayedItems = computed(() => {
   return props.limitItems ? items.value.slice(0, 7) : items.value;
 });
+
+const editProduct = (id: number) => {
+  router.push({ path: `/products/${id}/edit` })
+};
+
+// Estado para manejar el diálogo de confirmación de eliminación
+const dialog = ref(false);
+const productIdToDelete = ref<number | null>(null);
+
+const confirmDeleteProduct = (id: number) => {
+  productIdToDelete.value = id;
+  dialog.value = true;
+};
+
+const deleteProduct = () => {
+  if (productIdToDelete.value !== null) {
+    productStore.deleteProduct(productIdToDelete.value.toString());
+    dialog.value = false;
+    productIdToDelete.value = null;
+  }
+};
+
 
 const router = useRouter();
 const goToProductManagerView = () => {
@@ -133,15 +156,58 @@ onMounted(() => {
         </div>
       </template>
 
+      <template v-slot:item.actions="{ item }">
+        <div class="pa-2">
+          <v-menu>
+            <template v-slot:activator="{ props }">
+              <v-btn icon variant="text" flat v-bind="props" class="no-hover bg-white">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item @click="item.id !== undefined && editProduct(item.id)">
+                <v-list-item-title>Editar</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="item.id !== undefined && confirmDeleteProduct(item.id)">
+                <v-list-item-title class="text-red">Borrar</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+      </template>
     </v-data-table>
 
     <Paginator :totalPages="productStore.totalPages" :currentPage="currentPage" @next="handleNextPage"
     @prev="handlePrevPage" />
 
   </v-card>
+
   <div v-if="props.showButton" class="mt-4 d-flex justify-center">
     <v-btn class="bg-light-blue-accent-3" @click="goToProductManagerView">
       Ver todos los productos
     </v-btn>
   </div>
+
+  <!-- Dialogo de confirmación -->
+  <v-dialog v-model="dialog" max-width="400">
+    <v-card>
+      <v-card-title class="text-h5">Confirmar Eliminación</v-card-title>
+      <v-card-text>
+        ¿Estás seguro que deseas eliminar este producto? Esta acción no se puede deshacer.
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn class="no-hover" color="red" text="true" @click="dialog = false">Cancelar</v-btn>
+        <v-btn class="no-hover" color="green" text="true" @click="deleteProduct">Confirmar</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
 </template>
+
+<style scoped>
+.no-hover:hover {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+</style>
